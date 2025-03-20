@@ -236,6 +236,7 @@ dependencies:
   ### Uncomment file lib/common/tools/in_app_update_for_android.dart
   in_app_update: 4.2.2
   meta_seo: 3.0.9
+  dart_jsonwebtoken: ^2.17.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0

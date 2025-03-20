@@ -18,6 +18,7 @@ import '../../../services/wieat_service.dart';
 import '../../cart/widgets/shopping_cart_sumary.dart';
 import '../mixins/checkout_mixin.dart';
 import 'checkout_action.dart';
+import 'fygaro_payment.dart';
 
 class PaymentMethods extends StatefulWidget {
   final Function? onBack;
@@ -39,6 +40,7 @@ class PaymentMethods extends StatefulWidget {
 class _PaymentMethodsState extends State<PaymentMethods>
     with RazorDelegate, CheckoutMixin {
   double wieatCost = 0.0;
+  bool shouldInitiate = false;
 
   Future<void> getWieatCost() async {
     try {
@@ -61,6 +63,8 @@ class _PaymentMethodsState extends State<PaymentMethods>
     } catch (e) {
       print('WIEATRESPONSE');
       print(e);
+    } finally {
+      shouldInitiate = true;
     }
   }
 
@@ -181,6 +185,22 @@ class _PaymentMethodsState extends State<PaymentMethods>
                 ],
               );
             }),
+            ElevatedButton(
+              onPressed: shouldInitiate
+                  ? () {
+                      FygaroPayment.launchPayment(
+                        amount: cartModel.getTotal()! + wieatCost,
+                        currency: 'USD',
+                        orderId: 'ORDER5678',
+                        kid: '12298235-f537-440c-a0e8-80f7d1388a78',
+                      );
+                    }
+                  : null,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Text('Pay with Fygaro'),
+              ),
+            ),
             if (widget.hideCheckout == false) ...[
               const ShoppingCartSummary(showPrice: false),
               const SizedBox(height: 20),
