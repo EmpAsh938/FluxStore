@@ -1,0 +1,16 @@
+convert_data:
+  woo:
+    url: https://mstore.io
+    urlBlog: https://mstore.io
+    consumerKey: ck_c16d601d14a44c8080418c1ab9336b72ae8faff2
+    consumerSecret: cs_1c11c4d0ee3bef861421bf3622f20f6b49c8497a
+  notion:
+    url: https://api.notion.com/v1
+    version: '2021-05-13'
+    token: secret_o9xqgVrBWofqLHWZqpHnbbuQqO9XLjdB3nDiMIu4oed
+    database: 
+      product: bdac1de8acfc43f8b327aa9bbcd0af9f
+      customer: 3cdf5b43be5c4de085cdd79258718130
+      category: bebb49ce6fb149ecb6202ea9f736fae7
+      order: 49f7211072cf46679f0f4db410b0f79b
+      blog: e78daac066704de4a87dbdb49ee0a720
