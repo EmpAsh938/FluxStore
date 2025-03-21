@@ -578,26 +578,26 @@ class UseMyLocationRow extends StatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              mapModel.showAllStores();
-            },
-            child: Row(
-              children: [
-                Icon(
-                  Icons.pin_drop,
-                  color: Theme.of(context).primaryColor,
-                ),
-                Text(
-                  'View all stores',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     mapModel.showAllStores();
+          //   },
+          //   child: Row(
+          //     children: [
+          //       Icon(
+          //         Icons.pin_drop,
+          //         color: Theme.of(context).primaryColor,
+          //       ),
+          //       Text(
+          //         'View all stores',
+          //         style: TextStyle(
+          //           color: Theme.of(context).primaryColor,
+          //           fontSize: 12,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
