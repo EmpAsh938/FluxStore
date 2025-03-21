@@ -80,7 +80,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
-        android:label="@string/app_name"
+        android:label="HakkaExpress"
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
         android:fullBackupContent="@xml/backup_rules"
@@ -88,7 +88,7 @@
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:extractNativeLibs="true"
-        tools:replace="android:usesCleartextTraffic,android:allowBackup">
+        tools:replace="android:usesCleartextTraffic,android:allowBackup,android:label">
 
         <activity
             android:name=".MainActivity"
