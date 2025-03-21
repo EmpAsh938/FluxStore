@@ -31,7 +31,7 @@ enum BookStatus { booked, unavailable, waiting, confirmed, cancelled, error }
 const kSizeLeftMenu = 250.0;
 
 class SettingConstants {
-  static const aboutUsUrl = 'https://codecanyon.net/user/inspireui';
+  static const aboutUsUrl = 'https://hakkaexpress.com/hakka-story/';
 }
 
 class SplashScreenTypeConstants {
