@@ -42,8 +42,8 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MapModel>(
-        create: (_) => MapModel(),
-        // create: (_) => MapModel()..getStores(showAll: true),
+        // create: (_) => MapModel(),
+        create: (_) => MapModel()..getStores(showAll: true),
         child: Consumer<MapModel>(builder: (context, mapModel, _) {
           final disableMap =
               (isMacOS || isWindow || isFuchsia || mapModel.markers.isEmpty);
@@ -513,26 +513,6 @@ class TextFieldRow extends StatelessWidget {
               },
             ),
           ),
-          Container(
-            width: 90,
-            height: 45,
-            margin: const EdgeInsets.only(left: 20),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 1),
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Center(
-              child: Text(
-                'Search'.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          )
         ],
       ),
     );
@@ -578,6 +558,26 @@ class UseMyLocationRow extends StatelessWidget {
               ],
             ),
           ),
+          Container(
+            width: 90,
+            height: 45,
+            margin: const EdgeInsets.only(left: 20),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 1),
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                'Search'.toUpperCase(),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          )
           // GestureDetector(
           //   onTap: () {
           //     mapModel.showAllStores();
