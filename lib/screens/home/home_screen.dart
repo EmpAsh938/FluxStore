@@ -92,6 +92,7 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                         child: HomeBackground(config: appConfig.background),
                       )
                     : HomeBackground(config: appConfig.background),
+
               HomeLayout(
                 isPinAppBar: isStickyHeader,
                 isShowAppbar: isShowAppbar,
@@ -101,6 +102,7 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                 key: Key('$langCode$countryCode'),
                 scrollController: widget.scrollController,
               ),
+
               SmartEngagementBanner(
                 context: App.fluxStoreNavigatorKey.currentContext!,
                 config: bannerConfig,

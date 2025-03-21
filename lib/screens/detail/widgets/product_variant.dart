@@ -277,7 +277,6 @@ class _StateProductVariant extends State<ProductVariant> {
         (product.isCompositeProduct && (variations?.isNotEmpty ?? false)) ||
             product.isCompositeProduct == false;
     final isDesktop = Layout.isDisplayDesktop(context);
-
     return Column(
       children: <Widget>[
         ...getProductTitleWidget(),

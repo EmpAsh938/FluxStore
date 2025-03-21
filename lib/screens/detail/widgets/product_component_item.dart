@@ -156,13 +156,13 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
                 Row(
                   children: [
                     CachedNetworkImage(
-                        width: 100,
-                          height: 100,
-                        imageUrl: widget.product.imageFeature.toString(),
-                        placeholder: (context, url) => const SizedBox(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      width: 100,
+                      height: 100,
+                      imageUrl: widget.product.imageFeature.toString(),
+                      placeholder: (context, url) => const SizedBox(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
-                   
                     const SizedBox(width: 5),
                     Expanded(
                       child: Column(
@@ -309,7 +309,7 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
                 border: selected ? Border.all(color: kGrey400) : null,
                 borderRadius: BorderRadius.circular(8),
                 color: selected
-                    ? Theme.of(context).primaryColor.withOpacity(0.1)
+                    ? Theme.of(context).primaryColor.withOpacity(0.3)
                     : null,
               ),
             ),

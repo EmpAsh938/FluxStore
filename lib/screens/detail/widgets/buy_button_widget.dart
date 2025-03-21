@@ -41,6 +41,7 @@ class BuyButtonWidget extends StatelessWidget {
 
     final disabled = Services().hideProductPrice(context, product);
     late List<Widget> widgets;
+
     if (disabled) {
       widgets = [
         const SizedBox(height: 10),

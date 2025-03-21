@@ -51,6 +51,7 @@ class QuantitySelectionStyle02 extends StatelessWidget {
         //   border: Border.all(width: 1.0, color: kGrey200),
         //   borderRadius: BorderRadius.circular(6),
         // ),
+
         alignment: Alignment.center,
         child: Center(
           child: TextField(
@@ -221,7 +222,10 @@ class QuantitySelectionStyle04 extends StatelessWidget {
               counterText: '',
               isDense: true, // Required for text centering
             ),
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white,fontSize: 15),
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall!
+                .copyWith(color: Colors.white, fontSize: 15),
             keyboardType: const TextInputType.numberWithOptions(
               signed: true,
               decimal: false,
@@ -234,7 +238,7 @@ class QuantitySelectionStyle04 extends StatelessWidget {
     );
 
     return Container(
-      color: Colors.white,
+      color: Colors.transparent,
       child: Row(
         mainAxisSize: stateUI.expanded ? MainAxisSize.max : MainAxisSize.min,
         children: [

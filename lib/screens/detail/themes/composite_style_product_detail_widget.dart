@@ -146,8 +146,9 @@ class _CompositeStyleDetailProductWidgetState
   @override
   Widget build(BuildContext context) {
     final detailPriceData = calculatorPrice();
-print("kProductDetail.fixedBuyButtonToBottom ${kProductDetail.fixedBuyButtonToBottom}");
-print("enableAutoHideButtonBuy $enableAutoHideButtonBuy");
+    print(
+        "kProductDetail.fixedBuyButtonToBottom ${kProductDetail.fixedBuyButtonToBottom}");
+    print("enableAutoHideButtonBuy $enableAutoHideButtonBuy");
     return Column(
       children: [
         Expanded(
@@ -155,16 +156,18 @@ print("enableAutoHideButtonBuy $enableAutoHideButtonBuy");
         ),
         // if (kProductDetail.fixedBuyButtonToBottom &&
         //     enableAutoHideButtonBuy == false)
-          renderFixedBuyButtonOnBottom(product, useHorizontalLayout: false),
+        renderFixedBuyButtonOnBottom(product, useHorizontalLayout: false),
       ],
     );
   }
 
   Widget _renderDetailProduct(DetailProductPriceStateUI detailPriceData) {
-    print("lallalalalalalalal ${ Provider.of<CartModel>(context,
-        listen: true).getTotal()}");
+    print(
+        "lallalalalalalalal ${Provider.of<CartModel>(context, listen: true).getTotal()}");
     print("isVisibleBuyButton $isVisibleBuyButton");
     print("enableAutoHideButtonBuy $enableAutoHideButtonBuy");
+    final totalPrice = Provider.of<CartModel>(context, listen: true).getTotal();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: floatingActionButton,
@@ -185,16 +188,20 @@ print("enableAutoHideButtonBuy $enableAutoHideButtonBuy");
                     kLogoImage,
                     height: 50,
                   ),
+                  leading: ElevatedButton(
+                    onPressed: () => {Navigator.pop(context)},
+                    child: const Text('Back'),
+                  ),
                   actions: [
                     GestureDetector(
                       onTap: () => FluxNavigate.pushNamed(RouteList.cart,
                           context: context),
                       behavior: HitTestBehavior.translucent,
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 4,top: 2,bottom: 2),
+                        padding:
+                            const EdgeInsets.only(right: 4, top: 2, bottom: 2),
                         child: SizedBox(
                           width: 100,
-                          // height: 90,
                           child: Card(
                             color: Colors.white,
                             child: Padding(
@@ -205,6 +212,8 @@ print("enableAutoHideButtonBuy $enableAutoHideButtonBuy");
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       const Text(
                                         'My Bag',
@@ -214,17 +223,14 @@ print("enableAutoHideButtonBuy $enableAutoHideButtonBuy");
                                           fontSize: 8.0,
                                         ),
                                       ),
-                                      // Text(
-                                      //   Provider.of<CartModel>(context,
-                                      //           listen: true)
-                                      //       .getProductComponentsPrice
-                                      //       .toString(),
-                                      //   style: const TextStyle(
-                                      //     color: Colors.red,
-                                      //     fontWeight: FontWeight.w900,
-                                      //     fontSize: 8.0,
-                                      //   ),
-                                      // ),
+                                      Text(
+                                        '\$ $totalPrice',
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 10.0,
+                                        ),
+                                      )
                                     ],
                                   ),
                                   CircleAvatar(
@@ -510,7 +516,10 @@ class AppBarFoot extends StatelessWidget {
                           .textTheme
                           .headlineSmall!
                           .apply(fontSizeFactor: 1.2)
-                          .copyWith(fontSize: 28),
+                          .copyWith(
+                            fontSize: 28,
+                            color: Colors.white,
+                          ),
                     ),
                   ),
                   Expanded(

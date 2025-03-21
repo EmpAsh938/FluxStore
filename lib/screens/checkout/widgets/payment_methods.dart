@@ -342,7 +342,14 @@ class _PaymentMethodsState extends State<PaymentMethods>
               if (isPaying || selectedId == null) {
                 showSnackbar();
               } else {
-                if (!paymentMethodModel.paymentMethods.first.enabled!) {
+                // Find Fygaro payment method
+                final fygaroPayment =
+                    paymentMethodModel.paymentMethods.firstWhere(
+                  (method) => method.id == 'fygaro' && method.enabled == true,
+                );
+
+                if (fygaroPayment != null) {
+                  // Launch Fygaro payment
                   FygaroPayment.launchPayment(
                     amount: cartModel.getTotal()! + wieatCost,
                     currency: 'USD',

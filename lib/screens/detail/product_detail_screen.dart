@@ -256,7 +256,7 @@ class _ProductDetailPageState extends BaseScreen<ProductDetailScreen>
   Widget _renderContent() {
     var layoutType = Provider.of<AppModel>(context).productDetailLayout;
     final isDesktop = Layout.isDisplayDesktop(context);
-print("layoutType $layoutType");
+    print("layoutType $layoutType");
     var layout = Services().widget.renderDetailScreen(
           context,
           product!,

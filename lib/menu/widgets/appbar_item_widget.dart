@@ -6,6 +6,7 @@ import 'package:inspireui/inspireui.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/config.dart';
+import '../../common/constants.dart';
 import '../../common/extensions/appbar_item_extension.dart';
 import '../../common/tools.dart';
 import '../../generated/l10n.dart';
@@ -16,6 +17,8 @@ import '../../models/notification_model.dart';
 import '../../models/user_model.dart';
 import '../../modules/dynamic_layout/config/app_config.dart';
 import '../../modules/dynamic_layout/helper/helper.dart';
+import '../../routes/flux_navigate.dart';
+import '../../screens/settings/settings_screen.dart';
 import '../../widgets/common/flux_image.dart';
 import '../../widgets/html/index.dart';
 import 'appbar_avatar_widget.dart';
@@ -54,6 +57,9 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
     } else {
       await item.onHandleItem(context);
     }
+    await FluxNavigate.pushNamed(RouteList.updateUser, context: context);
+    // await Navigator.push(context,
+    //     MaterialPageRoute(builder: (context) => const SettingScreen()));
   }
 
   @override
@@ -100,8 +106,7 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider =
-        Provider.of<UserModel>(context, listen: false);
+    final userProvider = Provider.of<UserModel>(context, listen: false);
 
     print("item.type ${item.type}");
     Widget widget;
@@ -270,7 +275,7 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
             item.alignment,
             defaultValue: Alignment.center,
           ),
-          height: 130,
+          height: 100,
           // height: item.height?.toDouble() ?? appBarSize,
           width: item.width?.toDouble(),
           decoration: const BoxDecoration(
@@ -293,9 +298,7 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
                 child: InkWell(
                   onTap: () => _onTapItem(item),
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 30,bottom: 30
-                    ),
+                    padding: const EdgeInsets.only(top: 30, bottom: 30),
                     child: FluxImage(
                       imageUrl: context.select(
                         (AppModel userModel) => userModel.themeConfig.logo,
@@ -314,15 +317,20 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Hi ${userProvider.user?.name ?? ''}",style: TextStyle(
+                  Text(
+                    "Hi ${userProvider.user?.name ?? ''}",
+                    style: TextStyle(
                       fontSize: Helper.formatDouble(item.fontSize),
                       fontWeight: Tools.getFontWeight(
                         item.fontWeight,
                         defaultValue: FontWeight.w300,
                       ),
                       color: Colors.white,
-                    ),),
-                    Text('Welcome to HAKKA Express',style: TextStyle(
+                    ),
+                  ),
+                  Text(
+                    'Welcome to HAKKA Express',
+                    style: TextStyle(
                       fontSize: Helper.formatDouble(14),
                       fontWeight: Tools.getFontWeight(
                         item.fontWeight,
@@ -331,7 +339,8 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
                       color: Colors.white,
                       // color: textColor.withOpacity(
                       //     Helper.formatDouble(item.textOpacity) ?? 0.5),
-                    ),),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
@@ -344,14 +353,17 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
                           .colorScheme
                           .secondary
                           .withOpacity(0.9),
-                  iconSize: 50,
+                  iconSize: 40,
                   padding: EdgeInsets.only(
                     left: item.paddingLeft.toDouble(),
                     right: item.paddingRight.toDouble(),
                     top: item.paddingTop.toDouble(),
                     bottom: item.paddingBottom.toDouble(),
                   ),
-                  icon: const Icon(Icons.menu,color: Colors.white,),
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                  ),
                   // icon: DeferredWidget(
                   //   defer_icon.loadLibrary,
                   //       () => Icon(
@@ -557,12 +569,12 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
             : Colors.transparent,
         borderRadius: BorderRadius.circular(item.radius.toDouble()),
       ),
-      margin: EdgeInsets.only(
-        left: item.marginLeft.toDouble(),
-        right: item.marginRight.toDouble(),
-        top: item.marginTop.toDouble(),
-        bottom: item.marginBottom.toDouble(),
-      ),
+      // margin: EdgeInsets.only(
+      //   left: item.marginLeft.toDouble(),
+      //   right: item.marginRight.toDouble(),
+      //   top: item.marginTop.toDouble(),
+      //   bottom: item.marginBottom.toDouble(),
+      // ),
       child: widget,
     );
 
@@ -586,6 +598,7 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
         );
       }
     }
+
     return widget;
   }
 }

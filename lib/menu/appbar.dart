@@ -48,17 +48,23 @@ class _FluxAppBarState extends State<FluxAppBar> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               if (!widget.isBottom)
-                AppBarItemsWidget(
-                  items: value.items,
-                  showBottom: widget.showBottom,
-                  popButton: widget.popButton,
-                  showSiteSelection: true,
+                SizedBox(
+                  height: 80, // Set your desired height here
+                  child: AppBarItemsWidget(
+                    items: value.items,
+                    showBottom: widget.showBottom,
+                    popButton: widget.popButton,
+                    showSiteSelection: true,
+                  ),
                 ),
               if (widget.isBottom && widget.showBottom)
-                AppBarItemsWidget(
-                  items: value.bottomItems,
-                  showBottom: widget.showBottom,
-                  popButton: widget.popButton,
+                SizedBox(
+                  height: 80, // Set your desired height here
+                  child: AppBarItemsWidget(
+                    items: value.bottomItems,
+                    showBottom: widget.showBottom,
+                    popButton: widget.popButton,
+                  ),
                 ),
             ],
           ),

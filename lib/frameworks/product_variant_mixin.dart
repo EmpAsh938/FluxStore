@@ -578,11 +578,12 @@ Widget actionButton(
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3),
+            color: Colors.transparent,
           ),
           child: Center(
             child: Container(
               decoration: BoxDecoration(
-                color: kGrey200,
+                color: Colors.transparent,
                 borderRadius: BorderRadius.circular(30),
               ),
               child: QuantitySelection(
@@ -621,15 +622,15 @@ Widget actionButton(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
                     color:
-                    // product.name == 'Fresh Start Orange 525ml' ||
-                    //         product.name == 'Soup Bowl' ||
-                    //         product.name == 'Snakkas' ||
-                    //         product.name == 'Snakkas' ||
-                            productVariantModel.selectedComponents != null &&
+                        // product.name == 'Fresh Start Orange 525ml' ||
+                        //         product.name == 'Soup Bowl' ||
+                        //         product.name == 'Snakkas' ||
+                        //         product.name == 'Snakkas' ||
+                        productVariantModel.selectedComponents != null &&
                                 productVariantModel
                                     .selectedComponents!.isNotEmpty
-                        ? Theme.of(context).primaryColor
-                        : Colors.grey[350],
+                            ? Theme.of(context).primaryColor
+                            : Colors.grey[350],
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

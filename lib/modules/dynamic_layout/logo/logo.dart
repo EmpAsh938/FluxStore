@@ -55,7 +55,7 @@ class LogoIcon extends StatelessWidget {
                   ),
                   color: config.iconColor ??
                       Theme.of(context).colorScheme.secondary.withOpacity(0.9),
-                  size: config.iconSize,
+                  size: 25,
                 ),
               )
             : Icon(
@@ -208,29 +208,41 @@ class Logo extends StatelessWidget with MultiSiteMixin {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 5),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.location_on,
                               color: Colors.red,
+                              size: 30,
                             ),
-                            SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${storeData.isNotEmpty ? storeData['type'].toString() : 'Pickup'} at 'Location'",
-                                  style: TextStyle(
+                                  storeData.isNotEmpty
+                                      ? storeData['type']
+                                                  .toString()
+                                                  .toLowerCase() ==
+                                              'delivery'
+                                          ? 'Delivery from'
+                                          : 'Pickup at'
+                                      : 'Select Pickup or Delivery',
+                                  style: const TextStyle(
                                       color: Colors.black, fontSize: 12),
                                 ),
-                                Text(
-                                  "${storeData.isNotEmpty ? storeData['storeName'].toString() : 'ADDRESS'}",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
+                                if (storeData.isNotEmpty)
+                                  Text(
+                                    storeData.isNotEmpty
+                                        ? storeData['storeName'].toString()
+                                        : 'ADDRESS',
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
                               ],
                             )
                           ],

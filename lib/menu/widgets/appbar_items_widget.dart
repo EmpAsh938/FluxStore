@@ -43,22 +43,18 @@ class AppBarItemsWidget extends StatelessWidget with MultiSiteMixin {
     var enableMultiSite = Configurations.multiSiteConfigs?.isNotEmpty ?? false;
     var multiSiteIcon = Provider.of<AppModel>(context).multiSiteConfig?.icon;
     if (enableMultiSite && showSiteSelection) {
-      widgets.add(Padding(
-        padding: const EdgeInsets.only(right: 15),
-        child: GestureDetector(
-          onTap: () => showMultiSiteSelection(context),
-          child: multiSiteIcon?.isEmpty ?? true
-              ? const Icon(CupertinoIcons.globe)
-              : FluxImage(
-                  imageUrl: multiSiteIcon!,
-                  width: 25,
-                  height: 20,
-                  fit: BoxFit.cover,
-                ),
-        ),
+      widgets.add(GestureDetector(
+        onTap: () => showMultiSiteSelection(context),
+        child: multiSiteIcon?.isEmpty ?? true
+            ? const Icon(CupertinoIcons.globe)
+            : FluxImage(
+                imageUrl: multiSiteIcon!,
+                width: 30,
+                height: 30,
+                fit: BoxFit.cover,
+              ),
       ));
     }
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: widgets,

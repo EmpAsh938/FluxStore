@@ -67,13 +67,19 @@ class _SplashScreenIndexState extends State<SplashScreenIndex> {
       backgroundColor: Colors.black,
       body: Center(
         child: _controller.value.isInitialized
-            ? FittedBox(
-                fit: BoxFit.cover, // This ensures the video fills the screen
-                child: SizedBox(
-                  width: _controller.value.size.width,
-                  height: _controller.value.size.height,
-                  child: VideoPlayer(_controller),
-                ),
+            ? Stack(
+                children: [
+                  Positioned.fill(
+                    child: FittedBox(
+                      fit: BoxFit.cover, // Prevents stretching, fills screen
+                      child: SizedBox(
+                        width: _controller.value.size.width,
+                        height: _controller.value.size.height,
+                        child: VideoPlayer(_controller),
+                      ),
+                    ),
+                  ),
+                ],
               )
             : const CircularProgressIndicator(),
       ),

@@ -205,6 +205,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
       if (foundation.kReleaseMode) {
         return const SizedBox();
       }
+
       return Container(
         constraints: const BoxConstraints(minHeight: 150),
         decoration: BoxDecoration(

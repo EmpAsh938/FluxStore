@@ -24,6 +24,7 @@ class ProductCommonInfo extends StatelessWidget {
     if (product == null) {
       return const SizedBox();
     }
+
     print("productproductproduct ${product.type}");
     switch (product.type) {
       case 'appointment':
