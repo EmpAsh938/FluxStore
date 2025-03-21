@@ -237,6 +237,7 @@ dependencies:
   in_app_update: 4.2.2
   meta_seo: 3.0.9
   dart_jsonwebtoken: ^2.17.0
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_lints: ^4.0.0
@@ -252,14 +253,13 @@ dev_dependencies:
   #  dependency_validator: 3.2.2  # pub run dependency_validator
 
   ### Enable Generate Icon library
-  flutter_launcher_icons: 0.13.1
 
 #  Run this script to generate the app icon: flutter pub run flutter_launcher_icons:main
 
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/app_icon.png"
+  image_path: "assets/images/hakkaexpress-logo.png"
 
 flutter:
   uses-material-design: true
@@ -269,6 +269,7 @@ flutter:
     - lib/config/stories/
     - lib/config/us_store/
     - lib/config/vi_store/
+    - assets/
     - assets/icons/brands/
     - assets/icons/credit_cards/
     - assets/icons/tabs/

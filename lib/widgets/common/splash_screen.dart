@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../common/config.dart';
 import '../../common/constants.dart';
@@ -12,7 +13,7 @@ import 'lottie_splashscreen.dart';
 import 'rive_splashscreen.dart';
 import 'static_splashscreen.dart';
 
-class SplashScreenIndex extends StatelessWidget {
+class SplashScreenIndex extends StatefulWidget {
   final Function actionDone;
   final String splashScreenType;
   final String imageUrl;
@@ -31,7 +32,48 @@ class SplashScreenIndex extends StatelessWidget {
   });
 
   @override
+  State<SplashScreenIndex> createState() => _SplashScreenIndexState();
+}
+
+class _SplashScreenIndexState extends State<SplashScreenIndex> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset(
+        'assets/splash.mp4') // Use network or file if needed
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.play();
+      });
+
+    _controller.addListener(() {
+      if (_controller.value.position >= _controller.value.duration) {
+        widget.actionDone(); // Navigate when video ends
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: _controller.value.isInitialized
+            ? AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              )
+            : CircularProgressIndicator(),
+      ),
+    );
     if (kSplashScreen.enable) {
       final boxFit = ImageTools.boxFit(
         kSplashScreen.boxFit,
@@ -42,14 +84,14 @@ class SplashScreenIndex extends StatelessWidget {
       final paddingBottom = kSplashScreen.paddingBottom;
       final paddingLeft = kSplashScreen.paddingLeft;
       final paddingRight = kSplashScreen.paddingRight;
-      switch (splashScreenType) {
+      switch (widget.splashScreenType) {
         case SplashScreenTypeConstants.rive:
           var animationName = kSplashScreen.animationName;
           return RiveSplashScreen(
-            onSuccess: actionDone,
-            imageUrl: imageUrl,
+            onSuccess: widget.actionDone,
+            imageUrl: widget.imageUrl,
             animationName: animationName ?? 'fluxstore',
-            duration: duration,
+            duration: widget.duration,
             backgroundColor: backgroundColor,
             boxFit: boxFit,
             paddingTop: paddingTop,
@@ -59,7 +101,7 @@ class SplashScreenIndex extends StatelessWidget {
           );
         case SplashScreenTypeConstants.flare:
           return SplashScreen.navigate(
-            name: imageUrl,
+            name: widget.imageUrl,
             startAnimation: kSplashScreen.animationName,
             backgroundColor: backgroundColor,
             boxFit: boxFit,
@@ -67,14 +109,15 @@ class SplashScreenIndex extends StatelessWidget {
             paddingBottom: paddingBottom,
             paddingLeft: paddingLeft,
             paddingRight: paddingRight,
-            next: actionDone,
-            until: () => Future.delayed(Duration(milliseconds: duration)),
+            next: widget.actionDone,
+            until: () =>
+                Future.delayed(Duration(milliseconds: widget.duration)),
           );
         case SplashScreenTypeConstants.lottie:
           return LottieSplashScreen(
-            imageUrl: imageUrl,
-            onSuccess: actionDone,
-            duration: duration,
+            imageUrl: widget.imageUrl,
+            onSuccess: widget.actionDone,
+            duration: widget.duration,
             backgroundColor: backgroundColor,
             boxFit: boxFit,
             paddingTop: paddingTop,
@@ -87,10 +130,10 @@ class SplashScreenIndex extends StatelessWidget {
         case SplashScreenTypeConstants.zoomIn:
         case SplashScreenTypeConstants.zoomOut:
           return AnimatedSplash(
-            imagePath: imageUrl,
-            animationEffect: splashScreenType,
-            next: actionDone,
-            duration: duration,
+            imagePath: widget.imageUrl,
+            animationEffect: widget.splashScreenType,
+            next: widget.actionDone,
+            duration: widget.duration,
             backgroundColor: backgroundColor,
             boxFit: boxFit,
             paddingTop: paddingTop,
@@ -101,9 +144,9 @@ class SplashScreenIndex extends StatelessWidget {
         case SplashScreenTypeConstants.static:
         default:
           return StaticSplashScreen(
-            imagePath: imageUrl,
-            onNextScreen: actionDone,
-            duration: duration,
+            imagePath: widget.imageUrl,
+            onNextScreen: widget.actionDone,
+            duration: widget.duration,
             backgroundColor: backgroundColor,
             boxFit: boxFit,
             paddingTop: paddingTop,
@@ -114,8 +157,8 @@ class SplashScreenIndex extends StatelessWidget {
       }
     } else {
       return _EmptySplashScreen(
-        onNextScreen: actionDone,
-        isLoadAppConfig: isLoadAppConfig,
+        onNextScreen: widget.actionDone,
+        isLoadAppConfig: widget.isLoadAppConfig,
       );
     }
   }
