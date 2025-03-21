@@ -325,7 +325,11 @@ class AppModel with ChangeNotifier {
     try {
       /// Load the Rate for Product Currency
       final rates = await Services().api.getCurrencyRate();
+      print('LOADING CURRENCY RATE');
+      print(rates);
       if (rates != null) {
+        print('SET CURRENCY');
+        print(rates);
         currencyRate = rates;
         callback?.call(rates);
       }

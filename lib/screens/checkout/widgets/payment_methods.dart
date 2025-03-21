@@ -79,6 +79,12 @@ class _PaymentMethodsState extends State<PaymentMethods>
 
   @override
   void initState() {
+    final cartModel = Provider.of<CartModel>(context, listen: false);
+
+    Provider.of<AppModel>(context, listen: false).loadCurrency(
+        callback: (currencyRate) {
+      cartModel.changeCurrencyRates(currencyRate);
+    });
     getWieatCost();
     super.initState();
   }
@@ -185,22 +191,6 @@ class _PaymentMethodsState extends State<PaymentMethods>
                 ],
               );
             }),
-            ElevatedButton(
-              onPressed: shouldInitiate
-                  ? () {
-                      FygaroPayment.launchPayment(
-                        amount: cartModel.getTotal()! + wieatCost,
-                        currency: 'USD',
-                        orderId: 'ORDER5678',
-                        kid: '12298235-f537-440c-a0e8-80f7d1388a78',
-                      );
-                    }
-                  : null,
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text('Pay with Fygaro'),
-              ),
-            ),
             if (widget.hideCheckout == false) ...[
               const ShoppingCartSummary(showPrice: false),
               const SizedBox(height: 20),
@@ -348,9 +338,22 @@ class _PaymentMethodsState extends State<PaymentMethods>
       labelPrimary: S.of(context).placeMyOrder,
       onTapPrimary: (paymentMethodModel.message?.isNotEmpty ?? false)
           ? null
-          : () => isPaying || selectedId == null
-              ? showSnackbar
-              : placeOrder(paymentMethodModel, cartModel),
+          : () {
+              if (isPaying || selectedId == null) {
+                showSnackbar();
+              } else {
+                if (!paymentMethodModel.paymentMethods.first.enabled!) {
+                  FygaroPayment.launchPayment(
+                    amount: cartModel.getTotal()! + wieatCost,
+                    currency: 'USD',
+                    orderId: 'ORDER5678',
+                    kid: '12298235-f537-440c-a0e8-80f7d1388a78',
+                  );
+                } else {
+                  placeOrder(paymentMethodModel, cartModel);
+                }
+              }
+            },
       labelSecondary: kPaymentConfig.enableReview
           ? S.of(context).goBack.toUpperCase()
           : kPaymentConfig.enableShipping

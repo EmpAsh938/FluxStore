@@ -189,6 +189,9 @@ mixin CheckoutMixin<T extends StatefulWidget> on State<T>, RazorDelegate {
     final currencyRate =
         Provider.of<AppModel>(context, listen: false).currencyRate;
     final cartModel = Provider.of<CartModel>(context, listen: false);
+    print('CURRENCYRATE');
+    print(currencyRate);
+    print(paymentMethodModel.paymentMethods.first.toJson());
 
     onLoading!(true);
     isPaying = true;
@@ -252,6 +255,7 @@ mixin CheckoutMixin<T extends StatefulWidget> on State<T>, RazorDelegate {
                     onLoading: onLoading,
                     paymentMethod: paymentMethod,
                     success: (Order? order) async {
+                      print("RUNNING");
                       if (order != null) {
                         for (var item in order.lineItems) {
                           var product =
