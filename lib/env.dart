@@ -80,11 +80,11 @@ Map<String, dynamic> environment = {
     "ShowAllCoupons": true,
     "ShowExpiredCoupons": true,
     "AlwaysShowTabBar": true,
-    "PrivacyPoliciesPageUrlOrId": "https://inspireui.com/privacy/",
-    "AboutUSPageUrl": "https://codecanyon.net/user/inspireui",
-    "NewsPageUrl": "https://products.inspireui.com/",
-    "FAQPageUrl": "https://products.inspireui.com/have-a-question/",
-    "SupportPageUrl": "https://support.inspireui.com/",
+    "PrivacyPoliciesPageUrlOrId": "https://hakkaexpress.com/privacy-policy/",
+    "AboutUSPageUrl": "https://hakkaexpress.com/hakka-story/",
+    "NewsPageUrl": "https://hakkaexpress.com",
+    "FAQPageUrl": "https://hakkaexpress.com",
+    "SupportPageUrl": "https://hakkaexpress.com",
     "DownloadPageUrl": "https://mstore.io/#download",
     "SocialConnectUrl": [
       {
