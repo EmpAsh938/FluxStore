@@ -169,7 +169,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                                 : null,
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         title: Text(
-                          'My Bag',
+                          S.of(context).myCart,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall!

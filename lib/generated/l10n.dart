@@ -253,7 +253,7 @@ class S {
   /// `My Cart`
   String get myCart {
     return Intl.message(
-      'My Cart',
+      'My Bag',
       name: 'myCart',
       desc: '',
       args: [],
