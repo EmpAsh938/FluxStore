@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +87,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
         callback: (currencyRate) {
       cartModel.changeCurrencyRates(currencyRate);
     });
-    getWieatCost();
+    // getWieatCost();
     super.initState();
   }
 
@@ -256,31 +258,31 @@ class _PaymentMethodsState extends State<PaymentMethods>
               Services().widget.renderRewardInfo(context),
               Services().widget.renderCheckoutWalletInfo(context),
               Services().widget.renderCODExtraFee(context),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Wieat Cost',
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Theme.of(context).colorScheme.secondary),
-                    ),
-                    Text(
-                      PriceTools.getCurrencyFormatted(wieatCost, currencyRate,
-                          currency: cartModel.currencyCode)!,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding:
+              //       const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: <Widget>[
+              //       Text(
+              //         'Wieat Cost',
+              //         style: TextStyle(
+              //             fontSize: 14,
+              //             color: Theme.of(context).colorScheme.secondary),
+              //       ),
+              //       Text(
+              //         PriceTools.getCurrencyFormatted(wieatCost, currencyRate,
+              //             currency: cartModel.currencyCode)!,
+              //         style: TextStyle(
+              //           fontSize: 14,
+              //           color: Theme.of(context).colorScheme.secondary,
+              //           fontWeight: FontWeight.w400,
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
@@ -332,7 +334,8 @@ class _PaymentMethodsState extends State<PaymentMethods>
     );
   }
 
-  Widget _buildBottom(PaymentMethodModel paymentMethodModel, cartModel) {
+  Widget _buildBottom(
+      PaymentMethodModel paymentMethodModel, CartModel cartModel) {
     return CheckoutActionWidget(
       iconPrimary: CupertinoIcons.check_mark_circled_solid,
       labelPrimary: S.of(context).placeMyOrder,
@@ -342,13 +345,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
               if (isPaying || selectedId == null) {
                 showSnackbar();
               } else {
-                // Find Fygaro payment method
-                final fygaroPayment =
-                    paymentMethodModel.paymentMethods.firstWhere(
-                  (method) => method.id == 'fygaro' && method.enabled == true,
-                );
-
-                if (fygaroPayment != null) {
+                if (selectedId != null && selectedId == 'fygaro') {
                   // Launch Fygaro payment
                   FygaroPayment.launchPayment(
                     amount: cartModel.getTotal()! + wieatCost,
