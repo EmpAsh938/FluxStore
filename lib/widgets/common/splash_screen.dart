@@ -67,13 +67,18 @@ class _SplashScreenIndexState extends State<SplashScreenIndex> {
       backgroundColor: Colors.black,
       body: Center(
         child: _controller.value.isInitialized
-            ? AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
+            ? FittedBox(
+                fit: BoxFit.cover, // This ensures the video fills the screen
+                child: SizedBox(
+                  width: _controller.value.size.width,
+                  height: _controller.value.size.height,
+                  child: VideoPlayer(_controller),
+                ),
               )
-            : CircularProgressIndicator(),
+            : const CircularProgressIndicator(),
       ),
     );
+
     if (kSplashScreen.enable) {
       final boxFit = ImageTools.boxFit(
         kSplashScreen.boxFit,
