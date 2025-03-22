@@ -118,7 +118,7 @@ mixin AppBarMixin<T extends StatefulWidget> on State<T> {
               backgroundColor:
                   backgroundColor ?? Theme.of(context).colorScheme.surface,
               title: _getFluxAppBar(isAtTop, popButton: popButton),
-              toolbarHeight:130,
+              toolbarHeight: 130,
               actions: actions,
             );
           });
@@ -144,7 +144,6 @@ mixin AppBarMixin<T extends StatefulWidget> on State<T> {
         (appBar?.shouldShowOn(routeName) ?? false) && !hideNewAppBar;
     if (showNewAppBar) {
       return Scaffold(
-
         body: Column(
           children: [
             getAppBarWidget(

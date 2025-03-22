@@ -38,7 +38,8 @@ class _FluxAppBarState extends State<FluxAppBar> {
           return const SizedBox();
         }
         return Container(
-          alignment: Alignment.center,
+          // alignment: Alignment.,
+          margin: const EdgeInsets.only(bottom: 50),
           decoration: value.backgroundColor != null
               ? BoxDecoration(
                   color: HexColor(value.backgroundColor),
@@ -49,7 +50,7 @@ class _FluxAppBarState extends State<FluxAppBar> {
             children: [
               if (!widget.isBottom)
                 SizedBox(
-                  height: 80, // Set your desired height here
+                  height: 100, // Set your desired height here
                   child: AppBarItemsWidget(
                     items: value.items,
                     showBottom: widget.showBottom,
@@ -59,7 +60,7 @@ class _FluxAppBarState extends State<FluxAppBar> {
                 ),
               if (widget.isBottom && widget.showBottom)
                 SizedBox(
-                  height: 80, // Set your desired height here
+                  height: 100, // Set your desired height here
                   child: AppBarItemsWidget(
                     items: value.bottomItems,
                     showBottom: widget.showBottom,

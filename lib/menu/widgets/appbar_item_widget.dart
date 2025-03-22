@@ -275,8 +275,7 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
             item.alignment,
             defaultValue: Alignment.center,
           ),
-          height: 100,
-          // height: item.height?.toDouble() ?? appBarSize,
+          height: 300,
           width: item.width?.toDouble(),
           decoration: const BoxDecoration(
             // color: Colors.black,
@@ -288,28 +287,20 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  left: item.paddingLeft.toDouble(),
-                  right: item.paddingRight.toDouble(),
-                  top: item.paddingTop.toDouble(),
-                  bottom: item.paddingBottom.toDouble(),
-                ),
-                child: InkWell(
-                  onTap: () => _onTapItem(item),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 30, bottom: 30),
-                    child: FluxImage(
-                      imageUrl: context.select(
-                        (AppModel userModel) => userModel.themeConfig.logo,
-                      ),
-                      width: item.width?.toDouble(),
-                      height: item.height?.toDouble(),
-                      fit: ImageTools.boxFit(item.imageBoxFit),
-                      color: item.imageColor != null
-                          ? HexColor(item.imageColor)
-                          : null,
+              InkWell(
+                onTap: () => _onTapItem(item),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 15),
+                  child: FluxImage(
+                    imageUrl: context.select(
+                      (AppModel userModel) => userModel.themeConfig.logo,
                     ),
+                    // width: 100,
+                    // height: 200,
+                    fit: ImageTools.boxFit(item.imageBoxFit),
+                    color: item.imageColor != null
+                        ? HexColor(item.imageColor)
+                        : null,
                   ),
                 ),
               ),
