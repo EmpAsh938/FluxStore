@@ -183,7 +183,18 @@ class _CompositeStyleDetailProductWidgetState
                   floating: true,
                   centerTitle: true,
                   automaticallyImplyLeading: true,
-                  backgroundColor: Theme.of(context).primaryColor,
+                  // backgroundColor: Theme.of(context).primaryColor,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Container(
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/app-bg.png'), // Change to your image path
+                          fit: BoxFit.cover, // Cover the entire AppBar
+                        ),
+                      ),
+                    ),
+                  ),
                   title: Image.asset(
                     kLogoImage,
                     height: 50,
@@ -494,6 +505,9 @@ class AppBarFoot extends StatelessWidget {
                     bottomRight: Radius.circular(sizeDefaultBackground),
                   ),
                   color: Theme.of(context).primaryColor,
+                  image: const DecorationImage(
+                      image: AssetImage('assets/images/app-bg.png'),
+                      fit: BoxFit.cover),
                 ),
                 margin: const EdgeInsets.only(bottom: marginBottom),
               ),
