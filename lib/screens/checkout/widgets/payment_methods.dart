@@ -11,7 +11,7 @@ import '../../../common/constants.dart';
 import '../../../common/tools.dart';
 import '../../../generated/l10n.dart';
 import '../../../models/index.dart'
-    show AppModel, CartModel, PaymentMethodModel, TaxModel;
+    show AppModel, CartModel, PaymentMethodModel, TaxModel, UserModel;
 import '../../../models/tera_wallet/index.dart';
 import '../../../modules/dynamic_layout/helper/helper.dart';
 import '../../../modules/native_payment/razorpay/services.dart';
@@ -336,6 +336,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
 
   Widget _buildBottom(
       PaymentMethodModel paymentMethodModel, CartModel cartModel) {
+    final userModel = Provider.of<UserModel>(context, listen: false);
     return CheckoutActionWidget(
       iconPrimary: CupertinoIcons.check_mark_circled_solid,
       labelPrimary: S.of(context).placeMyOrder,
@@ -348,11 +349,15 @@ class _PaymentMethodsState extends State<PaymentMethods>
                 if (selectedId != null && selectedId == 'fygaro') {
                   // Launch Fygaro payment
                   FygaroPayment.launchPayment(
-                    amount: cartModel.getTotal()! + wieatCost,
-                    currency: 'USD',
-                    orderId: 'ORDER5678',
-                    kid: '12298235-f537-440c-a0e8-80f7d1388a78',
-                  );
+                      amount: cartModel.getTotal()!,
+                      currency: 'USD',
+                      orderId: 'ORDER5678',
+                      kid: '12298235-f537-440c-a0e8-80f7d1388a78',
+                      clientData: {
+                        'name': userModel.user!.fullName,
+                        'email': userModel.user!.email.toString(),
+                        'phone': userModel.user!.phoneNumber.toString(),
+                      });
                 } else {
                   placeOrder(paymentMethodModel, cartModel);
                 }

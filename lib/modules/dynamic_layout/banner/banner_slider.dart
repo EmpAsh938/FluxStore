@@ -89,7 +89,17 @@ class _StateBannerSlider extends State<BannerSlider> {
       padding: const EdgeInsets.only(bottom: 5),
       child: Stack(
         children: <Widget>[
-          
+          // // Background Image
+          // Container(
+          //   decoration: const BoxDecoration(
+          //     image: DecorationImage(
+          //       image: AssetImage(
+          //           'assets/images/bg-wok.jpg'), // Replace with your image path
+          //       fit: BoxFit.cover, // Adjust the fit as needed
+          //     ),
+          //   ),
+          // ),
+
           PageView(
             controller: _controller,
             onPageChanged: (index) {
@@ -134,34 +144,54 @@ class _StateBannerSlider extends State<BannerSlider> {
             ),
           ),
           Positioned(
-           bottom: 0,
-            left: 0,right: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
             child: Column(
               children: [
                 CurvedContainer(
-                  height: 230,
+                  height: 180,
                   color: Colors.black,
-                  child: Column(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                      child: SizedBox(
-                        height: 100,width: 100,
-                        child: Image.asset('assets/images/lines3.gif')),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.elliptical(300, 150),
+                          topRight: Radius.elliptical(300, 150),
+                        ),
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/bg-wok.jpg'),
+                            fit: BoxFit.cover)),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                            height: 80,
+                            width: 80,
+                            child: Image.asset('assets/images/lines3.gif')),
+                        const Text(
+                          'Welcome',
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.bold),
+                        ),
+                        const Text(
+                          'To HAKKA Express',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        ),
+                        const Text(
+                          'Choose Your Meal Type to\nStart Your Order.',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                      ],
                     ),
-                    const Text('Welcome',style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold
-                ),),
-                const Text('To HAKKA Express',style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20
-                ),),
-                const Text('Choose Your Meal Type to\nStart Your Order.',style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12),textAlign: TextAlign.center,)
-                  ],) ,
-                )
+                  ),
+                ),
               ],
             ),
           ),

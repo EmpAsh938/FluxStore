@@ -71,21 +71,10 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
             bannerConfig.popup.alwaysShowUponOpen;
 
         return Scaffold(
-          // backgroundColor: Colors.black,
+          backgroundColor: Colors.black,
           // backgroundColor: Theme.of(context).colorScheme.surface,
           body: Stack(
             children: <Widget>[
-              // Background Image
-              Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                        'assets/images/bg-wok.jpg'), // Replace with your image path
-                    fit: BoxFit.cover, // Adjust the fit as needed
-                  ),
-                ),
-              ),
-
               if (appConfig.background != null && isDesktop == false)
                 isStickyHeader
                     ? SafeArea(
