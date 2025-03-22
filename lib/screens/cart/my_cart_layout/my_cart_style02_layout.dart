@@ -120,7 +120,7 @@ class _MyCartStyle02LayoutState extends State<MyCartStyle02Layout>
                                 ),
                               ],
                               title: Text(
-                                S.of(context).myCart,
+                                'My Bag',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
@@ -291,7 +291,7 @@ class _MyCartStyle02LayoutState extends State<MyCartStyle02Layout>
                                                     .changeTab(RouteList.cart,
                                                         allowPush: false);
                                               }
-                                              onCheckout(model:cartModel);
+                                              onCheckout(model: cartModel);
                                             }
                                           : null,
                                       child: FittedBox(

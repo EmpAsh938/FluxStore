@@ -97,7 +97,7 @@ class _MyCartStyle01LayoutState extends State<MyCartStyle01Layout>
                                 ),
                               ],
                               title: Text(
-                                S.of(context).myCart,
+                                'My Bag',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
@@ -265,7 +265,7 @@ class _MyCartStyle01LayoutState extends State<MyCartStyle01Layout>
                                           .changeTab(RouteList.cart,
                                               allowPush: false);
                                     }
-                                    onCheckout(model:cartModel);
+                                    onCheckout(model: cartModel);
                                   }
                                 : null,
                             icon: const Icon(Icons.login_outlined, size: 15),
