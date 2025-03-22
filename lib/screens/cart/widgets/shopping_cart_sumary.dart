@@ -355,24 +355,24 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
                               styleTitle: smallAmountTitleStyle,
                             ),
                         const SizedBox(height: 15),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Wieat Cost',
-                                style: smallAmountTitleStyle,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              PriceTools.getCurrencyFormatted(
-                                  wieatCost, currencyRate,
-                                  currency: currency)!,
-                              style: smallAmountStyle,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: Text(
+                        //         'Wieat Cost',
+                        //         style: smallAmountTitleStyle,
+                        //       ),
+                        //     ),
+                        //     const SizedBox(height: 10),
+                        //     Text(
+                        //       PriceTools.getCurrencyFormatted(
+                        //           wieatCost, currencyRate,
+                        //           currency: currency)!,
+                        //       style: smallAmountStyle,
+                        //     ),
+                        //   ],
+                        // ),
+                        // const SizedBox(height: 15),
                         Row(
                           children: [
                             Expanded(
