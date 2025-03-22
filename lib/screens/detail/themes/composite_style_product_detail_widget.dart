@@ -199,9 +199,17 @@ class _CompositeStyleDetailProductWidgetState
                     kLogoImage,
                     height: 50,
                   ),
-                  leading: ElevatedButton(
-                    onPressed: () => {Navigator.pop(context)},
-                    child: const Text('Back'),
+                  leading: Container(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: TextButton(
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              WidgetStatePropertyAll<Color>(Color(0xffcc1c24)),
+                          foregroundColor:
+                              WidgetStatePropertyAll<Color>(Colors.white)),
+                      onPressed: () => {Navigator.pop(context)},
+                      child: const Text('Back'),
+                    ),
                   ),
                   actions: [
                     GestureDetector(

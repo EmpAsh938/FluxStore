@@ -309,7 +309,7 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
                 border: selected ? Border.all(color: kGrey400) : null,
                 borderRadius: BorderRadius.circular(8),
                 color: selected
-                    ? Theme.of(context).primaryColor.withOpacity(0.3)
+                    ? Theme.of(context).primaryColor.withOpacity(0.1)
                     : null,
               ),
             ),
