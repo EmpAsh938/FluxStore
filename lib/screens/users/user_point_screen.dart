@@ -33,19 +33,25 @@ class _StateUserPoint extends State<UserPointScreen> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColorLight,
+          flexibleSpace: const Image(
+            image: AssetImage('assets/images/app-bg.png'),
+            fit: BoxFit.cover,
+          ),
           title: Text(
             S.of(context).myPoints,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
+            style: const TextStyle(
+              // color: Theme.of(context).colorScheme.secondary,
+              color: Colors.white,
             ),
           ),
           leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
             },
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_ios,
-              color: Theme.of(context).colorScheme.secondary,
+              // color: Theme.of(context).colorScheme.secondary,
+              color: Colors.white,
             ),
           ),
         ),
