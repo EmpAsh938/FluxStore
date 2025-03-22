@@ -105,7 +105,7 @@ class _AppBarSettingWidgetState extends State<AppBarSettingWidget>
         pinned: true,
         flexibleSpace: FlexibleSpaceBar(
           centerTitle: true,
-          titlePadding: const EdgeInsets.only(bottom: 16),
+          titlePadding: const EdgeInsets.only(bottom: 50),
           title: Text(
             S.of(context).settings,
             style: const TextStyle(
