@@ -38,7 +38,7 @@ class CheckoutActionWidget extends StatelessWidget {
     Widget btnContinue = ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: bgButtonPrimary,
+        backgroundColor: const Color(0xFFEC1C24),
         elevation: 0.0,
         padding: const EdgeInsets.symmetric(horizontal: 16),
       ),

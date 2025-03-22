@@ -80,7 +80,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                 var isReadyForCheckout =
                     !calculatingDiscount && enableCheckoutButton;
                 final backgroundButton =
-                    isReadyForCheckout ? const Color(0xFFc12727) : Colors.grey;
+                    isReadyForCheckout ? const Color(0xFFEC1C24) : Colors.grey;
 
                 return FloatingActionButton.extended(
                   heroTag: null,
