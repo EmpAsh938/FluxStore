@@ -68,7 +68,7 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
   void initState() {
     var notes = Provider.of<CartModel>(context, listen: false).notes;
     note.text = notes ?? '';
-    getWieatCost();
+    // getWieatCost();
     super.initState();
     Future.delayed(Duration.zero, () {
       final cartModel = Provider.of<CartModel>(context, listen: false);

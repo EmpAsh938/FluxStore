@@ -176,7 +176,7 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
   @override
   void initState() {
     super.initState();
-    getWieatCost();
+    // getWieatCost();
     getCoupon();
     WidgetsBinding.instance.endOfFrame.then((_) {
       if (mounted) {
