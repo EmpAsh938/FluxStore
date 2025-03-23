@@ -27,6 +27,7 @@ import '../routes/route.dart';
 import '../screens/index.dart' show NotificationScreen;
 import '../screens/settings/rate_myapp_mixin.dart';
 import '../screens/users/age_restriction_screen.dart';
+import '../screens/users/user_point_screen.dart';
 import '../services/services.dart';
 import '../widgets/overlay/custom_overlay_state.dart';
 import 'maintab_delegate.dart';
@@ -575,6 +576,7 @@ extension TabBarMenuExtention on MainTabsState {
 
   /// on tap on the TabBar icon
   void _onTapTabBar(int index) {
+    print('TAPPPPPPP $index');
     var appModel = Provider.of<AppModel>(context, listen: false);
     final userModel = Provider.of<UserModel>(context, listen: false);
 
@@ -602,7 +604,28 @@ extension TabBarMenuExtention on MainTabsState {
       };
     }
 
+    print("TABBBBBB ${tabData!.toJson()}");
+
+    if (index == 4) {
+      FluxNavigate.push(
+          MaterialPageRoute(builder: (context) => UserPointScreen()),
+          context: context);
+      if (tabController.indexIsChanging) {
+        tabController.index = tabController.previousIndex;
+      }
+      return;
+    }
+
     if (tabData != null && tabData.isFullscreen) {
+      if (index == 4) {
+        FluxNavigate.push(
+            MaterialPageRoute(builder: (context) => UserPointScreen()),
+            context: context);
+        if (tabController.indexIsChanging) {
+          tabController.index = tabController.previousIndex;
+        }
+        return;
+      }
       FluxNavigate.pushNamed(
         tabData.layout.toString(),
         arguments: routeData,
