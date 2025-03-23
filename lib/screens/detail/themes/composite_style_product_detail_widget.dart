@@ -203,8 +203,8 @@ class _CompositeStyleDetailProductWidgetState
                     padding: const EdgeInsets.only(left: 5),
                     child: TextButton(
                       style: const ButtonStyle(
-                          backgroundColor:
-                              WidgetStatePropertyAll<Color>(Color(0xffcc1c24)),
+                          // backgroundColor:
+                          //     WidgetStatePropertyAll<Color>(Color(0xffcc1c24)),
                           foregroundColor:
                               WidgetStatePropertyAll<Color>(Colors.white)),
                       onPressed: () => {Navigator.pop(context)},
@@ -237,7 +237,7 @@ class _CompositeStyleDetailProductWidgetState
                                       const Text(
                                         'My Bag',
                                         style: TextStyle(
-                                          color: Colors.red,
+                                          color: Color(0xffcc1c24),
                                           fontWeight: FontWeight.w900,
                                           fontSize: 8.0,
                                         ),
@@ -245,7 +245,7 @@ class _CompositeStyleDetailProductWidgetState
                                       Text(
                                         '\$ $totalPrice',
                                         style: const TextStyle(
-                                          color: Colors.red,
+                                          color: Color(0xffcc1c24),
                                           fontWeight: FontWeight.w900,
                                           fontSize: 10.0,
                                         ),

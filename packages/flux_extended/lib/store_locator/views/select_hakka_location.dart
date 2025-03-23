@@ -113,22 +113,17 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
               ],
             )),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor:
-                    WidgetStatePropertyAll<Color>(Color(0xffcc1c24)),
-              ),
-              onPressed: () {
-                FluxNavigate.pushNamed(RouteList.storeLocator,
-                    context: context);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: const Text('Update Shipping Details'),
-              )),
-        ),
+        ElevatedButton(
+            style: const ButtonStyle(
+              backgroundColor: WidgetStatePropertyAll<Color>(Color(0xffcc1c24)),
+            ),
+            onPressed: () {
+              FluxNavigate.pushNamed(RouteList.storeLocator, context: context);
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text('Update Shipping Details'),
+            )),
       ],
     );
   }
