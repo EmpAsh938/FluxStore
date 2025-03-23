@@ -42,7 +42,7 @@ class PaymentMethods extends StatefulWidget {
 class _PaymentMethodsState extends State<PaymentMethods>
     with RazorDelegate, CheckoutMixin {
   double wieatCost = 0.0;
-  bool shouldInitiate = false;
+  bool isLoading = true;
 
   Future<void> getWieatCost() async {
     try {
@@ -52,7 +52,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
       print(store.toJson());
       final response = await WieatService().getWieatCost(
         store.branch_id.toString(),
-        store.address!.split(' ').last,
+        store.name.toString(),
       );
       final branches = await Services().api.getAllBranches();
 
@@ -66,7 +66,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
       print('WIEATRESPONSE');
       print(e);
     } finally {
-      shouldInitiate = true;
+      isLoading = false;
     }
   }
 
@@ -296,17 +296,25 @@ class _PaymentMethodsState extends State<PaymentMethods>
                           fontSize: 16,
                           color: Theme.of(context).colorScheme.secondary),
                     ),
-                    Text(
-                      PriceTools.getCurrencyFormatted(
-                          cartModel.getTotal()! + wieatCost, currencyRate,
-                          currency: cartModel.currencyCode)!,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontWeight: FontWeight.w600,
-                        decoration: TextDecoration.underline,
-                      ),
-                    )
+                    isLoading
+                        ? SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                            ),
+                          )
+                        : Text(
+                            PriceTools.getCurrencyFormatted(
+                                cartModel.getTotal()! + wieatCost, currencyRate,
+                                currency: cartModel.currencyCode)!,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.underline,
+                            ),
+                          )
                   ],
                 ),
               ),

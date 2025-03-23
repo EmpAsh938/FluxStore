@@ -117,14 +117,14 @@ extension on _ShippingAddressState {
     {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        final saveStoreLocation = await SaveStoreLocation.getStore();
-        final newAddress = Address(
-          city: saveStoreLocation.address,
-          apartment: saveStoreLocation.address,
-          country: 'spain',
-          email: saveStoreLocation.email,
-        );
-        Provider.of<CartModel>(context, listen: false).setAddress(newAddress);
+        // final saveStoreLocation = await SaveStoreLocation.getStore();
+        // final newAddress = Address(
+        //   city: saveStoreLocation.address,
+        //   apartment: saveStoreLocation.address,
+        //   country: 'spain',
+        //   email: saveStoreLocation.email,
+        // );
+        Provider.of<CartModel>(context, listen: false).setAddress(address);
         _loadShipping(beforehand: false);
         widget.onNext!();
       } else {
@@ -206,113 +206,113 @@ extension on _ShippingAddressState {
   //   );
   // }
 
-  Widget renderCityInput(int index) {
-    var items = <DropdownMenuItem>[];
-    for (var item in cities!) {
-      items.add(
-        DropdownMenuItem(
-          value: item.id,
-          child: Text(item.name!),
-        ),
-      );
-    }
-    String? value;
+  // Widget renderCityInput(int index) {
+  //   var items = <DropdownMenuItem>[];
+  //   for (var item in cities!) {
+  //     items.add(
+  //       DropdownMenuItem(
+  //         value: item.id,
+  //         child: Text(item.name!),
+  //       ),
+  //     );
+  //   }
+  //   String? value;
 
-    Object? firstCity = cities!
-        .firstWhereOrNull((o) => o.name.toString() == address!.city.toString());
+  //   Object? firstCity = cities!
+  //       .firstWhereOrNull((o) => o.name.toString() == address!.city.toString());
 
-    if (firstCity != null) {
-      value = address!.city;
-    }
-    return DropdownButtonFormField<dynamic>(
-      items: items,
-      value: value,
-      validator: (val) {
-        final config = _configs[index];
-        if (config == null) {
-          return null;
-        }
-        return validateField(
-            val, config, _fieldPosition[index] ?? AddressFieldType.unknown);
-      },
-      onChanged: (dynamic val) async {
-        address!.city = val;
-        final country = Country(id: address!.country);
-        final state = CountryState(id: address!.state);
-        final city = City(id: val, name: val);
-        final zipCode =
-            await Services().widget.loadZipCode(country, state, city);
-        if (zipCode != null) {
-          address!.zipCode = zipCode;
-          _textControllers[AddressFieldType.zipCode]?.text = zipCode;
-        }
-        refresh();
-      },
-      isExpanded: true,
-      itemHeight: 70,
-      hint: Text(S.of(context).city),
-    );
-  }
+  //   if (firstCity != null) {
+  //     value = address!.city;
+  //   }
+  //   return DropdownButtonFormField<dynamic>(
+  //     items: items,
+  //     value: value,
+  //     validator: (val) {
+  //       final config = _configs[index];
+  //       if (config == null) {
+  //         return null;
+  //       }
+  //       return validateField(
+  //           val, config, _fieldPosition[index] ?? AddressFieldType.unknown);
+  //     },
+  //     onChanged: (dynamic val) async {
+  //       address!.city = val;
+  //       final country = Country(id: address!.country);
+  //       final state = CountryState(id: address!.state);
+  //       final city = City(id: val, name: val);
+  //       final zipCode =
+  //           await Services().widget.loadZipCode(country, state, city);
+  //       if (zipCode != null) {
+  //         address!.zipCode = zipCode;
+  //         _textControllers[AddressFieldType.zipCode]?.text = zipCode;
+  //       }
+  //       refresh();
+  //     },
+  //     isExpanded: true,
+  //     itemHeight: 70,
+  //     hint: Text(S.of(context).city),
+  //   );
+  // }
 
-  void _openCountryPickerDialog() => showDialog(
-        context: context,
-        useRootNavigator: false,
-        builder: (contextBuilder) => countries!.isEmpty
-            ? Theme(
-                data: Theme.of(context).copyWith(primaryColor: Colors.pink),
-                child: SizedBox(
-                  height: 500,
-                  child: picker.CountryPickerDialog(
-                    titlePadding: const EdgeInsets.all(8.0),
-                    contentPadding: const EdgeInsets.all(2.0),
-                    searchCursorColor: Colors.pinkAccent,
-                    searchInputDecoration:
-                        const InputDecoration(hintText: 'Search...'),
-                    isSearchable: true,
-                    title: Text(S.of(context).country),
-                    onValuePicked: (picker_country.Country country) async {
-                      _textControllers[AddressFieldType.country]?.text =
-                          country.isoCode;
-                      address!.country = country.isoCode;
-                      refresh();
-                      final c =
-                          Country(id: country.isoCode, name: country.name);
-                      states = await Services().widget.loadStates(c);
-                      address!.zipCode = '';
-                      _textControllers[AddressFieldType.zipCode]?.text = '';
-                      refresh();
-                    },
-                    itemBuilder: (country) {
-                      return Row(
-                        children: <Widget>[
-                          picker.CountryPickerUtils.getDefaultFlagImage(
-                              country),
-                          const SizedBox(width: 8.0),
-                          Expanded(child: Text(country.name)),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              )
-            : Dialog(
-                child: CountrySelectorWidget(
-                  countries: countries,
-                  onTap: (Country country) async {
-                    _textControllers[AddressFieldType.country]?.text =
-                        country.code!;
-                    address!.country = country.id;
-                    address!.countryId = country.id;
-                    refresh();
-                    Navigator.pop(contextBuilder);
-                    states = await Services().widget.loadStates(country);
-                    address!.zipCode = '';
-                    _textControllers[AddressFieldType.zipCode]?.text = '';
-                    refresh();
-                  },
-                ),
-              ),
-      );
+  // void _openCountryPickerDialog() => showDialog(
+  //       context: context,
+  //       useRootNavigator: false,
+  //       builder: (contextBuilder) => countries!.isEmpty
+  //           ? Theme(
+  //               data: Theme.of(context).copyWith(primaryColor: Colors.pink),
+  //               child: SizedBox(
+  //                 height: 500,
+  //                 child: picker.CountryPickerDialog(
+  //                   titlePadding: const EdgeInsets.all(8.0),
+  //                   contentPadding: const EdgeInsets.all(2.0),
+  //                   searchCursorColor: Colors.pinkAccent,
+  //                   searchInputDecoration:
+  //                       const InputDecoration(hintText: 'Search...'),
+  //                   isSearchable: true,
+  //                   title: Text(S.of(context).country),
+  //                   onValuePicked: (picker_country.Country country) async {
+  //                     _textControllers[AddressFieldType.country]?.text =
+  //                         country.isoCode;
+  //                     address!.country = country.isoCode;
+  //                     refresh();
+  //                     final c =
+  //                         Country(id: country.isoCode, name: country.name);
+  //                     states = await Services().widget.loadStates(c);
+  //                     address!.zipCode = '';
+  //                     _textControllers[AddressFieldType.zipCode]?.text = '';
+  //                     refresh();
+  //                   },
+  //                   itemBuilder: (country) {
+  //                     return Row(
+  //                       children: <Widget>[
+  //                         picker.CountryPickerUtils.getDefaultFlagImage(
+  //                             country),
+  //                         const SizedBox(width: 8.0),
+  //                         Expanded(child: Text(country.name)),
+  //                       ],
+  //                     );
+  //                   },
+  //                 ),
+  //               ),
+  //             )
+  //           : Dialog(
+  //               child: CountrySelectorWidget(
+  //                 countries: countries,
+  //                 onTap: (Country country) async {
+  //                   _textControllers[AddressFieldType.country]?.text =
+  //                       country.code!;
+  //                   address!.country = country.id;
+  //                   address!.countryId = country.id;
+  //                   refresh();
+  //                   Navigator.pop(contextBuilder);
+  //                   states = await Services().widget.loadStates(country);
+  //                   address!.zipCode = '';
+  //                   _textControllers[AddressFieldType.zipCode]?.text = '';
+  //                   refresh();
+  //                 },
+  //               ),
+  //             ),
+  //     );
 
   void onTextFieldSaved(String? value, AddressFieldType type) {
     switch (type) {
@@ -400,14 +400,14 @@ extension on _ShippingAddressState {
         if (!checkToSave()) return;
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
-          final saveStoreLocation = await SaveStoreLocation.getStore();
-          final newAddress = Address(
-            city: saveStoreLocation.address,
-            apartment: saveStoreLocation.address,
-            country: 'spain',
-            email: saveStoreLocation.email,
-          );
-          Provider.of<CartModel>(context, listen: false).setAddress(newAddress);
+          // final saveStoreLocation = await SaveStoreLocation.getStore();
+          // final newAddress = Address(
+          //   city: saveStoreLocation.address,
+          //   apartment: saveStoreLocation.address,
+          //   country: 'spain',
+          //   email: saveStoreLocation.email,
+          // );
+          Provider.of<CartModel>(context, listen: false).setAddress(address);
           saveDataToLocal();
         } else {
           await FlashHelper.errorMessage(

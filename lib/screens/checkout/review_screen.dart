@@ -39,16 +39,16 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
   bool enabledShipping = kPaymentConfig.enableShipping;
   CartModel get cartModel => Provider.of<CartModel>(context, listen: false);
   double wieatCost = 0.0;
+  bool isLoading = true;
 
   Future<void> getWieatCost() async {
     try {
       final store = await SaveStoreLocation.getStore();
       print('WIEAT');
 
-      print(store.toJson());
       final response = await WieatService().getWieatCost(
         store.branch_id.toString(),
-        store.address!.split(' ').last,
+        store.name.toString(),
       );
       final branches = await Services().api.getAllBranches();
 
@@ -61,6 +61,8 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
     } catch (e) {
       print('WIEATRESPONSE');
       print(e);
+    } finally {
+      isLoading = false;
     }
   }
 
@@ -260,18 +262,32 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
                               // decoration: TextDecoration.underline,
                             ),
                       ),
-                      PriceRowItemWidget(
-                        title: S.of(context).total,
-                        total: model.getTotal()! + wieatCost,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline,
+                      isLoading
+                          ? const SizedBox(
+                              width: double.infinity,
+                              child: Center(
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.0,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : PriceRowItemWidget(
+                              title: S.of(context).total,
+                              total: model.getTotal()! + wieatCost,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.underline,
+                                  ),
                             ),
-                      ),
                       Services().widget.renderRecurringTotals(context),
                       const SizedBox(height: 20),
                       Text(

@@ -11,7 +11,13 @@ class WieatService {
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'branch_id': branchId, 'address': address}),
+        body: jsonEncode({
+          'branch_id': branchId,
+          // 'drop_off_address': 'trinidad',
+          // "drop_off_latitude": "37.4219983",
+          // "drop_off_longitude": "-122.084"
+          'address': address,
+        }),
       );
 
       if (response.statusCode == 200) {

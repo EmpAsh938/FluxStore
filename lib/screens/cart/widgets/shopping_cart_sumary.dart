@@ -42,6 +42,7 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
   final services = Services();
   late var _orderSummaryStyle = widget.style;
   Coupons? coupons;
+  bool isLoading = true;
 
   String _productsInCartJson = '';
   final _debounceApplyCouponTag = 'debounceApplyCouponTag';
@@ -156,7 +157,7 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
 
       final response = await WieatService().getWieatCost(
         store.branch_id.toString(),
-        store.address!.split(' ').last,
+        store.name.toString(),
       );
       final branches = await Services().api.getAllBranches();
 
@@ -169,6 +170,8 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
     } catch (e) {
       print('WIEATRESPONSE');
       print(e);
+    } finally {
+      isLoading = false;
     }
   }
 
@@ -383,7 +386,7 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
                                 ),
                               ),
                             ),
-                            cartModel.calculatingDiscount
+                            cartModel.calculatingDiscount || isLoading
                                 ? const SizedBox(
                                     width: 20,
                                     height: 20,
