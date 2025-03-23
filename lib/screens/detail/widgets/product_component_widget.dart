@@ -99,7 +99,6 @@ class _SelectionCompositeProductWidgetState
 
     if (_isSelected) {
       final itemSelected = _selectedComponents![_componentId]!;
-
       products?.forEach(
         (product) {
           if (product == itemSelected.product) {
@@ -108,10 +107,10 @@ class _SelectionCompositeProductWidgetState
                 isSelected: true,
                 cpPerItemPricing: widget.cpPerItemPricing,
                 onSelected: (ProductVariation? variant) {
-                  if (_selectedComponents != null) {
-                    _selectedComponents!
-                        .removeWhere((key, value) => key == _component.id);
-                  }
+                  // if (_selectedComponents != null) {
+                  //   _selectedComponents!
+                  //       .removeWhere((key, value) => key == _component.id);
+                  // }
                   widget.onChanged?.call(_selectedComponents);
                 },
                 onChanged: (SelectedProductComponent selectedComponent) {},
@@ -120,8 +119,14 @@ class _SelectionCompositeProductWidgetState
           }
         },
       );
-    } else {
+    }
+
+    if (!_isSelected || selectedComponent!.product.categoryId == '98') {
       products?.forEach((product) {
+        if (selectedComponent != null &&
+            product.id == selectedComponent.product.id) {
+          return;
+        }
         listWidget.add(ProductComponentItem(
             product: product,
             cpPerItemPricing: widget.cpPerItemPricing,
@@ -137,6 +142,8 @@ class _SelectionCompositeProductWidgetState
               );
               if (_selectedComponents == null) {
                 _selectedComponents = {key: newItem};
+                // } else if (_selectedComponents!.containsKey(key)) {
+                //   _selectedComponents = {generateUniqueId(): newItem};
               } else {
                 _selectedComponents![key] = newItem;
               }
@@ -185,7 +192,8 @@ class _SelectionCompositeProductWidgetState
                   padding: const EdgeInsets.only(left: 10),
                   child: TextButton.icon(
                     onPressed: () {
-                      widget.selectedComponents?.remove(_component.id);
+                      widget.selectedComponents?.clear();
+                      // widget.selectedComponents?.remove(_component.id);
                       widget.onChanged?.call(widget.selectedComponents);
                     },
                     style: TextButton.styleFrom(
@@ -219,5 +227,9 @@ class _SelectionCompositeProductWidgetState
         ),
       ],
     );
+  }
+
+  String generateUniqueId() {
+    return DateTime.now().microsecondsSinceEpoch.toString();
   }
 }
