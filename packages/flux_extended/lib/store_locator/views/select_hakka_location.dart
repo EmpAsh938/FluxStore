@@ -117,6 +117,11 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
   Widget renderStoreInput() {
     var items = <DropdownMenuItem>[];
     for (var item in _stores) {
+      if (_selectedStore != null) {
+        items.add(DropdownMenuItem(
+            value: _selectedStore!.slug, child: Text(_selectedStore!.name!)));
+        break;
+      }
       items.add(
         DropdownMenuItem(
           value: item.slug,
@@ -132,6 +137,7 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
         return null;
       },
       onChanged: (dynamic val) async {
+        if (_selectedStore != null) return;
         setState(() {
           _selectedStore = _stores.firstWhereOrNull((e) => e.slug == val);
         });

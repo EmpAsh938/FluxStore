@@ -605,18 +605,18 @@ class _ShippingAddressState extends State<ShippingAddress> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (isDesktopLayout)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 6.0),
-              child: Text(
-                currentFieldType.getTitle(context) ?? '',
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  height: 20 / 14,
-                ),
+          // if (isDesktopLayout)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6.0),
+            child: Text(
+              currentFieldType.getTitle(context) ?? '',
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+                height: 20 / 14,
               ),
             ),
+          ),
           TextFormField(
             /// Auto focus first field if it's empty.
             autofocus:
@@ -631,7 +631,12 @@ class _ShippingAddressState extends State<ShippingAddress> {
             decoration: InputDecoration(
               labelText:
                   isDesktopLayout ? null : currentFieldType.getTitle(context),
-              border: isDesktopLayout ? const OutlineInputBorder() : null,
+              // border: isDesktopLayout ? const OutlineInputBorder() : null,
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 2,
+                ),
+              ),
               fillColor: isDesktopLayout
                   ? Theme.of(context).colorScheme.surface
                   : null,
