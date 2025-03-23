@@ -48,10 +48,10 @@ class _MyCartState extends State<MyCart> with SingleTickerProviderStateMixin {
     print("cartStyle ${cartStyle}");
     print("widget.hasNewAppBar ${widget.hasNewAppBar}");
     print("widget.enabledTextBoxQuantity ${widget.enabledTextBoxQuantity}");
-    print(" widget.isModal ${ widget.isModal}");
-    print(" widget.isModal ${ widget.isModal}");
-    print(" widget.isBuyNow ${ widget.isBuyNow}");
-    print(" widget.scrollController ${ widget.scrollController}");
+    print(" widget.isModal ${widget.isModal}");
+    print(" widget.isModal ${widget.isModal}");
+    print(" widget.isBuyNow ${widget.isBuyNow}");
+    print(" widget.scrollController ${widget.scrollController}");
 
     switch (cartStyle) {
       case CartStyle.style01:

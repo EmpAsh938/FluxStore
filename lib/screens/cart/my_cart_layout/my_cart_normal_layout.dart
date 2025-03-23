@@ -46,6 +46,11 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
   bool? get isModal => widget.isModal;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     printLog('[Cart] build');
     print(" widget.isModal ${widget.isModal}");
@@ -64,7 +69,8 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
           context: context,
           removeTop: widget.hasNewAppBar && widget.isModal != true,
           child: Scaffold(
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            // backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: kGrey200,
             floatingActionButtonLocation:
                 kAdvanceConfig.floatingCartCheckoutButtonLocation,
             floatingActionButton:
@@ -190,7 +196,8 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                                   Container(
                                     decoration: BoxDecoration(
                                         color: Theme.of(context)
-                                            .primaryColorLight),
+                                            .colorScheme
+                                            .surface),
                                     padding: const EdgeInsets.only(
                                       right: 15.0,
                                       top: 4.0,
