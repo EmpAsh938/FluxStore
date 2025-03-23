@@ -10,6 +10,7 @@ import '../../../generated/l10n.dart';
 import '../../../models/entities/index.dart';
 import '../../../models/product_model.dart';
 import '../../../models/product_variant_model.dart';
+import '../../../routes/flux_navigate.dart';
 import '../../../services/service_config.dart';
 import '../../../services/services.dart';
 
@@ -173,5 +174,12 @@ class BuyButtonWidget extends StatelessWidget {
           buyNow,
           inStock);
     }
+    final productName = product.name!.toLowerCase();
+    if (productName == 'drinks' ||
+        productName == 'a la carte' ||
+        productName == 'snakkas') {
+      return;
+    }
+    FluxNavigate.pushNamed(RouteList.cart, context: context);
   }
 }
