@@ -29,6 +29,7 @@ class StoreLocatorServices {
       var response = await httpGet(Uri.parse(url),
           headers: {'Content-Type': 'application/json'}, refreshCache: true);
       var jsonDecode = convert.jsonDecode(response.body);
+      print("REEESPSONSE ${response.body}");
       var stores = <Store>[];
 
       if (jsonDecode is Map && isNotBlank(jsonDecode['message'])) {

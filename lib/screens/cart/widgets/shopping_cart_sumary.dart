@@ -154,10 +154,9 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
       final store = await SaveStoreLocation.getStore();
       print('WIEAT');
 
-      print(store.toJson());
       final response = await WieatService().getWieatCost(
-        '45636010',
-        'Trincity Mall North Wing, Trinidad and Tobago',
+        store.branch_id.toString(),
+        store.address!.split(' ').last,
       );
       final branches = await Services().api.getAllBranches();
 
@@ -176,7 +175,7 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
   @override
   void initState() {
     super.initState();
-    // getWieatCost();
+    getWieatCost();
     getCoupon();
     WidgetsBinding.instance.endOfFrame.then((_) {
       if (mounted) {
@@ -355,24 +354,24 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
                               styleTitle: smallAmountTitleStyle,
                             ),
                         const SizedBox(height: 15),
-                        // Row(
-                        //   children: [
-                        //     Expanded(
-                        //       child: Text(
-                        //         'Wieat Cost',
-                        //         style: smallAmountTitleStyle,
-                        //       ),
-                        //     ),
-                        //     const SizedBox(height: 10),
-                        //     Text(
-                        //       PriceTools.getCurrencyFormatted(
-                        //           wieatCost, currencyRate,
-                        //           currency: currency)!,
-                        //       style: smallAmountStyle,
-                        //     ),
-                        //   ],
-                        // ),
-                        // const SizedBox(height: 15),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Wieat Cost',
+                                style: smallAmountTitleStyle,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              PriceTools.getCurrencyFormatted(
+                                  wieatCost, currencyRate,
+                                  currency: currency)!,
+                              style: smallAmountStyle,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 15),
                         Row(
                           children: [
                             Expanded(

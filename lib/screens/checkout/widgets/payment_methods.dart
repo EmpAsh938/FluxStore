@@ -51,8 +51,8 @@ class _PaymentMethodsState extends State<PaymentMethods>
 
       print(store.toJson());
       final response = await WieatService().getWieatCost(
-        '45636010',
-        'Trincity Mall North Wing, Trinidad and Tobago',
+        store.branch_id.toString(),
+        store.address!.split(' ').last,
       );
       final branches = await Services().api.getAllBranches();
 
@@ -87,7 +87,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
         callback: (currencyRate) {
       cartModel.changeCurrencyRates(currencyRate);
     });
-    // getWieatCost();
+    getWieatCost();
     super.initState();
   }
 
@@ -258,31 +258,31 @@ class _PaymentMethodsState extends State<PaymentMethods>
               Services().widget.renderRewardInfo(context),
               Services().widget.renderCheckoutWalletInfo(context),
               Services().widget.renderCODExtraFee(context),
-              // Padding(
-              //   padding:
-              //       const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     crossAxisAlignment: CrossAxisAlignment.center,
-              //     children: <Widget>[
-              //       Text(
-              //         'Wieat Cost',
-              //         style: TextStyle(
-              //             fontSize: 14,
-              //             color: Theme.of(context).colorScheme.secondary),
-              //       ),
-              //       Text(
-              //         PriceTools.getCurrencyFormatted(wieatCost, currencyRate,
-              //             currency: cartModel.currencyCode)!,
-              //         style: TextStyle(
-              //           fontSize: 14,
-              //           color: Theme.of(context).colorScheme.secondary,
-              //           fontWeight: FontWeight.w400,
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Wieat Cost',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).colorScheme.secondary),
+                    ),
+                    Text(
+                      PriceTools.getCurrencyFormatted(wieatCost, currencyRate,
+                          currency: cartModel.currencyCode)!,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 20),

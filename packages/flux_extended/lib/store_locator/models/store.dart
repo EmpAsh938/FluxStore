@@ -18,24 +18,27 @@ class Store {
   String? website;
   String? latitude;
   String? longitude;
+  String? branch_id;
 
-  Store(
-      {this.id,
-      this.name,
-      this.slug,
-      this.description,
-      this.image,
-      this.address,
-      this.link,
-      this.directionLink,
-      this.markerIcon,
-      this.phone,
-      this.mobile,
-      this.fax,
-      this.email,
-      this.website,
-      this.latitude,
-      this.longitude});
+  Store({
+    this.id,
+    this.name,
+    this.slug,
+    this.description,
+    this.image,
+    this.address,
+    this.link,
+    this.directionLink,
+    this.markerIcon,
+    this.phone,
+    this.mobile,
+    this.fax,
+    this.email,
+    this.website,
+    this.latitude,
+    this.longitude,
+    this.branch_id,
+  });
 
   Store.fromJson(Map parsedJson) {
     id = '${parsedJson['id'] ?? ''}';
@@ -58,6 +61,7 @@ class Store {
     website = parsedJson['website'] ?? '';
     latitude = parsedJson['latitude'] ?? '';
     longitude = parsedJson['longitude'] ?? '';
+    branch_id = parsedJson['branch_id'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +83,7 @@ class Store {
       'website': website,
       'latitude': latitude,
       'longitude': longitude,
+      'branch_id': branch_id,
     };
   }
 }

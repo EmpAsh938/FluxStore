@@ -47,8 +47,8 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
 
       print(store.toJson());
       final response = await WieatService().getWieatCost(
-        '45636010',
-        'Trincity Mall North Wing, Trinidad and Tobago',
+        store.branch_id.toString(),
+        store.address!.split(' ').last,
       );
       final branches = await Services().api.getAllBranches();
 
@@ -68,7 +68,7 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
   void initState() {
     var notes = Provider.of<CartModel>(context, listen: false).notes;
     note.text = notes ?? '';
-    // getWieatCost();
+    getWieatCost();
     super.initState();
     Future.delayed(Duration.zero, () {
       final cartModel = Provider.of<CartModel>(context, listen: false);
