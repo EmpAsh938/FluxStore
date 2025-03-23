@@ -1,8 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:fstore/common/constants.dart';
 import 'package:fstore/generated/l10n.dart';
 import 'package:fstore/models/cart/cart_base.dart';
 import 'package:fstore/models/entities/shipping_type.dart';
+import 'package:fstore/routes/flux_navigate.dart';
 import 'package:fstore/widgets/html/index.dart';
 import 'package:provider/provider.dart';
 
@@ -110,6 +112,23 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
                 Text(e.displayName)
               ],
             )),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: ElevatedButton(
+              style: const ButtonStyle(
+                backgroundColor:
+                    WidgetStatePropertyAll<Color>(Color(0xffcc1c24)),
+              ),
+              onPressed: () {
+                FluxNavigate.pushNamed(RouteList.storeLocator,
+                    context: context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: const Text('Update Shipping Details'),
+              )),
+        ),
       ],
     );
   }
