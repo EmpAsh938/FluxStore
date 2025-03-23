@@ -118,7 +118,9 @@ class TabBarIcon extends StatelessWidget {
             child: icon,
           ),
           Text(
-            item.label.toString().toUpperCase(),
+            item.label == 'FAVOURITS'
+                ? 'REWARDS'
+                : item.label.toString().toUpperCase(),
             softWrap: false,
             overflow: TextOverflow.fade,
             style: Theme.of(context).textTheme.titleMedium,
@@ -128,7 +130,7 @@ class TabBarIcon extends StatelessWidget {
     }
 
     return Tab(
-      text: item.label,
+      text: item.label == 'FAVOURITS' ? 'Rewards' : item.label,
       iconMargin: EdgeInsets.zero,
       icon: icon,
     );
