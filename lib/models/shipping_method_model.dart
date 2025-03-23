@@ -26,7 +26,7 @@ class ShippingMethodModel extends ChangeNotifier {
       if (ServerConfig().isOpencart && (shippingMethods?.isNotEmpty ?? false)) {
         shippingMethods = [];
       }
-      notifyListeners();
+      // notifyListeners();
       shippingMethods = await _service.api.getShippingMethods(
         cartModel: cartModel,
         token: token,
@@ -35,12 +35,11 @@ class ShippingMethodModel extends ChangeNotifier {
       if (kAdvanceConfig.enableDeliveryDateOnCheckout) {
         _deliveryDates = await getDelivery();
       }
-      isLoading = false;
       message = null;
-      notifyListeners();
     } catch (err) {
-      isLoading = false;
       message = '⚠️ $err';
+    } finally {
+      isLoading = false;
       notifyListeners();
     }
   }

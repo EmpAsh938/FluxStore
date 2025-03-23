@@ -9,10 +9,12 @@ import '../../../common/config.dart'
 import '../../../common/constants.dart';
 import '../../../common/tools.dart';
 import '../../../generated/l10n.dart';
+import '../../../models/app_model.dart';
 import '../../../models/cart/cart_model.dart';
 import '../../../models/entities/order_delivery_date.dart';
 import '../../../models/entities/shipping_type.dart';
 import '../../../models/shipping_method_model.dart';
+import '../../../models/user_model.dart';
 import '../../../modules/analytics/analytics.dart';
 import '../../../modules/dynamic_layout/helper/helper.dart';
 import 'checkout_action.dart';
@@ -110,8 +112,16 @@ class _ShippingMethodsState extends State<ShippingMethods> {
   }
 
   Widget _buildShippingBodyMethod(bool isDesktop) {
+    final cartModel = Provider.of<CartModel>(context, listen: false);
+    final langCode = Provider.of<AppModel>(context, listen: false).langCode;
+    final token = context.read<UserModel>().user?.cookie;
     return ListenableProvider.value(
-      value: Provider.of<ShippingMethodModel>(context),
+      value: Provider.of<ShippingMethodModel>(context)
+        ..getShippingMethods(
+            cartModel: cartModel,
+            checkoutId: cartModel.checkout?.id ?? '',
+            token: token,
+            langCode: langCode),
       child: Consumer<ShippingMethodModel>(
         builder: (context, model, child) {
           if (model.isLoading) {
@@ -145,6 +155,8 @@ class _ShippingMethodsState extends State<ShippingMethods> {
 
   Widget _buildShippingMethod(
       BuildContext context, ShippingMethodModel model, bool isDesktop) {
+    print('SHIPPINGMETHODS');
+    print(model.shippingMethods!.first.toJson());
     var shoppingType = Provider.of<CartModel>(context, listen: false);
     shoppingType.shippingType == ShippingType.delivery
         ? selectedIndex = 1

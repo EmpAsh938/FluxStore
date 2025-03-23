@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/constants.dart';
+import '../../../generated/l10n.dart';
 import '../../../modules/dynamic_layout/helper/helper.dart';
 import '../../../widgets/common/common_safe_area.dart';
 
@@ -71,7 +72,8 @@ class CheckoutActionWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (showSecondary) ...[
+            if (showSecondary &&
+                labelSecondary != S.of(context).saveAddress) ...[
               SizedBox(
                 width: 150,
                 child: OutlinedButton.icon(

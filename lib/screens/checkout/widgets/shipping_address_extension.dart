@@ -410,7 +410,7 @@ extension on _ShippingAddressState {
           Provider.of<CartModel>(context, listen: false).setAddress(newAddress);
           saveDataToLocal();
         } else {
-          FlashHelper.errorMessage(
+          await FlashHelper.errorMessage(
             context,
             message: S.of(context).pleaseInput,
           );
