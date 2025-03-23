@@ -59,38 +59,38 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
       children: [
         const SizedBox(height: 15),
         renderStoreInput(),
-        if (_selectedStore != null)
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            margin: const EdgeInsets.symmetric(vertical: 15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4.0),
-              color: const Color(0xffEEEEED),
-            ),
-            child: (_shippingType == ShippingType.pickup)
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${S.of(context).addressToPickup} :',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      HtmlWidget(_selectedStore?.shippingAddress ?? ''),
-                    ],
-                  )
-                : Text(
-                    S.of(context).comingSoon,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-          ),
+        // if (_selectedStore != null)
+        //   Container(
+        //     width: double.infinity,
+        //     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        //     margin: const EdgeInsets.symmetric(vertical: 15),
+        //     decoration: BoxDecoration(
+        //       borderRadius: BorderRadius.circular(4.0),
+        //       color: const Color(0xffEEEEED),
+        //     ),
+        //     child: (_shippingType == ShippingType.pickup)
+        //         ? Column(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               Text(
+        //                 '${S.of(context).addressToPickup} :',
+        //                 style: Theme.of(context)
+        //                     .textTheme
+        //                     .titleLarge
+        //                     ?.copyWith(fontWeight: FontWeight.bold),
+        //               ),
+        //               const SizedBox(height: 10),
+        //               HtmlWidget(_selectedStore?.shippingAddress ?? ''),
+        //             ],
+        //           )
+        //         : Text(
+        //             S.of(context).comingSoon,
+        //             style: Theme.of(context)
+        //                 .textTheme
+        //                 .titleLarge
+        //                 ?.copyWith(fontWeight: FontWeight.bold),
+        //           ),
+        //   ),
         const SizedBox(height: 15),
         Text(S.of(context).pickupOrDelivery,
             style: Theme.of(context).textTheme.titleMedium),
