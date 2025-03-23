@@ -250,48 +250,47 @@ class _QuantitySelectionState extends State<QuantitySelection> {
       }
     }
 
-    return Text('');
-    // return GestureDetector(
-    //   onTap: () {
-    //     if (hasChangeQuantity) {
-    //       if (widget.isComposite == false) {
-    //         _showOptions(context);
-    //       }
-    //     }
-    //   },
-    //   child: Container(
-    //     decoration: BoxDecoration(
-    //       border: Border.all(width: 1.0, color: Colors.transparent),
-    //       borderRadius: BorderRadius.circular(3),
-    //     ),
-    //     height: widget.height,
-    //     width: widget.width,
-    //     child: Padding(
-    //       padding: EdgeInsets.symmetric(
-    //           vertical: 2.0, horizontal: (hasChangeQuantity) ? 5.0 : 10.0),
-    //       child: Row(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: <Widget>[
-    //           Expanded(
-    //             child: Center(
-    //               child: Text(
-    //                 widget.value.toString(),
-    //                 style: TextStyle(fontSize: 14, color: widget.color),
-    //               ),
-    //             ),
-    //           ),
-    //           if (hasChangeQuantity)
-    //             const SizedBox(
-    //               width: 5.0,
-    //             ),
-    //           if (hasChangeQuantity)
-    //             Icon(Icons.keyboard_arrow_down,
-    //                 size: 14, color: Theme.of(context).colorScheme.secondary)
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
+    return GestureDetector(
+      onTap: () {
+        if (hasChangeQuantity) {
+          if (widget.isComposite == false) {
+            _showOptions(context);
+          }
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 1.0, color: Colors.transparent),
+          borderRadius: BorderRadius.circular(3),
+        ),
+        height: widget.height,
+        width: widget.width,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: 2.0, horizontal: (hasChangeQuantity) ? 5.0 : 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Center(
+                  child: Text(
+                    widget.value.toString(),
+                    style: TextStyle(fontSize: 14, color: widget.color),
+                  ),
+                ),
+              ),
+              if (hasChangeQuantity)
+                const SizedBox(
+                  width: 5.0,
+                ),
+              if (hasChangeQuantity)
+                Icon(Icons.keyboard_arrow_down,
+                    size: 14, color: Theme.of(context).colorScheme.secondary)
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _showOptions(context) {
