@@ -275,6 +275,7 @@ flutter:
     - assets/icons/tabs/
     - assets/icons/payment/
     - assets/icons/logins/
+    - assets/icons/nav/
     - assets/images/
     - assets/images/country/
     - assets/images/favicon/

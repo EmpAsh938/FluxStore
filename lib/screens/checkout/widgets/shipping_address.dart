@@ -243,9 +243,9 @@ class _ShippingAddressState extends State<ShippingAddress> {
   }
 
   void _onShowSelectAddressForDesktop() {
-    // setState(() {
-    //   _showSelectAddress = true;
-    // });
+    setState(() {
+      _showSelectAddress = true;
+    });
   }
 
   @override

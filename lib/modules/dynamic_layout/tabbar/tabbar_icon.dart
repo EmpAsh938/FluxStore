@@ -52,10 +52,45 @@ class TabBarIcon extends StatelessWidget {
           );
         }
 
-        var isImage = item.icon.contains('/');
+        var imagePath = '';
+
+        switch (item.label) {
+          case 'Home':
+            // return const Image(image: AssetImage('assets/icons/nav/Home.png'));
+            imagePath = 'assets/icons/nav/Home.png';
+            break;
+          case 'Location':
+            imagePath = 'assets/icons/nav/location-icon.png';
+            break;
+          // return const Image(
+
+          //     image: AssetImage('assets/icons/nav/location-icon.png'));
+          case 'Menu':
+            imagePath = 'assets/icons/nav/Menu.png';
+            break;
+          // return const Image(image: AssetImage('assets/icons/nav/Menu.png'));
+          case 'FAVOURITS':
+            imagePath = 'assets/icons/nav/rewards.png';
+            break;
+          // return const Image(
+          //     image: AssetImage('assets/icons/nav/rewards.png'));
+          case 'Profile':
+            imagePath = 'assets/icons/nav/Profile.png';
+            break;
+          // return const Image(
+          //     image: AssetImage('assets/icons/nav/Profile.png'));
+          default:
+            return Icon(
+              Icons.question_mark,
+              color: iconColor,
+              size: config.iconSize,
+            );
+        }
+
+        var isImage = imagePath.contains('/');
         return isImage
             ? FluxImage(
-                imageUrl: item.icon,
+                imageUrl: imagePath,
                 color: item.showOriginalColor ? null : iconColor,
                 width: config.iconSize,
                 useExtendedImage: false,

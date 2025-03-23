@@ -112,10 +112,11 @@ class TabBarCustom extends StatelessWidget {
       onTap: onTap,
       tabs: [
         for (var i = 0; i < tabData.length; i++)
-          tabData[i].visible == false || tabData[i].groupLayout == true || tabData[i].label == null
+          tabData[i].visible == false ||
+                  tabData[i].groupLayout == true ||
+                  tabData[i].label == null
               ? const SizedBox()
-              :
-          TabBarIcon(
+              : TabBarIcon(
                   key: Key('TabBarIcon-$i'),
                   item: tabData[i],
                   totalCart: totalCart,
