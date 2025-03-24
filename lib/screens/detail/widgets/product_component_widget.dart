@@ -97,36 +97,66 @@ class _SelectionCompositeProductWidgetState
     final products = _component.products;
     var selectedComponent = _selectedComponents?[_component.id];
 
-    if (_isSelected) {
-      final itemSelected = _selectedComponents![_componentId]!;
-      products?.forEach(
-        (product) {
-          if (product == itemSelected.product) {
+    if (_isSelected ||
+        (_selectedComponents != null && _selectedComponents!.isNotEmpty)) {
+      // final itemSelected = _selectedComponents![_componentId]!;
+      // print('SELECTEDDDDDDDD ${widget.selectedComponents}');
+      // products?.forEach(
+      //   (product) {
+      //     if (product == itemSelected.product) {
+      //       listWidget.add(ProductComponentItem(
+      //           product: product,
+      //           isSelected: true,
+      //           cpPerItemPricing: widget.cpPerItemPricing,
+      //           onSelected: (ProductVariation? variant) {
+      //             // if (_selectedComponents != null) {
+      //             //   _selectedComponents!
+      //             //       .removeWhere((key, value) => key == _component.id);
+      //             // }
+      //             widget.onChanged?.call(_selectedComponents);
+      //           },
+      //           onChanged: (SelectedProductComponent selectedComponent) {},
+      //           selectedComponent: _selectedComponents?[_component.id]));
+      //       listWidget.add(const SizedBox(height: 5));
+      //     }
+      //   },
+      // );
+      _selectedComponents?.forEach((key, selectedComponent) {
+        products?.forEach((product) {
+          if (product == selectedComponent.product) {
             listWidget.add(ProductComponentItem(
-                product: product,
-                isSelected: true,
-                cpPerItemPricing: widget.cpPerItemPricing,
-                onSelected: (ProductVariation? variant) {
-                  // if (_selectedComponents != null) {
-                  //   _selectedComponents!
-                  //       .removeWhere((key, value) => key == _component.id);
-                  // }
-                  widget.onChanged?.call(_selectedComponents);
-                },
-                onChanged: (SelectedProductComponent selectedComponent) {},
-                selectedComponent: _selectedComponents?[_component.id]));
+              product: product,
+              isSelected: true,
+              cpPerItemPricing: widget.cpPerItemPricing,
+              onSelected: (ProductVariation? variant) {
+                if (_selectedComponents != null) {
+                  _selectedComponents!
+                      .removeWhere((key, value) => key == _component.id);
+                }
+                widget.onChanged?.call(_selectedComponents);
+              },
+              onChanged: (SelectedProductComponent selectedComponent) {},
+              selectedComponent: selectedComponent,
+            ));
             listWidget.add(const SizedBox(height: 5));
           }
-        },
-      );
+        });
+      });
     }
 
     if (!_isSelected || selectedComponent!.product.categoryId == '98') {
       products?.forEach((product) {
-        if (selectedComponent != null &&
-            product.id == selectedComponent.product.id) {
+        // if (selectedComponent != null &&
+        //     product.id == selectedComponent.product.id) {
+        //   return;
+        // }
+        // Skip adding already selected products
+        if (_selectedComponents?.values
+                .any((selected) => selected.product.id == product.id) ??
+            false) {
           return;
         }
+
         listWidget.add(ProductComponentItem(
             product: product,
             cpPerItemPricing: widget.cpPerItemPricing,
@@ -142,8 +172,10 @@ class _SelectionCompositeProductWidgetState
               );
               if (_selectedComponents == null) {
                 _selectedComponents = {key: newItem};
-                // } else if (_selectedComponents!.containsKey(key)) {
-                //   _selectedComponents = {generateUniqueId(): newItem};
+              } else if (_selectedComponents!.containsKey(key)) {
+                final id = generateUniqueId();
+                _selectedComponents![id] = newItem;
+                print("DUPPPPPP $id");
               } else {
                 _selectedComponents![key] = newItem;
               }
