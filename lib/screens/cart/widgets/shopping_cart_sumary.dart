@@ -162,7 +162,7 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
       // final branches = await Services().api.getAllBranches();
 
       print('WIEAT RESPONSEE');
-      // print(response);
+      print(response);
       // print(branches);
       var fare = response['data']['data']['fare'];
       if (!mounted) return;
@@ -178,7 +178,9 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
       print('WIEATRESPONSE');
       print(e);
     } finally {
-      isLoading = false;
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 

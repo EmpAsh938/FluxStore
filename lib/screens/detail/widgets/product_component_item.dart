@@ -96,9 +96,7 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
 
     var selected = widget.selectedComponent != null &&
         widget.selectedComponent?.product.id == widget.product.id;
-    final showSelection =
-        selected && (widget.selectedComponent?.component.maxQuantity ?? 0) > 1;
-
+    final showSelection = selected;
     var variant = selected ? widget.selectedComponent?.variant : null;
     if (variant == null && (_variations?.isNotEmpty ?? false)) {
       variant = _variations?.first;

@@ -131,8 +131,8 @@ class _SelectionCompositeProductWidgetState
               cpPerItemPricing: widget.cpPerItemPricing,
               onSelected: (ProductVariation? variant) {
                 if (_selectedComponents != null) {
-                  _selectedComponents!
-                      .removeWhere((key, value) => key == _component.id);
+                  // _selectedComponents!
+                  //     .removeWhere((key, value) => key == _component.id);
                 }
                 widget.onChanged?.call(_selectedComponents);
               },
