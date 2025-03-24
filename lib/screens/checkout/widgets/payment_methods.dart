@@ -43,6 +43,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
     with RazorDelegate, CheckoutMixin {
   double wieatCost = 0.0;
   bool isLoading = true;
+  var productSubTotal = 0.0;
 
   Future<void> getWieatCost() async {
     try {
@@ -99,16 +100,19 @@ class _PaymentMethodsState extends State<PaymentMethods>
     final taxModel = Provider.of<TaxModel>(context);
     final useDesktopLayout = Layout.isDisplayDesktop(context);
 
-    var productSubTotal = 0.0;
-
+    var innerSubTotal = 0.0;
     for (var item in cartModel.cartItemMetaDataInCart.values) {
       if (item != null && item.selectedComponents != null) {
         for (var innerItem in item.selectedComponents!.values) {
-          productSubTotal +=
+          innerSubTotal +=
               innerItem.quantity! * double.parse(innerItem.product.price!);
         }
       }
     }
+
+    setState(() {
+      productSubTotal = innerSubTotal;
+    });
 
     final extraFee = kPaymentConfig.smartCOD?.extraFee ?? 0;
 
@@ -369,7 +373,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
 
   Widget _buildBottom(
       PaymentMethodModel paymentMethodModel, CartModel cartModel) {
-    // final userModel = Provider.of<UserModel>(context, listen: false);
+    final userModel = Provider.of<UserModel>(context, listen: false);
     return CheckoutActionWidget(
       iconPrimary: CupertinoIcons.check_mark_circled_solid,
       labelPrimary: S.of(context).placeMyOrder,
@@ -379,21 +383,21 @@ class _PaymentMethodsState extends State<PaymentMethods>
               if (isPaying || selectedId == null) {
                 showSnackbar();
               } else {
-                // if (selectedId != null && selectedId == 'fygaro') {
-                //   // Launch Fygaro payment
-                //   FygaroPayment.launchPayment(
-                //       amount: cartModel.getTotal()!,
-                //       currency: 'USD',
-                //       orderId: 'ORDER5678',
-                //       kid: '12298235-f537-440c-a0e8-80f7d1388a78',
-                //       clientData: {
-                //         'name': userModel.user!.fullName,
-                //         'email': userModel.user!.email.toString(),
-                //         'phone': userModel.user!.phoneNumber.toString(),
-                //       });
-                // } else {
-                placeOrder(paymentMethodModel, cartModel);
-                // }
+                if (selectedId != null && selectedId == 'fygaro') {
+                  // Launch Fygaro payment
+                  FygaroPayment.launchPayment(
+                      amount: productSubTotal + wieatCost,
+                      currency: 'USD',
+                      orderId: 'ORDER5678',
+                      kid: '12298235-f537-440c-a0e8-80f7d1388a78',
+                      clientData: {
+                        'name': userModel.user!.fullName,
+                        'email': userModel.user!.email.toString(),
+                        'phone': userModel.user!.phoneNumber.toString(),
+                      });
+                } else {
+                  placeOrder(paymentMethodModel, cartModel);
+                }
               }
             },
       labelSecondary: kPaymentConfig.enableReview
