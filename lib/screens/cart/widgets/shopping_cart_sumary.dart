@@ -233,6 +233,17 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
     );
     final screenSize = MediaQuery.sizeOf(context);
 
+    var productSubTotal = 0.0;
+
+    for (var item in cartModel.cartItemMetaDataInCart.values) {
+      if (item != null && item.selectedComponents != null) {
+        for (var innerItem in item.selectedComponents!.values) {
+          productSubTotal +=
+              innerItem.quantity! * double.parse(innerItem.product.price!);
+        }
+      }
+    }
+
     return Consumer<CartModel>(builder: (context, cartModel, child) {
       var couponMsg = '';
       var isApplyCouponSuccess = false;
@@ -330,7 +341,8 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
                               ),
                             ),
                             Text(
-                              '\$${cartModel.getSubTotal()?.toStringAsFixed(2)}',
+                              // '\$${cartModel.getSubTotal()?.toStringAsFixed(2)}',
+                              '\$${productSubTotal.toStringAsFixed(2)}',
                               style: smallAmountStyle,
                             ),
                           ],
@@ -403,7 +415,7 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
                                   )
                                 : Text(
                                     PriceTools.getCurrencyFormatted(
-                                        cartModel.getTotal()! -
+                                        productSubTotal -
                                             cartModel.getShippingCost()! +
                                             wieatCost,
                                         currencyRate,

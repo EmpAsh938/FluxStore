@@ -24,7 +24,13 @@ class CartItemNormalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    var totalPrice = 0.0;
+    for (var item in stateUI.cartItemMetaData!.selectedComponents!.values) {
+      final quantity = item.quantity;
+      final subTotal = item.product.price;
 
+      totalPrice += quantity! * double.parse(subTotal!);
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16.0,
@@ -83,7 +89,8 @@ class CartItemNormalWidget extends StatelessWidget {
                                 const SizedBox(height: 7),
                                 if (stateUI.showPrice(context))
                                   Text(
-                                    stateUI.price!,
+                                    // stateUI.priceWithQuantity!,
+                                    '\$${totalPrice.toString()}',
                                     style: TextStyle(
                                         color: theme.colorScheme.secondary,
                                         fontSize: 14),

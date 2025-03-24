@@ -61,7 +61,6 @@ class ShoppingCartRow extends StatelessWidget with ActionButtonMixin {
   Widget build(BuildContext context) {
     var currency = Provider.of<AppModel>(context).currency;
     final currencyRate = Provider.of<AppModel>(context).currencyRate;
-
     return Selector<CartModel, Product?>(
       selector: (_, cartModel) => cartModel.item[product?.id],
       builder: (context, product, __) {
