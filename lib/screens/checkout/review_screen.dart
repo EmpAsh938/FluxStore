@@ -99,6 +99,16 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
     final taxModel = Provider.of<TaxModel>(context);
     final isDesktop = Layout.isDisplayDesktop(context);
 
+    var productSubTotal = 0.0;
+
+    for (var item in cartModel.cartItemMetaDataInCart.values) {
+      if (item != null && item.selectedComponents != null) {
+        for (var innerItem in item.selectedComponents!.values) {
+          productSubTotal +=
+              innerItem.quantity! * double.parse(innerItem.product.price!);
+        }
+      }
+    }
     if (isDesktop) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,7 +222,7 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
                       const SizedBox(height: 20),
                       PriceRowItemWidget(
                         title: S.of(context).subtotal,
-                        total: model.getSubTotal(),
+                        total: productSubTotal,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Theme.of(context).colorScheme.secondary,
                             ),
@@ -279,7 +289,7 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
                             )
                           : PriceRowItemWidget(
                               title: S.of(context).total,
-                              total: model.getTotal()! + wieatCost,
+                              total: productSubTotal + wieatCost,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!

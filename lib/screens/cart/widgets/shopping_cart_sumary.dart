@@ -385,12 +385,20 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            Text(
-                              PriceTools.getCurrencyFormatted(
-                                  wieatCost, currencyRate,
-                                  currency: currency)!,
-                              style: smallAmountStyle,
-                            ),
+                            isLoading
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.0,
+                                    ),
+                                  )
+                                : Text(
+                                    PriceTools.getCurrencyFormatted(
+                                        wieatCost, currencyRate,
+                                        currency: currency)!,
+                                    style: smallAmountStyle,
+                                  ),
                           ],
                         ),
                         const SizedBox(height: 15),

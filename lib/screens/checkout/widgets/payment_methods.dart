@@ -99,6 +99,17 @@ class _PaymentMethodsState extends State<PaymentMethods>
     final taxModel = Provider.of<TaxModel>(context);
     final useDesktopLayout = Layout.isDisplayDesktop(context);
 
+    var productSubTotal = 0.0;
+
+    for (var item in cartModel.cartItemMetaDataInCart.values) {
+      if (item != null && item.selectedComponents != null) {
+        for (var innerItem in item.selectedComponents!.values) {
+          productSubTotal +=
+              innerItem.quantity! * double.parse(innerItem.product.price!);
+        }
+      }
+    }
+
     final body = Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16.0,
@@ -215,7 +226,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
                     ),
                     Text(
                         PriceTools.getCurrencyFormatted(
-                            cartModel.getSubTotal(), currencyRate,
+                            productSubTotal, currencyRate,
                             currency: cartModel.currencyCode)!,
                         style: const TextStyle(fontSize: 14, color: kGrey400))
                   ],
@@ -271,15 +282,24 @@ class _PaymentMethodsState extends State<PaymentMethods>
                           fontSize: 14,
                           color: Theme.of(context).colorScheme.secondary),
                     ),
-                    Text(
-                      PriceTools.getCurrencyFormatted(wieatCost, currencyRate,
-                          currency: cartModel.currencyCode)!,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    )
+                    isLoading
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                            ),
+                          )
+                        : Text(
+                            PriceTools.getCurrencyFormatted(
+                                wieatCost, currencyRate,
+                                currency: cartModel.currencyCode)!,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          )
                   ],
                 ),
               ),
@@ -297,7 +317,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
                           color: Theme.of(context).colorScheme.secondary),
                     ),
                     isLoading
-                        ? SizedBox(
+                        ? const SizedBox(
                             width: 20,
                             height: 20,
                             child: CircularProgressIndicator(
@@ -306,7 +326,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
                           )
                         : Text(
                             PriceTools.getCurrencyFormatted(
-                                cartModel.getTotal()! + wieatCost, currencyRate,
+                                productSubTotal + wieatCost, currencyRate,
                                 currency: cartModel.currencyCode)!,
                             style: TextStyle(
                               fontSize: 20,

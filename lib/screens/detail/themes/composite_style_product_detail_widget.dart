@@ -162,12 +162,18 @@ class _CompositeStyleDetailProductWidgetState
   }
 
   Widget _renderDetailProduct(DetailProductPriceStateUI detailPriceData) {
-    print(
-        "lallalalalalalalal ${Provider.of<CartModel>(context, listen: true).getTotal()}");
-    print("isVisibleBuyButton $isVisibleBuyButton");
-    print("enableAutoHideButtonBuy $enableAutoHideButtonBuy");
-    final totalPrice = Provider.of<CartModel>(context, listen: true).getTotal();
+    final cartModel = Provider.of<CartModel>(context, listen: true);
 
+    var productSubTotal = 0.0;
+
+    for (var item in cartModel.cartItemMetaDataInCart.values) {
+      if (item != null && item.selectedComponents != null) {
+        for (var innerItem in item.selectedComponents!.values) {
+          productSubTotal +=
+              innerItem.quantity! * double.parse(innerItem.product.price!);
+        }
+      }
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: floatingActionButton,
@@ -243,7 +249,7 @@ class _CompositeStyleDetailProductWidgetState
                                         ),
                                       ),
                                       Text(
-                                        '\$ $totalPrice',
+                                        '\$ $productSubTotal',
                                         style: const TextStyle(
                                           color: Color(0xffcc1c24),
                                           fontWeight: FontWeight.w900,
