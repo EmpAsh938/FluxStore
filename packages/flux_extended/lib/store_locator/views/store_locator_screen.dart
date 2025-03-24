@@ -42,8 +42,8 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MapModel>(
-        // create: (_) => MapModel(),
-        create: (_) => MapModel()..getStores(showAll: true),
+        create: (_) => MapModel(),
+        // create: (_) => MapModel()..getStores(showAll: true),
         child: Consumer<MapModel>(builder: (context, mapModel, _) {
           final disableMap =
               (isMacOS || isWindow || isFuchsia || mapModel.markers.isEmpty);

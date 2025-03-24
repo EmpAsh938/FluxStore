@@ -27,7 +27,7 @@ class MapModel extends ChangeNotifier with MapMixin {
       ),
       zoom: zoom,
     );
-    getStores(showAll: false);
+    getStores(showAll: true);
   }
 
   void _updateState(state) {
@@ -57,9 +57,10 @@ class MapModel extends ChangeNotifier with MapMixin {
       Store? firstStore;
       print("current lat is ${currentLocation?.lat}");
       print("current long is ${currentLocation?.long}");
+      final savedStore = await SaveStoreLocation.getStore();
       var list = await _services.getStores(
-          latitude: currentLocation?.lat,
-          longitude: currentLocation?.long,
+          latitude: savedStore.latitude ?? currentLocation?.lat,
+          longitude: savedStore.longitude ?? currentLocation?.long,
           radius: this.radius,
           showAll: showAll);
       stores.addAll(list);
