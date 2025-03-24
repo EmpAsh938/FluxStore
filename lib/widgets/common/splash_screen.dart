@@ -81,7 +81,10 @@ class _SplashScreenIndexState extends State<SplashScreenIndex> {
                   ),
                 ],
               )
-            : const CircularProgressIndicator(),
+            : _EmptySplashScreen(
+                onNextScreen: widget.actionDone,
+                isLoadAppConfig: widget.isLoadAppConfig,
+              ),
       ),
     );
 

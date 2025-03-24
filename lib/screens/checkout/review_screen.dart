@@ -50,13 +50,13 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
         store.branch_id.toString(),
         store.name.toString(),
       );
-      final branches = await Services().api.getAllBranches();
 
       print('WIEAT RESPONSE');
-      print(response);
-      print(branches);
+      var fare = response['data']['data']['fare'];
       setState(() {
-        wieatCost = double.parse(response['data']['fare']);
+        wieatCost = (fare is int)
+            ? fare.toDouble()
+            : double.tryParse(fare.toString()) ?? 0.0;
       });
     } catch (e) {
       print('WIEATRESPONSE');

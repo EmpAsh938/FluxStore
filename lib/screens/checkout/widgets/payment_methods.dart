@@ -47,20 +47,19 @@ class _PaymentMethodsState extends State<PaymentMethods>
   Future<void> getWieatCost() async {
     try {
       final store = await SaveStoreLocation.getStore();
-      print('WIEAT');
+      // print('WIEAT');
 
-      print(store.toJson());
+      // print(store.toJson());
       final response = await WieatService().getWieatCost(
         store.branch_id.toString(),
         store.name.toString(),
       );
-      final branches = await Services().api.getAllBranches();
 
-      print('WIEAT RESPONSE');
-      print(response);
-      print(branches);
+      var fare = response['data']['data']['fare'];
       setState(() {
-        wieatCost = double.parse(response['data']['fare']);
+        wieatCost = (fare is int)
+            ? fare.toDouble()
+            : double.tryParse(fare.toString()) ?? 0.0;
       });
     } catch (e) {
       print('WIEATRESPONSE');
