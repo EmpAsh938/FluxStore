@@ -110,6 +110,8 @@ class _PaymentMethodsState extends State<PaymentMethods>
       }
     }
 
+    final extraFee = kPaymentConfig.smartCOD?.extraFee ?? 0;
+
     final body = Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16.0,
@@ -326,7 +328,10 @@ class _PaymentMethodsState extends State<PaymentMethods>
                           )
                         : Text(
                             PriceTools.getCurrencyFormatted(
-                                productSubTotal + wieatCost, currencyRate,
+                                productSubTotal +
+                                    wieatCost +
+                                    (selectedId != 'fygaro' ? extraFee : 0),
+                                currencyRate,
                                 currency: cartModel.currencyCode)!,
                             style: TextStyle(
                               fontSize: 20,
@@ -364,7 +369,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
 
   Widget _buildBottom(
       PaymentMethodModel paymentMethodModel, CartModel cartModel) {
-    final userModel = Provider.of<UserModel>(context, listen: false);
+    // final userModel = Provider.of<UserModel>(context, listen: false);
     return CheckoutActionWidget(
       iconPrimary: CupertinoIcons.check_mark_circled_solid,
       labelPrimary: S.of(context).placeMyOrder,

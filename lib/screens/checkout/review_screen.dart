@@ -265,15 +265,32 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
                         ),
                       Services().widget.renderTaxes(taxModel, context),
                       Services().widget.renderRewardInfo(context),
-                      PriceRowItemWidget(
-                        title: 'Wieat Cost',
-                        total: wieatCost,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                              // fontWeight: FontWeight.w400,
-                              // decoration: TextDecoration.underline,
+                      isLoading
+                          ? const SizedBox(
+                              width: double.infinity,
+                              child: Center(
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.0,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : PriceRowItemWidget(
+                              title: 'Wieat Cost',
+                              total: wieatCost,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    // fontWeight: FontWeight.w400,
+                                    // decoration: TextDecoration.underline,
+                                  ),
                             ),
-                      ),
                       isLoading
                           ? const SizedBox(
                               width: double.infinity,
