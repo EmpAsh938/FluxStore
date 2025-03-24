@@ -96,6 +96,7 @@ class _SelectionCompositeProductWidgetState
     final listWidget = <Widget>[];
     final products = _component.products;
     var selectedComponent = _selectedComponents?[_component.id];
+    print('PRODUCTSSSSS ${products!.first.toJson()}');
 
     if (_isSelected ||
         (_selectedComponents != null && _selectedComponents!.isNotEmpty)) {
@@ -144,7 +145,10 @@ class _SelectionCompositeProductWidgetState
       });
     }
 
-    if (!_isSelected || selectedComponent!.product.categoryId == '98') {
+    if (!_isSelected ||
+        selectedComponent!.product.categoryId == '98' ||
+        selectedComponent!.product.categoryId == '82' ||
+        selectedComponent!.product.categoryId == '66') {
       products?.forEach((product) {
         // if (selectedComponent != null &&
         //     product.id == selectedComponent.product.id) {
