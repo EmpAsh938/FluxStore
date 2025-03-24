@@ -535,7 +535,10 @@ abstract class BaseServices {
       var endpoint =
           'https://maps.googleapis.com/maps/api/place/autocomplete/json?'
           'input=$term&key=${isIos ? DefaultConfig.googleApiKey.ios : DefaultConfig.googleApiKey.android}'
-          '&sessiontoken=$sessionToken';
+          '&sessiontoken=$sessionToken'
+          '&components=country:TT' // Restrict to Trinidad and Tobago
+          '&types=geocode' // Optional: Limit to addresses
+          '&radius=50000'; // Optional: 50km radius (adjust as needed)
 
       var response = await httpGet(endpoint.toUri()!);
       var result = convert.jsonDecode(response.body);
