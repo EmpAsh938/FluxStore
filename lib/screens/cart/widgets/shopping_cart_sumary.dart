@@ -165,6 +165,8 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
       // print(response);
       // print(branches);
       var fare = response['data']['data']['fare'];
+      if (!mounted) return;
+
       setState(() {
         wieatCost = (fare is int)
             ? fare.toDouble()

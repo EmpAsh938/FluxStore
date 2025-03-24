@@ -274,70 +274,73 @@ class _ShippingAddressState extends State<ShippingAddress> {
       ),
     );
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (isDesktopLayout) ...[
-          if (_showSelectAddress) ...[
-            ChooseAddressScreen(
-              ChooseAddressArguments(
-                address: address,
-                isModal: true,
-                callback: (p0) {
-                  setState(() {
-                    _showSelectAddress = false;
-                  });
-                  if (p0 != null) {
-                    updateAddress(p0);
-                  }
-                },
+    return Container(
+      color: kGrey200,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (isDesktopLayout) ...[
+            if (_showSelectAddress) ...[
+              ChooseAddressScreen(
+                ChooseAddressArguments(
+                  address: address,
+                  isModal: true,
+                  callback: (p0) {
+                    setState(() {
+                      _showSelectAddress = false;
+                    });
+                    if (p0 != null) {
+                      updateAddress(p0);
+                    }
+                  },
+                ),
               ),
-            ),
-          ] else ...[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 30, top: 20),
-              child: Row(
-                children: [
-                  Text(
-                    S.of(context).addNewAddress,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      height: 28 / 18,
+            ] else ...[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30, top: 20),
+                child: Row(
+                  children: [
+                    Text(
+                      S.of(context).addNewAddress,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                        height: 28 / 18,
+                      ),
                     ),
+                    const Spacer(),
+                    _renderSelectAddressButton(),
+                  ],
+                ),
+              ),
+              form,
+              const SelectHakkaLocation()
+            ],
+          ] else
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16.0,
+                    right: 16.0,
+                    bottom: 50.0,
                   ),
-                  const Spacer(),
-                  _renderSelectAddressButton(),
-                ],
-              ),
-            ),
-            form,
-            const SelectHakkaLocation()
-          ],
-        ] else
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 16.0,
-                  right: 16.0,
-                  bottom: 50.0,
-                ),
-                child: Column(
-                  children: [form, const SelectHakkaLocation()],
+                  child: Column(
+                    children: [form, const SelectHakkaLocation()],
+                  ),
                 ),
               ),
             ),
-          ),
-        if (_showSelectAddress == false)
-          Align(
-            alignment: isDesktopLayout
-                ? AlignmentDirectional.centerStart
-                : Alignment.center,
-            child: _buildBottom(isDesktopLayout),
-          ),
-      ],
+          if (_showSelectAddress == false)
+            Align(
+              alignment: isDesktopLayout
+                  ? AlignmentDirectional.centerStart
+                  : Alignment.center,
+              child: _buildBottom(isDesktopLayout),
+            ),
+        ],
+      ),
     );
   }
 
@@ -621,9 +624,12 @@ class _ShippingAddressState extends State<ShippingAddress> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (isDesktopLayout)
+          if (true)
             Padding(
-              padding: const EdgeInsets.only(bottom: 6.0),
+              padding: const EdgeInsets.only(
+                bottom: 6.0,
+                top: 6.0,
+              ),
               child: Text(
                 currentFieldType.getTitle(context) ?? '',
                 style: const TextStyle(
@@ -645,13 +651,11 @@ class _ShippingAddressState extends State<ShippingAddress> {
                 ? ['${currentFieldType.autofillHint}']
                 : null,
             decoration: InputDecoration(
-              labelText:
-                  isDesktopLayout ? null : currentFieldType.getTitle(context),
-              border: isDesktopLayout ? const OutlineInputBorder() : null,
-              fillColor: isDesktopLayout
-                  ? Theme.of(context).colorScheme.surface
-                  : null,
-              filled: isDesktopLayout,
+              // labelText: currentFieldType.getTitle(context),
+              border: const OutlineInputBorder(),
+              // floatingLabelAlignment: FloatingLabelAlignment.start,
+              fillColor: Theme.of(context).colorScheme.surface,
+              filled: true,
             ),
 
             keyboardType: getKeyboardType(currentFieldType),

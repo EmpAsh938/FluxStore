@@ -56,6 +56,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
       );
 
       var fare = response['data']['data']['fare'];
+      if (!mounted) return;
       setState(() {
         wieatCost = (fare is int)
             ? fare.toDouble()
