@@ -26,6 +26,8 @@ class ShippingMethodModel extends ChangeNotifier {
       if (ServerConfig().isOpencart && (shippingMethods?.isNotEmpty ?? false)) {
         shippingMethods = [];
       }
+      if (shippingMethods != null)
+        print('STORRRRRRE ${shippingMethods!.length}');
       // notifyListeners();
       shippingMethods = await _service.api.getShippingMethods(
         cartModel: cartModel,

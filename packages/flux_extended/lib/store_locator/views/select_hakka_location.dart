@@ -29,7 +29,8 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
   Future<void> setStore() async {
     try {
       final store = await SaveStoreLocation.getStore();
-      if (store != null) {
+
+      if (store != null && mounted) {
         setState(() {
           _selectedStore = store;
         });
@@ -54,6 +55,7 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
 
   @override
   Widget build(BuildContext context) {
+    print("STORRRRRRE ${_selectedStore!.toJson()}");
     if (_stores.isEmpty) return const SizedBox();
 
     return Column(
@@ -93,6 +95,12 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
         //                 ?.copyWith(fontWeight: FontWeight.bold),
         //           ),
         //   ),
+        const SizedBox(height: 15),
+        if (_shippingType == ShippingType.delivery)
+          TextFormField(
+            initialValue: _selectedStore!.address,
+            readOnly: true,
+          ),
         const SizedBox(height: 15),
         Text(S.of(context).pickupOrDelivery,
             style: Theme.of(context).textTheme.titleMedium),

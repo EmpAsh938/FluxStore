@@ -44,11 +44,14 @@ class SelectionShippingMethodWidget extends StatelessWidget {
         );
 
     /// Price
+    /// Price
     Widget priceWidget = const SizedBox();
-    if (shippingMethod.cost! > 0.0 || !isNotBlank(shippingMethod.classCost)) {
+    double shippingCost = shippingMethod.cost ?? 0.0;
+    double shippingTax = shippingMethod.shippingTax ?? 0.0;
+    if (shippingCost > 0.0 || !isNotBlank(shippingMethod.classCost)) {
       priceWidget = Text(
         PriceTools.getCurrencyFormatted(
-            shippingMethod.cost! + (shippingMethod.shippingTax ?? 0),
+            shippingCost + (shippingMethod.shippingTax ?? 0),
             cartModel.currencyRates,
             currency: cartModel.currencyCode)!,
         style: const TextStyle(
@@ -62,7 +65,7 @@ class SelectionShippingMethodWidget extends StatelessWidget {
     Widget classCost = const SizedBox();
     if (shippingMethod.cost == 0.0 && isNotBlank(shippingMethod.classCost)) {
       classCost = Text(
-        shippingMethod.classCost!,
+        shippingMethod.classCost ?? '',
         style: const TextStyle(fontSize: 14, color: kGrey400),
       );
     }

@@ -894,10 +894,10 @@ class WooCommerceService extends BaseServices {
     Store? store,
   }) async {
     try {
-      // if (!isBookingProduct(cartModel!)) {
-      //   return getShippingMethodsByWooApi();
-      // }
-      var params = Order().toJson(cartModel!, null, false);
+      if (!isBookingProduct(cartModel!)) {
+        return getShippingMethodsByWooApi();
+      }
+      var params = Order().toJson(cartModel, null, false);
       if (!kVendorConfig.disableVendorShipping &&
           ServerConfig().isVendorType()) {
         List lineItems = params['line_items'];
