@@ -156,21 +156,39 @@ class _ShippingMethodsState extends State<ShippingMethods> {
   Widget _buildShippingMethod(
       BuildContext context, ShippingMethodModel model, bool isDesktop) {
     print('SHIPPINGMETHODS');
-    print(model.shippingMethods!.first.toJson());
+    print(model.shippingMethods!.last.toJson());
     var shoppingType = Provider.of<CartModel>(context, listen: false);
-    shoppingType.shippingType == ShippingType.delivery
-        ? selectedIndex = 1
-        : selectedIndex = 0;
+    // shoppingType.shippingType == ShippingType.delivery
+    //     ? selectedIndex = 2
+    //     : selectedIndex = 0;
+
+    var newShippingMethods = model.shippingMethods!.where((item) {
+      print('ITEM: ${item.toJson()}');
+
+      // Debugging step: Check the shippingType
+      print('Shopping Type: ${shoppingType.shippingType}');
+
+      if (shoppingType.shippingType == ShippingType.pickup) {
+        // Only include item.id == '1' when the shippingType is 'pickup'
+        print('Returning item.id == "1": ${item.id == '1'}');
+        return item.id == '1';
+      } else {
+        // Otherwise, only include item.id == '3'
+        print('Returning item.id == "3": ${item.id == '3'}');
+        return item.id == '3';
+      }
+    }).toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        for (int i = 0; i < model.shippingMethods!.length; i++)
+        for (int i = 0; i < newShippingMethods.length; i++)
           SelectionShippingMethodWidget(
             index: i,
             useDesktopStyle: isDesktop,
             isSelected: i == selectedIndex,
-            shippingMethod: shippingMethodModel.shippingMethods![i],
-            isLast: i < shippingMethodModel.shippingMethods!.length - 1,
+            shippingMethod: newShippingMethods[i],
+            isLast: i < newShippingMethods.length,
             valueSelecled: selectedIndex,
             onSelected: (dynamic ind) {
               // setState(() {

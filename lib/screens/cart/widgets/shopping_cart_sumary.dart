@@ -171,6 +171,8 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
         wieatCost = (fare is int)
             ? fare.toDouble()
             : double.tryParse(fare.toString()) ?? 0.0;
+
+        SaveStoreLocation.saveCost(wieatCost);
       });
     } catch (e) {
       print('WIEATRESPONSE');

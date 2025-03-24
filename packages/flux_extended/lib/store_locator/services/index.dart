@@ -80,6 +80,7 @@ class StoreLocatorServices {
 class SaveStoreLocation {
   static const String _key = "store_map";
   static const String _storeKey = "store_key";
+  static const String wieatCost = "wieat_cost";
 
   static Future<void> saveMap(Map<String, String> map) async {
     final prefs = await SharedPreferences.getInstance();
@@ -98,6 +99,19 @@ class SaveStoreLocation {
 
     // Save the JSON string to SharedPreferences
     await prefs.setString(_storeKey, jsonString);
+  }
+
+  static Future<void> saveCost(double cost) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setDouble(wieatCost, cost);
+  }
+
+  static Future<double> getCost() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cost = prefs.getDouble(wieatCost);
+
+    return cost ?? 0.0;
   }
 
   static Future<Map<String, String>> getMap() async {
