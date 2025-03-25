@@ -15,7 +15,7 @@ enum MapModelState { loading, loaded }
 class MapModel extends ChangeNotifier with MapMixin {
   List<Store> stores = [];
   final _services = StoreLocatorServices();
-  MapModelState state = MapModelState.loading;
+  MapModelState state = MapModelState.loaded;
 
   bool showStores = false;
 
@@ -27,7 +27,7 @@ class MapModel extends ChangeNotifier with MapMixin {
       ),
       zoom: zoom,
     );
-    getStores(showAll: true);
+    // getStores(showAll: true);
   }
 
   void _updateState(state) {
@@ -57,10 +57,15 @@ class MapModel extends ChangeNotifier with MapMixin {
       Store? firstStore;
       print("current lat is ${currentLocation?.lat}");
       print("current long is ${currentLocation?.long}");
-      final savedStore = await SaveStoreLocation.getStore();
+
+      final mapData = await SaveStoreLocation.getMap();
+
+      print("MAPPPDATA");
+      print(mapData);
+
       var list = await _services.getStores(
-          latitude: savedStore.latitude ?? currentLocation?.lat,
-          longitude: savedStore.longitude ?? currentLocation?.long,
+          latitude: mapData['latitude'] ?? currentLocation?.lat,
+          longitude: mapData['longitude'] ?? currentLocation?.long,
           radius: this.radius,
           showAll: showAll);
       stores.addAll(list);

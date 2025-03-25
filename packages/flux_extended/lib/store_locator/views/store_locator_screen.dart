@@ -88,8 +88,8 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
 
                           // textScaler: const TextScaler.linear(1.3),
                           onTap: (value) {
-                            resetText();
-                            mapModel.showAllStores();
+                            // resetText();
+                            // mapModel.showAllStores();
                           },
                           tabs: const [
                             Tab(
