@@ -51,21 +51,24 @@ class _PaymentMethodsState extends State<PaymentMethods>
       setState(() {
         isLoading = true;
       });
-      final store = await SaveStoreLocation.getStore();
+      // final store = await SaveStoreLocation.getStore();
       // print('WIEAT');
 
-      // print(store.toJson());
-      final response = await WieatService().getWieatCost(
-        store.branch_id.toString(),
-        store.name.toString(),
-      );
+      final cost = await SaveStoreLocation.getCost();
 
-      var fare = response['data']['data']['fare'];
+      // print(store.toJson());
+      // final response = await WieatService().getWieatCost(
+      //   store.branch_id.toString(),
+      //   store.name.toString(),
+      // );
+
+      // var fare = response['data']['data']['fare'];
       if (!mounted) return;
       setState(() {
-        wieatCost = (fare is int)
-            ? fare.toDouble()
-            : double.tryParse(fare.toString()) ?? 0.0;
+        wieatCost = cost;
+        // wieatCost = (fare is int)
+        //     ? fare.toDouble()
+        //     : double.tryParse(fare.toString()) ?? 0.0;
       });
     } catch (e) {
       print('WIEATRESPONSE');

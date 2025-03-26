@@ -42,7 +42,7 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
   final services = Services();
   late var _orderSummaryStyle = widget.style;
   Coupons? coupons;
-  bool isLoading = true;
+  bool isLoading = false;
 
   String _productsInCartJson = '';
   final _debounceApplyCouponTag = 'debounceApplyCouponTag';
@@ -187,7 +187,7 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
   @override
   void initState() {
     super.initState();
-    getWieatCost();
+    // getWieatCost();
     getCoupon();
     WidgetsBinding.instance.endOfFrame.then((_) {
       if (mounted) {
@@ -378,32 +378,32 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
                               styleTitle: smallAmountTitleStyle,
                             ),
                         const SizedBox(height: 15),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Wieat Cost',
-                                style: smallAmountTitleStyle,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            isLoading
-                                ? const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2.0,
-                                    ),
-                                  )
-                                : Text(
-                                    PriceTools.getCurrencyFormatted(
-                                        wieatCost, currencyRate,
-                                        currency: currency)!,
-                                    style: smallAmountStyle,
-                                  ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: Text(
+                        //         'Wieat Cost',
+                        //         style: smallAmountTitleStyle,
+                        //       ),
+                        //     ),
+                        //     const SizedBox(height: 10),
+                        //     isLoading
+                        //         ? const SizedBox(
+                        //             width: 20,
+                        //             height: 20,
+                        //             child: CircularProgressIndicator(
+                        //               strokeWidth: 2.0,
+                        //             ),
+                        //           )
+                        //         : Text(
+                        //             PriceTools.getCurrencyFormatted(
+                        //                 wieatCost, currencyRate,
+                        //                 currency: currency)!,
+                        //             style: smallAmountStyle,
+                        //           ),
+                        //   ],
+                        // ),
+                        // const SizedBox(height: 15),
                         Row(
                           children: [
                             Expanded(

@@ -47,22 +47,28 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
       setState(() {
         isLoading = true;
       });
-      final store = await SaveStoreLocation.getStore();
-      print('WIEAT');
+      // final store = await SaveStoreLocation.getStore();
+      // final userAddress = await SaveStoreLocation.getAddress();
+      // print('WIEAT');
 
-      final response = await WieatService().getWieatCost(
-        store.branch_id.toString(),
-        store.name.toString(),
-      );
+      // final response = await WieatService().getWieatCost(
+      //   store.branch_id.toString(),
+      //   userAddress['description'].toString(),
+      // );
 
-      print('WIEAT RESPONSE');
-      var fare = response['data']['data']['fare'];
-      if (!mounted) return;
+      // print('WIEAT RESPONSE');
+      // var fare = response['data']['data']['fare'];
+      // if (!mounted) return;
 
+      // setState(() {
+      //   wieatCost = (fare is int)
+      //       ? fare.toDouble()
+      //       : double.tryParse(fare.toString()) ?? 0.0;
+      //   SaveStoreLocation.saveCost(wieatCost);
+      // });
+      final deliveryCost = await SaveStoreLocation.getCost();
       setState(() {
-        wieatCost = (fare is int)
-            ? fare.toDouble()
-            : double.tryParse(fare.toString()) ?? 0.0;
+        wieatCost = deliveryCost;
       });
     } catch (e) {
       print('WIEATRESPONSE');

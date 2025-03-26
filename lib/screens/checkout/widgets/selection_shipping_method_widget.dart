@@ -9,6 +9,7 @@ import '../../../models/cart/cart_base.dart';
 import '../../../models/entities/shipping_method.dart';
 import '../../../models/entities/shipping_type.dart';
 import '../../../services/services.dart';
+import '../../../services/wieat_service.dart';
 import '../../../widgets/common/index.dart';
 
 class SelectionShippingMethodWidget extends StatefulWidget {
@@ -41,21 +42,48 @@ class SelectionShippingMethodWidget extends StatefulWidget {
 class _SelectionShippingMethodWidgetState
     extends State<SelectionShippingMethodWidget> {
   double wieatCost = 0.0;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    fetchCost();
+    if (widget.shippingMethod.id == '3') fetchCost();
   }
 
   void fetchCost() async {
     try {
-      final deliveryCost = await SaveStoreLocation.getCost();
       setState(() {
-        wieatCost = deliveryCost;
+        isLoading = true;
       });
+      final store = await SaveStoreLocation.getStore();
+      final userAddress = await SaveStoreLocation.getAddress();
+      print('WIEAT');
+
+      final response = await WieatService().getWieatCost(
+        store.branch_id.toString(),
+        userAddress['description'].toString(),
+      );
+
+      print('WIEAT RESPONSE');
+      var fare = response['data']['data']['fare'];
+      if (!mounted) return;
+
+      setState(() {
+        wieatCost = (fare is int)
+            ? fare.toDouble()
+            : double.tryParse(fare.toString()) ?? 0.0;
+        SaveStoreLocation.saveCost(wieatCost);
+      });
+      // final deliveryCost = await SaveStoreLocation.getCost();
+      // setState(() {
+      //   wieatCost = deliveryCost;
+      // });
     } catch (e) {
       print(e);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -81,16 +109,22 @@ class _SelectionShippingMethodWidgetState
     double shippingTax = widget.shippingMethod.shippingTax ?? 0.0;
 
     if (shippingCost > 0.0 || !isNotBlank(widget.shippingMethod.classCost)) {
-      priceWidget = Text(
-        PriceTools.getCurrencyFormatted(
-            shippingCost + (widget.shippingMethod.shippingTax ?? 0) + wieatCost,
-            cartModel.currencyRates,
-            currency: cartModel.currencyCode)!,
-        style: const TextStyle(
-          fontSize: 14,
-          color: kGrey400,
-        ),
-      );
+      priceWidget = isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Text(
+              PriceTools.getCurrencyFormatted(
+                  shippingCost +
+                      (widget.shippingMethod.shippingTax ?? 0) +
+                      wieatCost,
+                  cartModel.currencyRates,
+                  currency: cartModel.currencyCode)!,
+              style: const TextStyle(
+                fontSize: 14,
+                color: kGrey400,
+              ),
+            );
     }
 
     /// classCost
