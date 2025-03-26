@@ -4,6 +4,8 @@ import 'package:fstore/app.dart';
 import 'package:fstore/common/config.dart';
 import 'package:fstore/common/constants.dart';
 import 'package:fstore/generated/l10n.dart';
+import 'package:fstore/models/cart/cart_base.dart';
+import 'package:fstore/models/entities/address.dart';
 import 'package:fstore/models/entities/prediction.dart';
 import 'package:fstore/modules/dynamic_layout/logo/logo.dart';
 import 'package:fstore/screens/common/app_bar_mixin.dart';
@@ -503,13 +505,27 @@ class TextFieldRow extends StatelessWidget {
 
               onChanged: (Prediction prediction) {
                 print('........${prediction.lat}...${prediction.long}');
+                final cartModel =
+                    Provider.of<CartModel>(context, listen: false);
+                final selectedAddress = Address(
+                  street: prediction.description!,
+                  latitude: prediction.lat,
+                  longitude: prediction.long,
+                );
+                cartModel.setAddress(selectedAddress);
+                // context.read<MapModel>().updateCurrentLocation(prediction);
+                SaveStoreLocation.saveAddress({
+                  'latitude': prediction.lat!,
+                  'longitude': prediction.long!,
+                  'description': prediction.description!,
+                });
                 mapModel.updateCurrentLocation(prediction);
 
                 mapModel.showStores = true;
               },
               onCancel: () {
                 // _showMap = false;
-                mapModel.showAllStores();
+                // mapModel.showAllStores();
               },
             ),
           ),

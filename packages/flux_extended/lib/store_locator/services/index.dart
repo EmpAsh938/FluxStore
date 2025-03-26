@@ -121,6 +121,11 @@ class SaveStoreLocation {
     return cost ?? 0.0;
   }
 
+  static void clearAddress() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(userAddress);
+  }
+
   static Future<Map<String, String>> getMap() async {
     final prefs = await SharedPreferences.getInstance();
     String? jsonString = prefs.getString(_key);

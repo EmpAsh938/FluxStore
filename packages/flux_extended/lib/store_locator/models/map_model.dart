@@ -1,5 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'dart:math';
+
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:fstore/models/entities/prediction.dart';
@@ -63,13 +65,43 @@ class MapModel extends ChangeNotifier with MapMixin {
       print("MAPPPDATA");
       print(mapData);
 
-      var list = await _services.getStores(
-          latitude: mapData['latitude'] ?? currentLocation?.lat,
-          longitude: mapData['longitude'] ?? currentLocation?.long,
-          radius: this.radius,
-          showAll: showAll);
-      stores.addAll(list);
+      var userLat = mapData['latitude'] ?? currentLocation?.lat;
+      var userLong = mapData['longitude'] ?? currentLocation?.long;
+
+// Fetch store list from API
+      var storeList = await _services.getStores(
+        latitude: userLat,
+        longitude: userLong,
+        radius: this.radius,
+        showAll: showAll,
+      );
+
+      // var list = await _services.getStores(
+      //   latitude: mapData['latitude'],
+      //   longitude: mapData['longitude'],
+      //   radius: this.radius,
+      //   showAll: false,
+      // );
+
+      // Sort stores by proximity to user
+      storeList.sort((a, b) {
+        double distanceA = calculateDistance(
+            double.parse(userLat!),
+            double.parse(userLong!),
+            double.parse(a.latitude!),
+            double.parse(a.longitude!));
+        double distanceB = calculateDistance(
+            double.parse(userLat!),
+            double.parse(userLong!),
+            double.parse(b.latitude!),
+            double.parse(b.longitude!));
+        return distanceA
+            .compareTo(distanceB); // Sort in ascending order (closest first)
+      });
+
+      stores.addAll(storeList);
       for (var element in stores) {
+        print("LAT: ${element.latitude} LONG: ${element.longitude}");
         if (double.tryParse(element.latitude ?? '') != null &&
             double.tryParse(element.longitude ?? '') != null) {
           firstStore ??= element;
@@ -134,5 +166,14 @@ class MapModel extends ChangeNotifier with MapMixin {
   void showAllStores() {
     currentLocation = null;
     getStores(showAll: true);
+  }
+
+  // Haversine formula to calculate distance between two coordinates
+  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    var p = 0.017453292519943295; // Pi / 180
+    var a = 0.5 -
+        cos((lat2 - lat1) * p) / 2 +
+        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a)); // Distance in km
   }
 }
