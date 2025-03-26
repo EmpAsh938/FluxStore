@@ -170,6 +170,8 @@ class Logo extends StatelessWidget with MultiSiteMixin {
 
     final textConfig = config.textConfig;
 
+    print("STOREEE DATA ${storeData}");
+
     return Container(
       constraints: const BoxConstraints(minHeight: kToolbarHeight),
       padding: const EdgeInsets.only(

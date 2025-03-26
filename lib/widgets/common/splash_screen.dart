@@ -70,13 +70,10 @@ class _SplashScreenIndexState extends State<SplashScreenIndex> {
             ? Stack(
                 children: [
                   Positioned.fill(
-                    child: FittedBox(
-                      fit: BoxFit.cover, // Prevents stretching, fills screen
-                      child: SizedBox(
-                        width: _controller.value.size.width,
-                        height: _controller.value.size.height,
-                        child: VideoPlayer(_controller),
-                      ),
+                    child: AspectRatio(
+                      aspectRatio: _controller
+                          .value.aspectRatio, // Maintain aspect ratio
+                      child: VideoPlayer(_controller),
                     ),
                   ),
                 ],

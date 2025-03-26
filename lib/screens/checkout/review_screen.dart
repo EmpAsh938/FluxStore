@@ -9,6 +9,7 @@ import '../../common/constants.dart';
 import '../../generated/l10n.dart';
 import '../../models/entities/address.dart';
 import '../../models/entities/order_delivery_date.dart';
+import '../../models/entities/shipping_type.dart';
 import '../../models/index.dart' show CartModel, Product, TaxModel, UserModel;
 import '../../modules/dynamic_layout/helper/helper.dart';
 import '../../services/index.dart';
@@ -39,10 +40,13 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
   bool enabledShipping = kPaymentConfig.enableShipping;
   CartModel get cartModel => Provider.of<CartModel>(context, listen: false);
   double wieatCost = 0.0;
-  bool isLoading = true;
+  bool isLoading = false;
 
   Future<void> getWieatCost() async {
     try {
+      setState(() {
+        isLoading = true;
+      });
       final store = await SaveStoreLocation.getStore();
       print('WIEAT');
 
@@ -64,18 +68,21 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
       print('WIEATRESPONSE');
       print(e);
     } finally {
-      isLoading = false;
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   @override
   void initState() {
-    var notes = Provider.of<CartModel>(context, listen: false).notes;
+    final cartModel = Provider.of<CartModel>(context, listen: false);
+    var notes = cartModel.notes;
+    var shippingType = cartModel.shippingType;
     note.text = notes ?? '';
-    getWieatCost();
+    if (shippingType == ShippingType.delivery) getWieatCost();
     super.initState();
     Future.delayed(Duration.zero, () {
-      final cartModel = Provider.of<CartModel>(context, listen: false);
       setState(() {
         enabledShipping = cartModel.isEnabledShipping();
       });

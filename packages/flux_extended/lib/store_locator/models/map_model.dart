@@ -58,7 +58,7 @@ class MapModel extends ChangeNotifier with MapMixin {
       print("current lat is ${currentLocation?.lat}");
       print("current long is ${currentLocation?.long}");
 
-      final mapData = await SaveStoreLocation.getMap();
+      final mapData = await SaveStoreLocation.getAddress();
 
       print("MAPPPDATA");
       print(mapData);

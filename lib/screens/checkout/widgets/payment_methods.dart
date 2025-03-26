@@ -10,6 +10,7 @@ import '../../../common/config.dart';
 import '../../../common/constants.dart';
 import '../../../common/tools.dart';
 import '../../../generated/l10n.dart';
+import '../../../models/entities/shipping_type.dart';
 import '../../../models/index.dart'
     show AppModel, CartModel, PaymentMethodModel, TaxModel, UserModel;
 import '../../../models/tera_wallet/index.dart';
@@ -42,11 +43,14 @@ class PaymentMethods extends StatefulWidget {
 class _PaymentMethodsState extends State<PaymentMethods>
     with RazorDelegate, CheckoutMixin {
   double wieatCost = 0.0;
-  bool isLoading = true;
+  bool isLoading = false;
   var productSubTotal = 0.0;
 
   Future<void> getWieatCost() async {
     try {
+      setState(() {
+        isLoading = true;
+      });
       final store = await SaveStoreLocation.getStore();
       // print('WIEAT');
 
@@ -67,7 +71,9 @@ class _PaymentMethodsState extends State<PaymentMethods>
       print('WIEATRESPONSE');
       print(e);
     } finally {
-      isLoading = false;
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -88,7 +94,8 @@ class _PaymentMethodsState extends State<PaymentMethods>
         callback: (currencyRate) {
       cartModel.changeCurrencyRates(currencyRate);
     });
-    getWieatCost();
+
+    if (cartModel.shippingType == ShippingType.delivery) getWieatCost();
     super.initState();
   }
 

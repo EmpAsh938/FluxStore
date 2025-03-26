@@ -81,6 +81,7 @@ class SaveStoreLocation {
   static const String _key = "store_map";
   static const String _storeKey = "store_key";
   static const String wieatCost = "wieat_cost";
+  static const String userAddress = "user_address";
 
   static Future<void> saveMap(Map<String, String> map) async {
     final prefs = await SharedPreferences.getInstance();
@@ -101,6 +102,12 @@ class SaveStoreLocation {
     await prefs.setString(_storeKey, jsonString);
   }
 
+  static Future<void> saveAddress(Map<String, String> map) async {
+    final prefs = await SharedPreferences.getInstance();
+    String jsonString = jsonEncode(map); // Convert map to JSON string
+    await prefs.setString(userAddress, jsonString);
+  }
+
   static Future<void> saveCost(double cost) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -117,6 +124,16 @@ class SaveStoreLocation {
   static Future<Map<String, String>> getMap() async {
     final prefs = await SharedPreferences.getInstance();
     String? jsonString = prefs.getString(_key);
+
+    if (jsonString == null) return {};
+
+    return Map<String, String>.from(
+        jsonDecode(jsonString)); // Convert JSON string back to Map
+  }
+
+  static Future<Map<String, String>> getAddress() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString(userAddress);
 
     if (jsonString == null) return {};
 

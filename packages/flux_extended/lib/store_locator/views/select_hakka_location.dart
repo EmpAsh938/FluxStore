@@ -33,13 +33,22 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
 
   Address? address;
 
+  String userAddress = '';
+
   Future<void> setStore() async {
     try {
       final store = await SaveStoreLocation.getStore();
+      final addressInfo = await SaveStoreLocation.getAddress();
 
       if (store != null && mounted) {
         setState(() {
           _selectedStore = store;
+        });
+      }
+
+      if (addressInfo != null && addressInfo['description'] != null) {
+        setState(() {
+          userAddress = addressInfo['description'] ?? '';
         });
       }
     } catch (e) {
@@ -65,113 +74,106 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
     print("STORRRRRRE ${_selectedStore!.toJson()}");
     if (_stores.isEmpty) return const SizedBox();
 
-    return Provider<MapModel>(
-      create: (_) => MapModel(),
-      builder: (context, child) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 15),
-            renderStoreInput(),
-            // if (_selectedStore != null)
-            //   Container(
-            //     width: double.infinity,
-            //     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            //     margin: const EdgeInsets.symmetric(vertical: 15),
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(4.0),
-            //       color: const Color(0xffEEEEED),
-            //     ),
-            //     child: (_shippingType == ShippingType.pickup)
-            //         ? Column(
-            //             crossAxisAlignment: CrossAxisAlignment.start,
-            //             children: [
-            //               Text(
-            //                 '${S.of(context).addressToPickup} :',
-            //                 style: Theme.of(context)
-            //                     .textTheme
-            //                     .titleLarge
-            //                     ?.copyWith(fontWeight: FontWeight.bold),
-            //               ),
-            //               const SizedBox(height: 10),
-            //               HtmlWidget(_selectedStore?.shippingAddress ?? ''),
-            //             ],
-            //           )
-            //         : Text(
-            //             S.of(context).comingSoon,
-            //             style: Theme.of(context)
-            //                 .textTheme
-            //                 .titleLarge
-            //                 ?.copyWith(fontWeight: FontWeight.bold),
-            //           ),
-            //   ),
-            const SizedBox(height: 15),
-            if (_shippingType == ShippingType.delivery)
-              // TextFormField(
-              //   initialValue: _selectedStore!.address,
-              //   readOnly: false,
-              // ),
-              AutocompleteSearchInput(
-                onChanged: (Prediction prediction) {
-                  // mapModel.updateCurrentLocation(prediction);
-                  // prediction.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 15),
+        renderStoreInput(),
+        // if (_selectedStore != null)
+        //   Container(
+        //     width: double.infinity,
+        //     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        //     margin: const EdgeInsets.symmetric(vertical: 15),
+        //     decoration: BoxDecoration(
+        //       borderRadius: BorderRadius.circular(4.0),
+        //       color: const Color(0xffEEEEED),
+        //     ),
+        //     child: (_shippingType == ShippingType.pickup)
+        //         ? Column(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               Text(
+        //                 '${S.of(context).addressToPickup} :',
+        //                 style: Theme.of(context)
+        //                     .textTheme
+        //                     .titleLarge
+        //                     ?.copyWith(fontWeight: FontWeight.bold),
+        //               ),
+        //               const SizedBox(height: 10),
+        //               HtmlWidget(_selectedStore?.shippingAddress ?? ''),
+        //             ],
+        //           )
+        //         : Text(
+        //             S.of(context).comingSoon,
+        //             style: Theme.of(context)
+        //                 .textTheme
+        //                 .titleLarge
+        //                 ?.copyWith(fontWeight: FontWeight.bold),
+        //           ),
+        //   ),
+        const SizedBox(height: 15),
+        if (_shippingType == ShippingType.delivery)
+          // TextFormField(
+          //   initialValue: _selectedStore!.address,
+          //   readOnly: false,
+          // ),
+          AutocompleteSearchInput(
+            hintText: userAddress == '' ? 'Search' : userAddress,
+            onChanged: (Prediction prediction) {
+              // mapModel.updateCurrentLocation(prediction);
+              // prediction.
 
-                  final cartModel =
-                      Provider.of<CartModel>(context, listen: false);
-                  final selectedAddress = Address(
-                    street: prediction.description!,
-                    latitude: prediction.lat,
-                    longitude: prediction.long,
-                  );
-                  cartModel.setAddress(selectedAddress);
-                  context.read<MapModel>().updateCurrentLocation(prediction);
-                  SaveStoreLocation.saveMap({
-                    'latitude': prediction.lat!,
-                    'longitude': prediction.long!,
-                    'description': prediction.description!,
-                  });
-                  // mapModel.updateCurrentLocation(prediction);
-                },
-                // );
-                // },
-              ),
+              final cartModel = Provider.of<CartModel>(context, listen: false);
+              final selectedAddress = Address(
+                street: prediction.description!,
+                latitude: prediction.lat,
+                longitude: prediction.long,
+              );
+              cartModel.setAddress(selectedAddress);
+              // context.read<MapModel>().updateCurrentLocation(prediction);
+              SaveStoreLocation.saveAddress({
+                'latitude': prediction.lat!,
+                'longitude': prediction.long!,
+                'description': prediction.description!,
+              });
+              // mapModel.updateCurrentLocation(prediction);
+            },
+            // );
+            // },
+          ),
 
-            const SizedBox(height: 15),
-            Text(S.of(context).pickupOrDelivery,
-                style: Theme.of(context).textTheme.titleMedium),
-            ...ShippingType.values.map((e) => Row(
-                  children: [
-                    Radio<ShippingType>(
-                      value: e,
-                      groupValue: _shippingType,
-                      onChanged: (ShippingType? value) {
-                        setState(() {
-                          _shippingType = value ?? ShippingType.pickup;
-                        });
-                        Provider.of<CartModel>(context, listen: false)
-                            .changeShippingType(_shippingType);
-                      },
-                    ),
-                    Text(e.displayName)
-                  ],
-                )),
-
-            ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor:
-                      WidgetStatePropertyAll<Color>(Color(0xffcc1c24)),
+        const SizedBox(height: 15),
+        Text(S.of(context).pickupOrDelivery,
+            style: Theme.of(context).textTheme.titleMedium),
+        ...ShippingType.values.map((e) => Row(
+              children: [
+                Radio<ShippingType>(
+                  value: e,
+                  groupValue: _shippingType,
+                  onChanged: (ShippingType? value) {
+                    setState(() {
+                      _shippingType = value ?? ShippingType.pickup;
+                    });
+                    Provider.of<CartModel>(context, listen: false)
+                        .changeShippingType(_shippingType);
+                  },
                 ),
-                onPressed: () {
-                  FluxNavigate.pushNamed(RouteList.storeLocator,
-                      context: context);
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Update Shipping Details'),
-                )),
-          ],
-        );
-      },
+                Text(e.displayName)
+              ],
+            )),
+
+        ElevatedButton(
+            style: const ButtonStyle(
+              backgroundColor: WidgetStatePropertyAll<Color>(Color(0xffcc1c24)),
+            ),
+            onPressed: () {
+              FluxNavigate.pushNamed(RouteList.storeLocator, context: context);
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text('Update Shipping Details'),
+            )),
+      ],
     );
   }
 
