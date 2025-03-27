@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inspireui/inspireui.dart' show printLog;
+import 'package:provider/provider.dart';
 
 import '../../common/config.dart';
 import '../../common/constants.dart';
+import '../../models/cart/cart_item_meta_data.dart';
+import '../../models/index.dart';
 import '../../modules/dynamic_layout/helper/helper.dart';
 import '../../widgets/product/cart_item/cart_item_state_ui.dart';
+import '../detail/local/cart.dart';
 import 'my_cart_layout/my_cart_normal_layout.dart';
 import 'my_cart_layout/my_cart_normal_layout_web.dart';
 import 'my_cart_layout/my_cart_style01_layout.dart';
@@ -31,6 +35,13 @@ class MyCart extends StatefulWidget {
 }
 
 class _MyCartState extends State<MyCart> with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+    // final cartModel = Provider.of<CartModel>(context, listen: false);
+    // cartModel. = {};
+  }
+
   @override
   Widget build(BuildContext context) {
     printLog('[Cart] build');

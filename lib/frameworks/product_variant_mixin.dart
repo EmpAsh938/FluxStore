@@ -20,6 +20,7 @@ import '../modules/analytics/analytics.dart';
 import '../modules/dynamic_layout/helper/helper.dart';
 import '../routes/flux_navigate.dart';
 import '../screens/cart/cart_screen.dart';
+import '../screens/detail/local/cart.dart';
 import '../screens/detail/widgets/index.dart' show ProductShortDescription;
 import '../services/services.dart';
 import '../widgets/common/webview.dart';
@@ -467,6 +468,14 @@ mixin ProductVariantMixin on BaseFrameworks {
         message: message,
       );
     } else {
+      SharedCartItems().saveCart(CartItemMetaData(
+        variation: productVariation,
+        options: mapAttr,
+        selectedComponents: args?.selectedComponents,
+        selectedTiredPrice: args?.selectedTiredPrice,
+        tiredPrices: args?.tiredPrices,
+        pwGiftCardInfo: args?.pwGiftCardInfo,
+      ));
       Analytics.triggerAddToCart(product, quantity, context);
       if (buyNow) {
         FluxNavigate.pushNamed(

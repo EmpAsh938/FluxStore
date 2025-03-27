@@ -33,6 +33,8 @@ mixin CartMixin {
   ShippingType shippingType = ShippingType.pickup;
   store_locator.Store? selectedStore;
 
+  void insertIntoCartItemMetaDataInCart() {}
+
   void resetValues() {
     user = null;
     taxesTotal = 0;

@@ -96,7 +96,7 @@ mixin LocalMixin on CartMixin {
             cartItemMetaData: item['cartItemMetaData'] != null
                 ? CartItemMetaData.fromLocalJson(item['cartItemMetaData'])
                 : null,
-            isSaveLocal: false,
+            isSaveLocal: true,
             notify: () {},
           );
         }
