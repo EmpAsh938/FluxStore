@@ -61,7 +61,7 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
     } else {
       await item.onHandleItem(context);
     }
-    await FluxNavigate.pushNamed(RouteList.updateUser, context: context);
+    // await FluxNavigate.pushNamed(RouteList.updateUser, context: context);
     // await Navigator.push(context,
     //     MaterialPageRoute(builder: (context) => const SettingScreen()));
   }
