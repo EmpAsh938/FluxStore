@@ -371,6 +371,18 @@ class UserPoints {
   }
 }
 
+class UserRewardPoints {
+  int? user_id;
+  int? points;
+  int? points_collected;
+  int? rank;
+
+  UserRewardPoints.fromJson(Map json) {
+    user_id = json['user_id'];
+    points = json['points'];
+  }
+}
+
 class UserEvent {
   String? id;
   String? userId;

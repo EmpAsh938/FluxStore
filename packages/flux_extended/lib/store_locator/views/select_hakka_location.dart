@@ -133,17 +133,18 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
               height: 20 / 14,
             ),
           ),
-        TextFormField(
-          initialValue: userAddress,
-          readOnly: true,
-          decoration: InputDecoration(
-            // labelText: currentFieldType.getTitle(context),
-            border: const OutlineInputBorder(),
-            // floatingLabelAlignment: FloatingLabelAlignment.start,
-            fillColor: Theme.of(context).colorScheme.surface,
-            filled: true,
+        if (_shippingType == ShippingType.delivery)
+          TextFormField(
+            initialValue: userAddress,
+            readOnly: true,
+            decoration: InputDecoration(
+              // labelText: currentFieldType.getTitle(context),
+              border: const OutlineInputBorder(),
+              // floatingLabelAlignment: FloatingLabelAlignment.start,
+              fillColor: Theme.of(context).colorScheme.surface,
+              filled: true,
+            ),
           ),
-        ),
         // AutocompleteSearchInput(
         //   hintText: userAddress == '' ? 'Search' : userAddress,
         //   onChanged: (Prediction prediction) {
