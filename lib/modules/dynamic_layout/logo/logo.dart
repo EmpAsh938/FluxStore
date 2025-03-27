@@ -283,47 +283,47 @@ class Logo extends StatelessWidget with MultiSiteMixin {
               onTap: onSearch,
               config: config,
             ),
-          if (config.showBadgeCart)
-            GestureDetector(
-              onTap: onCheckout,
-              behavior: HitTestBehavior.translucent,
-              child: Container(
-                margin: const EdgeInsetsDirectional.only(start: 8),
-                padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  totalCart.toString(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    height: 1.2,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          if (config.showCart)
-            LogoIcon(
-              padding: const EdgeInsetsDirectional.only(start: 8),
-              menuIcon: config.cartIcon ?? MenuIcon(name: 'bag'),
-              onTap: onCheckout,
-              config: config,
-              showNumber: true,
-              number: totalCart,
-            ),
-          if (config.showNotification)
-            LogoIcon(
-              padding: const EdgeInsetsDirectional.only(start: 8),
-              menuIcon: config.notificationIcon ?? MenuIcon(name: 'bell'),
-              onTap: onTapNotifications,
-              config: config,
-              showNumber: true,
-              number: notificationCount,
-            ),
+          // if (config.showBadgeCart)
+          //   GestureDetector(
+          //     onTap: onCheckout,
+          //     behavior: HitTestBehavior.translucent,
+          //     child: Container(
+          //       margin: const EdgeInsetsDirectional.only(start: 8),
+          //       padding: const EdgeInsets.all(8),
+          //       decoration: const BoxDecoration(
+          //         color: Colors.red,
+          //         shape: BoxShape.circle,
+          //       ),
+          //       alignment: Alignment.center,
+          //       child: Text(
+          //         totalCart.toString(),
+          //         style: const TextStyle(
+          //           color: Colors.white,
+          //           fontSize: 14,
+          //           height: 1.2,
+          //         ),
+          //         textAlign: TextAlign.center,
+          //       ),
+          //     ),
+          //   ),
+          // if (config.showCart)
+          //   LogoIcon(
+          //     padding: const EdgeInsetsDirectional.only(start: 8),
+          //     menuIcon: config.cartIcon ?? MenuIcon(name: 'bag'),
+          //     onTap: onCheckout,
+          //     config: config,
+          //     showNumber: true,
+          //     number: totalCart,
+          //   ),
+          // if (config.showNotification)
+          //   LogoIcon(
+          //     padding: const EdgeInsetsDirectional.only(start: 8),
+          //     menuIcon: config.notificationIcon ?? MenuIcon(name: 'bell'),
+          //     onTap: onTapNotifications,
+          //     config: config,
+          //     showNumber: true,
+          //     number: notificationCount,
+          //   ),
           if (enableMultiSite)
             Expanded(
               child: Padding(
