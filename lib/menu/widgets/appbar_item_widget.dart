@@ -16,12 +16,16 @@ import '../../models/entities/address.dart';
 import '../../models/notification_model.dart';
 import '../../models/user_model.dart';
 import '../../modules/dynamic_layout/config/app_config.dart';
+import '../../modules/dynamic_layout/config/logo_config.dart';
 import '../../modules/dynamic_layout/helper/helper.dart';
+import '../../modules/dynamic_layout/logo/logo.dart';
 import '../../routes/flux_navigate.dart';
 import '../../screens/settings/settings_screen.dart';
 import '../../widgets/common/flux_image.dart';
 import '../../widgets/html/index.dart';
+import '../../widgets/product/widgets/cart_icon.dart';
 import 'appbar_avatar_widget.dart';
+import 'carticon_widget.dart';
 
 class AppBarItemWidget extends StatefulWidget {
   const AppBarItemWidget({
@@ -107,7 +111,7 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserModel>(context, listen: false);
-
+    final cartModel = Provider.of<CartModel>(context, listen: true);
     print("item.type ${item.type}");
     Widget widget;
     switch (item.type) {
@@ -334,39 +338,47 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: item.size.toDouble(),
-                width: item.size.toDouble(),
-                child: IconButton(
-                  color: item.iconColor != null
-                      ? HexColor(item.iconColor)
-                      : Theme.of(context)
-                          .colorScheme
-                          .secondary
-                          .withOpacity(0.9),
-                  iconSize: 40,
-                  padding: EdgeInsets.only(
-                    left: item.paddingLeft.toDouble(),
-                    right: item.paddingRight.toDouble(),
-                    top: item.paddingTop.toDouble(),
-                    bottom: item.paddingBottom.toDouble(),
-                  ),
-                  icon: const Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                  // icon: DeferredWidget(
-                  //   defer_icon.loadLibrary,
-                  //       () => Icon(
-                  //     defer_icon.iconPicker(
-                  //       item.icon!,
-                  //       item.fontFamily!,
-                  //     ),
-                  //   ),
-                  // ),
-                  onPressed: () => _onTapItem(item),
-                ),
+              //  if (config.showBadgeCart)
+              CartIconWidget(
+                itemCount: cartModel.totalCartQuantity,
+                onTap: () {
+                  FluxNavigate.pushNamed(RouteList.cart, context: context);
+                },
               ),
+
+              // SizedBox(
+              //   height: item.size.toDouble(),
+              //   width: item.size.toDouble(),
+              //   child: IconButton(
+              //     color: item.iconColor != null
+              //         ? HexColor(item.iconColor)
+              //         : Theme.of(context)
+              //             .colorScheme
+              //             .secondary
+              //             .withOpacity(0.9),
+              //     iconSize: 40,
+              //     padding: EdgeInsets.only(
+              //       left: item.paddingLeft.toDouble(),
+              //       right: item.paddingRight.toDouble(),
+              //       top: item.paddingTop.toDouble(),
+              //       bottom: item.paddingBottom.toDouble(),
+              //     ),
+              //     icon: const Icon(
+              //       Icons.menu,
+              //       color: Colors.white,
+              //     ),
+              //     // icon: DeferredWidget(
+              //     //   defer_icon.loadLibrary,
+              //     //       () => Icon(
+              //     //     defer_icon.iconPicker(
+              //     //       item.icon!,
+              //     //       item.fontFamily!,
+              //     //     ),
+              //     //   ),
+              //     // ),
+              //     onPressed: () => _onTapItem(item),
+              //   ),
+              // ),
             ],
           ),
         );
