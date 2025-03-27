@@ -54,8 +54,7 @@ mixin MyCartMixin<T extends StatefulWidget> on State<T> {
   }
 
   void onCheckout({required CartModel model, bool isDialogView = false}) {
-    if (isDialogView &&
-        model.totalCartQuantity == 0) {
+    if (isDialogView && model.totalCartQuantity == 0) {
       Navigator.pop(context);
     } else {
       var isLoggedIn = Provider.of<UserModel>(context, listen: false).loggedIn;
@@ -133,7 +132,7 @@ mixin MyCartMixin<T extends StatefulWidget> on State<T> {
         var manualClosed = await FluxNavigate.pushNamed(
           RouteList.checkout,
           arguments: CheckoutArgument(isModal: isModal),
-          forceRootNavigator: true,
+          forceRootNavigator: false,
           context: context,
         );
 

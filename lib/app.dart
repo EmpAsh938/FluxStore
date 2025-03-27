@@ -21,6 +21,7 @@ import 'common/tools.dart';
 import 'generated/l10n.dart';
 import 'generated/languages/index.dart';
 import 'generated/overrides/app_localizations.dart';
+import 'menu/providers/tabbar_provider.dart';
 import 'models/category/category_model_impl.dart';
 import 'models/category/main_category_model.dart';
 import 'models/entities/seo/meta_seo.dart';
@@ -447,6 +448,9 @@ class AppState extends State<App>
                 ...Services().widget.getExtraProvidersConfig(),
                 ChangeNotifierProvider<BrandLayoutModel>(
                   create: (_) => BrandLayoutModel(),
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => TabbarProvider(),
                 ),
                 ChangeNotifierProvider(
                   create: (_) => BottomBarModel(

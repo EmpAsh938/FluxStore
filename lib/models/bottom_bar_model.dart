@@ -10,6 +10,7 @@ import '../modules/dynamic_layout/config/bottom_bar_style.dart';
 const _excludeScreens = <String>[
   RouteList.cart,
   RouteList.videos,
+  RouteList.productDetail,
 ];
 
 const _kMinOpacity = 0.2;

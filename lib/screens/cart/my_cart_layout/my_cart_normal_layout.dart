@@ -48,12 +48,15 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showCheckoutBottomSheet();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     printLog('[Cart] build');
-    print(" widget.isModal ${widget.isModal}");
+    print(' widget.isModal ${widget.isModal}');
     final localTheme = Theme.of(context);
     final screenSize = MediaQuery.sizeOf(context);
     var layoutType = Provider.of<AppModel>(context).productDetailLayout;
@@ -71,89 +74,89 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
           child: Scaffold(
             // backgroundColor: Theme.of(context).colorScheme.surface,
             backgroundColor: kGrey200,
-            floatingActionButtonLocation:
-                kAdvanceConfig.floatingCartCheckoutButtonLocation,
-            floatingActionButton:
-                Selector<CartModel, (bool, Map<String?, Product?>, bool)>(
-              selector: (_, cartModel) => (
-                cartModel.calculatingDiscount,
-                cartModel.item,
-                cartModel.enableCheckoutButton
-              ),
-              builder: (context, value, child) {
-                var calculatingDiscount = value.$1;
-                var enableCheckoutButton = value.$3;
-                var isReadyForCheckout =
-                    !calculatingDiscount && enableCheckoutButton;
-                final backgroundButton =
-                    isReadyForCheckout ? const Color(0xFFEC1C24) : Colors.grey;
+            // floatingActionButtonLocation:
+            //     kAdvanceConfig.floatingCartCheckoutButtonLocation,
+            // floatingActionButton:
+            //     Selector<CartModel, (bool, Map<String?, Product?>, bool)>(
+            //   selector: (_, cartModel) => (
+            //     cartModel.calculatingDiscount,
+            //     cartModel.item,
+            //     cartModel.enableCheckoutButton
+            //   ),
+            //   builder: (context, value, child) {
+            //     var calculatingDiscount = value.$1;
+            //     var enableCheckoutButton = value.$3;
+            //     var isReadyForCheckout =
+            //         !calculatingDiscount && enableCheckoutButton;
+            //     final backgroundButton =
+            //         isReadyForCheckout ? const Color(0xFFEC1C24) : Colors.grey;
 
-                return FloatingActionButton.extended(
-                  heroTag: null,
-                  onPressed: isReadyForCheckout
-                      ? () {
-                          if (kAdvanceConfig.alwaysShowTabBar) {
-                            MainTabControlDelegate.getInstance()
-                                .changeTab(RouteList.cart, allowPush: false);
-                            // return;
-                          }
-                          onCheckout(
-                            model: cartModel,
-                            isDialogView: widget.isDialogView,
-                          );
-                        }
-                      : null,
-                  elevation: 0,
-                  isExtended: true,
-                  extendedTextStyle: const TextStyle(
-                    letterSpacing: 0.8,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  extendedPadding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                  backgroundColor: backgroundButton,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(9.0),
-                  ),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  label: Selector<CartModel, int>(
-                    selector: (_, carModel) => cartModel.totalCartQuantity,
-                    builder: (context, totalCartQuantity, child) {
-                      final colorBody =
-                          backgroundButton.getColorBasedOnBackground;
-                      final style = TextStyle(color: colorBody);
+            //     return FloatingActionButton.extended(
+            //       heroTag: null,
+            //       onPressed: isReadyForCheckout
+            //           ? () {
+            //               if (kAdvanceConfig.alwaysShowTabBar) {
+            //                 MainTabControlDelegate.getInstance()
+            //                     .changeTab(RouteList.cart, allowPush: false);
+            //                 // return;
+            //               }
+            //               onCheckout(
+            //                 model: cartModel,
+            //                 isDialogView: widget.isDialogView,
+            //               );
+            //             }
+            //           : null,
+            //       elevation: 0,
+            //       isExtended: true,
+            //       extendedTextStyle: const TextStyle(
+            //         letterSpacing: 0.8,
+            //         fontSize: 11,
+            //         fontWeight: FontWeight.w600,
+            //       ),
+            //       extendedPadding:
+            //           const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            //       backgroundColor: backgroundButton,
+            //       foregroundColor: Colors.white,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(9.0),
+            //       ),
+            //       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            //       label: Selector<CartModel, int>(
+            //         selector: (_, carModel) => cartModel.totalCartQuantity,
+            //         builder: (context, totalCartQuantity, child) {
+            //           final colorBody =
+            //               backgroundButton.getColorBasedOnBackground;
+            //           final style = TextStyle(color: colorBody);
 
-                      return Row(
-                        children: [
-                          totalCartQuantity > 0
-                              ? (isLoading
-                                  ? Text(
-                                      S.of(context).loading.toUpperCase(),
-                                      style: style,
-                                    )
-                                  : Text(
-                                      S.of(context).checkout.toUpperCase(),
-                                      style: style,
-                                    ))
-                              : Text(
-                                  S.of(context).startShopping.toUpperCase(),
-                                  style: style,
-                                ),
-                          const SizedBox(width: 3),
-                          Icon(
-                            CupertinoIcons.right_chevron,
-                            size: 12,
-                            color: colorBody,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
+            //           return Row(
+            //             children: [
+            //               totalCartQuantity > 0
+            //                   ? (isLoading
+            //                       ? Text(
+            //                           S.of(context).loading.toUpperCase(),
+            //                           style: style,
+            //                         )
+            //                       : Text(
+            //                           S.of(context).checkout.toUpperCase(),
+            //                           style: style,
+            //                         ))
+            //                   : Text(
+            //                       S.of(context).startShopping.toUpperCase(),
+            //                       style: style,
+            //                     ),
+            //               const SizedBox(width: 3),
+            //               Icon(
+            //                 CupertinoIcons.right_chevron,
+            //                 size: 12,
+            //                 color: colorBody,
+            //               ),
+            //             ],
+            //           );
+            //         },
+            //       ),
+            //     );
+            //   },
+            // ),
             body: CustomScrollView(
               controller: widget.scrollController,
               slivers: [
@@ -275,9 +278,9 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                                             context,
                                             widget.enabledTextBoxQuantity),
                                       ),
-                                    widget.isDialogView
-                                        ? Container()
-                                        : const ShoppingCartSummary(),
+                                    // widget.isDialogView
+                                    //     ? Container()
+                                    //     : const ShoppingCartSummary(),
                                     if (totalCartQuantity == 0)
                                       const EmptyCart(),
                                     if (errMsg.isNotEmpty)
@@ -310,6 +313,172 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  void showCheckoutBottomSheet() {
+    showBottomSheet(
+      context: context,
+      // isScrollControlled: true, // Allows the modal to expand fully
+      backgroundColor: Colors.transparent, // Transparent background
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.4, // Show 40% of the screen initially
+          minChildSize: 0.4,
+          maxChildSize: 0.6, // Allow dragging up to 60%
+          builder: (_, controller) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white, // Dark background
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+              ),
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Drag Handle
+                  Container(
+                    width: 50,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: const Color(0xffcc1c24),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  widget.isDialogView
+                      ? Container()
+                      : const ShoppingCartSummary(),
+
+                  // const Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text('Subtotal',
+                  //         style: TextStyle(color: Colors.white, fontSize: 16)),
+                  //     Text('\$22.00',
+                  //         style: TextStyle(color: Colors.white, fontSize: 16)),
+                  //   ],
+                  // ),
+                  // const Divider(
+                  //     color: Colors.white38, thickness: 1, height: 20),
+                  // const Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text('Total',
+                  //         style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontWeight: FontWeight.bold,
+                  //             fontSize: 18)),
+                  //     Text('\$32.00',
+                  //         style: TextStyle(
+                  //             color: Color(0xffcc1c24),
+                  //             fontWeight: FontWeight.bold,
+                  //             fontSize: 18)),
+                  //   ],
+                  // ),
+                  // const SizedBox(height: 15),
+
+                  // // Promo Code Input
+                  // Container(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 12),
+                  //   decoration: BoxDecoration(
+                  //     border: Border.all(color: Colors.white38),
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  //   child: const Row(
+                  //     children: [
+                  //       Icon(Icons.local_offer,
+                  //           color: Colors.white54, size: 20),
+                  //       SizedBox(width: 8),
+                  //       Expanded(
+                  //         child: TextField(
+                  //           style: TextStyle(color: Colors.white),
+                  //           decoration: InputDecoration(
+                  //             hintText: 'Add promo code',
+                  //             hintStyle: TextStyle(color: Colors.white54),
+                  //             border: InputBorder.none,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 15),
+
+                  // Checkout Button
+                  Selector<CartModel, (bool, Map<String?, Product?>, bool)>(
+                    selector: (_, cartModel) => (
+                      cartModel.calculatingDiscount,
+                      cartModel.item,
+                      cartModel.enableCheckoutButton
+                    ),
+                    builder: (context, value, child) {
+                      var calculatingDiscount = value.$1;
+                      var enableCheckoutButton = value.$3;
+                      var isReadyForCheckout =
+                          !calculatingDiscount && enableCheckoutButton;
+
+                      return ElevatedButton(
+                        onPressed: isReadyForCheckout
+                            ? () {
+                                // if (kAdvanceConfig.alwaysShowTabBar) {
+                                //   MainTabControlDelegate.getInstance()
+                                //       .changeTab(RouteList.cart,
+                                //           allowPush: false);
+                                //   // return;
+                                // }
+                                onCheckout(
+                                  model: cartModel,
+                                  isDialogView: widget.isDialogView,
+                                );
+                              }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xffcc1c24),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 50),
+                        ),
+                        child: const Text('Checkout',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+
+                        //         totalCartQuantity > 0
+                        //             ? (isLoading
+                        //                 ? Text(
+                        //                     S.of(context).loading.toUpperCase(),
+                        //                     style: style,
+                        //                   )
+                        //                 : Text(
+                        //                     S.of(context).checkout.toUpperCase(),
+                        //                     style: style,
+                        //                   ))
+                        //             : Text(
+                        //                 S.of(context).startShopping.toUpperCase(),
+                        //                 style: style,
+                        //               ),
+                        //         const SizedBox(width: 3),
+                        //         Icon(
+                        //           CupertinoIcons.right_chevron,
+                        //           size: 12,
+                        //           color: colorBody,
+                        //         ),
+                        //       ],
+                        //     );
+                        //   },
+                        // ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     );

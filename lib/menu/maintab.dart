@@ -31,6 +31,7 @@ import '../screens/users/user_point_screen.dart';
 import '../services/services.dart';
 import '../widgets/overlay/custom_overlay_state.dart';
 import 'maintab_delegate.dart';
+import 'providers/tabbar_provider.dart';
 import 'side_menu.dart';
 import 'sidebar.dart';
 import 'widgets/branch/branch_mixin.dart';
@@ -221,6 +222,7 @@ class MainTabsState extends CustomOverlayState<MainTabs>
   void didChangeDependencies() {
     isShowCustomDrawer = isDesktopDisplay;
     super.didChangeDependencies();
+    print("HEEELOOOOOOOOO");
   }
 
   @override
@@ -266,6 +268,9 @@ class MainTabsState extends CustomOverlayState<MainTabs>
     //customTabBar();
     printLog('[TabBar] ============== tabbar.dart ==============');
 
+    final currentTabName =
+        Provider.of<TabbarProvider>(context, listen: true).screenName;
+
     var appConfig = Provider.of<AppModel>(context, listen: false).appConfig;
 
     if (_tabView.isEmpty || appConfig == null) {
@@ -286,12 +291,17 @@ class MainTabsState extends CustomOverlayState<MainTabs>
 
     printLog('[ScreenSize]: ${size.width} x ${size.height}');
 
+    final isProductBottomBar = currentTabName!.contains('product?id=') ||
+        currentTabName!.contains('cart') ||
+        currentTabName!.contains('checkout');
+
     return Consumer<BottomBarModel>(builder: (_, bottomBarModel, child) {
       return SideMenu(
         extendBody: false,
         backgroundColor:
             showFloating ? null : Theme.of(context).colorScheme.surface,
-        bottomNavigationBar: _renderBottomBar(bottomBarModel),
+        bottomNavigationBar:
+            isProductBottomBar ? null : _renderBottomBar(bottomBarModel),
         tabBarOnTop: appConfig.settings.tabBarConfig.enableOnTop,
         floatingActionButtonLocation: floatingActionButtonLocation,
         floatingActionButton: showFloating ? getTabBarMenuAction() : null,

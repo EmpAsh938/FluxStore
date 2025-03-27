@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../common/constants.dart' show RouteList, eventBus, printLog;
 import '../../common/events.dart';
 import '../../menu/index.dart' show MainTabControlDelegate;
+import '../../menu/providers/tabbar_provider.dart';
 import '../../models/app_model.dart';
 import '../../modules/dynamic_layout/config/tab_bar_config.dart';
 import '../../screens/base_screen.dart';
@@ -81,6 +82,7 @@ abstract class CustomOverlayState<T extends StatefulWidget>
       RouteList.products,
       RouteList.productDetail,
     ];
+
     final isExcludeRoute = screenName != null &&
         excludeRoutes.contains(screenName.split('?').first);
     if (isExcludeRoute || onBottomBar) {
@@ -102,6 +104,8 @@ abstract class CustomOverlayState<T extends StatefulWidget>
 
     eventBus.fire(EventScreenChanged(screenName: routeName));
     printLog('[ScreenName] $routeName');
+    Provider.of<TabbarProvider>(context, listen: false)
+        .changeScreenName(routeName ?? '');
     final uri = Uri.parse(routeName ?? '');
     Services().advertisement.handleAd(uri.path);
     handleSmartChat(uri.path);
