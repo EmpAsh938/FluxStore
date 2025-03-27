@@ -42,7 +42,10 @@ class _SplashScreenIndexState extends State<SplashScreenIndex> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.asset(
-        'assets/splash.mp4') // Use network or file if needed
+      'assets/splash.mp4',
+      videoPlayerOptions: VideoPlayerOptions(
+          mixWithOthers: true, allowBackgroundPlayback: true),
+    ) // Use network or file if needed
       ..initialize().then((_) {
         setState(() {});
         _controller.play();
