@@ -78,6 +78,14 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 15),
+        const Text(
+          'Store',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            height: 20 / 14,
+          ),
+        ),
         renderStoreInput(),
         // if (_selectedStore != null)
         //   Container(
@@ -117,30 +125,49 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
           //   initialValue: _selectedStore!.address,
           //   readOnly: false,
           // ),
-          AutocompleteSearchInput(
-            hintText: userAddress == '' ? 'Search' : userAddress,
-            onChanged: (Prediction prediction) {
-              // mapModel.updateCurrentLocation(prediction);
-              // prediction.
-
-              final cartModel = Provider.of<CartModel>(context, listen: false);
-              final selectedAddress = Address(
-                street: prediction.description!,
-                latitude: prediction.lat,
-                longitude: prediction.long,
-              );
-              cartModel.setAddress(selectedAddress);
-              // context.read<MapModel>().updateCurrentLocation(prediction);
-              SaveStoreLocation.saveAddress({
-                'latitude': prediction.lat!,
-                'longitude': prediction.long!,
-                'description': prediction.description!,
-              });
-              // mapModel.updateCurrentLocation(prediction);
-            },
-            // );
-            // },
+          const Text(
+            'Delivery Address',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              height: 20 / 14,
+            ),
           ),
+        TextFormField(
+          initialValue: userAddress,
+          readOnly: true,
+          decoration: InputDecoration(
+            // labelText: currentFieldType.getTitle(context),
+            border: const OutlineInputBorder(),
+            // floatingLabelAlignment: FloatingLabelAlignment.start,
+            fillColor: Theme.of(context).colorScheme.surface,
+            filled: true,
+          ),
+        ),
+        // AutocompleteSearchInput(
+        //   hintText: userAddress == '' ? 'Search' : userAddress,
+        //   onChanged: (Prediction prediction) {
+        //     // mapModel.updateCurrentLocation(prediction);
+        //     // prediction.
+
+        //     final cartModel = Provider.of<CartModel>(context, listen: false);
+        //     final selectedAddress = Address(
+        //       street: prediction.description!,
+        //       latitude: prediction.lat,
+        //       longitude: prediction.long,
+        //     );
+        //     cartModel.setAddress(selectedAddress);
+        //     // context.read<MapModel>().updateCurrentLocation(prediction);
+        //     SaveStoreLocation.saveAddress({
+        //       'latitude': prediction.lat!,
+        //       'longitude': prediction.long!,
+        //       'description': prediction.description!,
+        //     });
+        //     // mapModel.updateCurrentLocation(prediction);
+        //   },
+        //   // );
+        //   // },
+        // ),
 
         const SizedBox(height: 15),
         Text(S.of(context).pickupOrDelivery,
@@ -178,6 +205,17 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
   }
 
   Widget renderStoreInput() {
+    return TextFormField(
+      initialValue: _selectedStore!.name,
+      readOnly: true,
+      decoration: InputDecoration(
+        // labelText: currentFieldType.getTitle(context),
+        border: const OutlineInputBorder(),
+        // floatingLabelAlignment: FloatingLabelAlignment.start,
+        fillColor: Theme.of(context).colorScheme.surface,
+        filled: true,
+      ),
+    );
     var items = <DropdownMenuItem>[];
     for (var item in _stores) {
       if (_selectedStore != null) {

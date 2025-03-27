@@ -151,55 +151,55 @@ class _StateBannerSlider extends State<BannerSlider> {
               children: [
                 CurvedContainer(
                   height: 180,
-                  color: Colors.black,
+                  color: Colors.black87,
                   child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.elliptical(300, 150),
-                          topRight: Radius.elliptical(300, 150),
+                    // decoration: const BoxDecoration(
+                    //     color: Colors.black,
+                    //     borderRadius: BorderRadius.only(
+                    //       topLeft: Radius.elliptical(300, 150),
+                    //       topRight: Radius.elliptical(300, 150),
+                    //     ),
+                    //     image: DecorationImage(
+                    //         image: AssetImage('assets/images/bg-wok.jpg'),
+                    //         fit: BoxFit.cover)),
+                    // child: Container(
+                    //   decoration: const BoxDecoration(
+                    //     color: Colors.black,
+                    //     borderRadius: BorderRadius.only(
+                    //       topLeft: Radius.elliptical(300, 150),
+                    //       topRight: Radius.elliptical(300, 150),
+                    //     ),
+                    //   ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                            height: 80,
+                            width: 80,
+                            child: Image.asset('assets/images/lines3.gif')),
+                        const Text(
+                          'Welcome',
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.bold),
                         ),
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/bg-wok.jpg'),
-                            fit: BoxFit.cover)),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.black26,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.elliptical(300, 150),
-                          topRight: Radius.elliptical(300, 150),
+                        const Text(
+                          'To HAKKA Express',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
                         ),
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                              height: 80,
-                              width: 80,
-                              child: Image.asset('assets/images/lines3.gif')),
-                          const Text(
-                            'Welcome',
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
-                          ),
-                          const Text(
-                            'To HAKKA Express',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                          const Text(
-                            'Choose Your Meal Type to\nStart Your Order.',
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                        ],
-                      ),
+                        const Text(
+                          'Choose Your Meal Type to\nStart Your Order.',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                      ],
                     ),
                   ),
+                  // ),
                 ),
               ],
             ),
