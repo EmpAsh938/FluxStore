@@ -27,10 +27,26 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
     with AppBarMixin, SingleTickerProviderStateMixin {
   bool _showMap = false;
   late TabController _tabController;
+  String userAddress = '';
+
+  Future<void> setStore() async {
+    try {
+      final addressInfo = await SaveStoreLocation.getAddress();
+
+      if (addressInfo != null && addressInfo['description'] != null) {
+        setState(() {
+          userAddress = addressInfo['description'] ?? '';
+        });
+      }
+    } catch (e) {
+      print('$e');
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    setStore();
     resetText();
     _tabController = TabController(length: 2, vsync: this);
   }
@@ -178,7 +194,9 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
                               children: [
                                 TextFieldRow(
                                   mapModel: mapModel,
-                                  hintText: 'DELIVER AT YOUR SELECTED LOCATION',
+                                  hintText: userAddress.isEmpty
+                                      ? 'DELIVER AT YOUR SELECTED LOCATION'
+                                      : userAddress,
                                 ),
                                 UseMyLocationRow(
                                   mapModel: mapModel,

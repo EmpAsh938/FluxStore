@@ -69,7 +69,7 @@ class CartItemNormalWidget extends StatelessWidget {
                               widthImageFeature, //constraints.maxWidth * 0.25,
                           height:
                               heightImageFeature, //constraints.maxWidth * 0.3,
-                          child: ImageResize(url: stateUI.imageFeature),
+                          child: ImageResize(url: stateUI.imageFeature ?? ''),
                         ),
                         const SizedBox(width: 16.0),
                         Expanded(
@@ -79,7 +79,7 @@ class CartItemNormalWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  stateUI.product.name!,
+                                  stateUI.product.name ?? '',
                                   style: TextStyle(
                                     color: theme.colorScheme.secondary,
                                   ),

@@ -49,7 +49,7 @@ class _AutocompleteSearchInputState extends State<AutocompleteSearchInput> {
       cursorColor: Theme.of(context).primaryColor,
       decoration: InputDecoration(
         hintText: widget.hintText ?? S.of(context).search,
-        hintStyle: const TextStyle(fontSize: 12),
+        hintStyle: const TextStyle(fontSize: 12, color: Colors.black),
         filled: true,
         fillColor: Theme.of(context).colorScheme.surface,
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),
