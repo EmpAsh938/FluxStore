@@ -624,15 +624,15 @@ class WooWidget extends BaseFrameworks
     String? currency, {
     int quantity = 1,
   }) {
-    var totalPrice = 0.0;
-    for (var item in cartItemMetaData!.selectedComponents!.values) {
-      final quantity = item.quantity;
-      final subTotal = item.product.price;
+    // var totalPrice = 0.0;
+    // for (var item in cartItemMetaData!.selectedComponents!.values) {
+    //   final quantity = item.quantity;
+    //   final subTotal = item.product.price;
 
-      totalPrice += quantity! * double.parse(subTotal!);
-    }
+    //   totalPrice += quantity! * double.parse(subTotal!);
+    // }
 
-    return totalPrice.toString();
+    // return totalPrice.toString();
 
     if (product.isTopUpProduct()) {
       final defaultCurrency = kAdvanceConfig.defaultCurrency;
