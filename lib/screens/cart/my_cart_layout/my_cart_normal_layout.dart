@@ -47,14 +47,6 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
   bool? get isModal => widget.isModal;
 
   @override
-  void initState() {
-    super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   showCheckoutBottomSheet();
-    // });
-  }
-
-  @override
   Widget build(BuildContext context) {
     printLog('[Cart] build');
     print(' widget.isModal ${widget.isModal}');
@@ -196,7 +188,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                           return AutoHideKeyboard(
                             child: SingleChildScrollView(
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom: 80.0),
+                                padding: const EdgeInsets.only(bottom: 350.0),
                                 child: Column(
                                   children: [
                                     if (totalCartQuantity > 0)
@@ -350,9 +342,14 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
       width: MediaQuery.of(context).size.width,
       child: Container(
         decoration: const BoxDecoration(
-          color: Colors.white, // Dark background
-          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-        ),
+            color: Colors.white, // Dark background
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+            border: Border(
+              top: BorderSide(
+                color: Colors.black12,
+                width: 1.0,
+              ),
+            )),
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
