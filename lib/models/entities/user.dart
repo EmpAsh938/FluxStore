@@ -373,13 +373,13 @@ class UserPoints {
 
 class UserRewardPoints {
   String? user_id;
-  int? points;
+  int? total_points;
   int? points_collected;
   int? rank;
 
   UserRewardPoints.fromJson(Map json) {
     user_id = json['user_id'] ?? '';
-    points = json['points'] ?? 0;
+    total_points = json['total_points'] ?? 0;
     points_collected = json['points_collected'] ?? 0;
     rank = json['rank'] ?? 0;
   }

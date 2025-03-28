@@ -28,8 +28,8 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
   List<Store> _stores = [];
   late ShippingType _shippingType =
       Provider.of<CartModel>(context, listen: false).shippingType;
-  late Store? _selectedStore =
-      Provider.of<CartModel>(context, listen: false).selectedStore;
+  Store? _selectedStore;
+  // Provider.of<CartModel>(context, listen: false).selectedStore;
 
   Address? address;
 

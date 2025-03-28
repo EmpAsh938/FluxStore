@@ -153,7 +153,7 @@ class _StateUserPoint extends State<UserPointScreen> {
                   children: <Widget>[
                     ListTile(
                       trailing: Text(
-                        userPoints!.points!.toString(),
+                        userPoints!.total_points!.toString(),
                         // 'points',
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
