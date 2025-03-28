@@ -372,14 +372,16 @@ class UserPoints {
 }
 
 class UserRewardPoints {
-  int? user_id;
+  String? user_id;
   int? points;
   int? points_collected;
   int? rank;
 
   UserRewardPoints.fromJson(Map json) {
-    user_id = json['user_id'];
-    points = json['points'];
+    user_id = json['user_id'] ?? '';
+    points = json['points'] ?? 0;
+    points_collected = json['points_collected'] ?? 0;
+    rank = json['rank'] ?? 0;
   }
 }
 
@@ -398,5 +400,62 @@ class UserEvent {
     date = json['date_display_human'];
     description = json['description'];
     points = json['points'];
+  }
+}
+
+class PointHistory {
+  final String id;
+  final String userId;
+  final String action;
+  final String orderId;
+  final String amount;
+  final String dateEarning;
+  final String? cancelled;
+  final String description;
+  final String info;
+
+  PointHistory({
+    required this.id,
+    required this.userId,
+    required this.action,
+    required this.orderId,
+    required this.amount,
+    required this.dateEarning,
+    this.cancelled,
+    required this.description,
+    required this.info,
+  });
+
+  factory PointHistory.fromJson(Map<String, dynamic> json) {
+    return PointHistory(
+      id: json['id'],
+      userId: json['user_id'],
+      action: json['action'],
+      orderId: json['order_id'],
+      amount: json['amount'],
+      dateEarning: json['date_earning'],
+      cancelled: json['cancelled'],
+      description: json['description'],
+      info: json['info'],
+    );
+  }
+}
+
+class UserPointHistoryResponse {
+  final String userId;
+  final List<PointHistory> pointHistory;
+
+  UserPointHistoryResponse({
+    required this.userId,
+    required this.pointHistory,
+  });
+
+  factory UserPointHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return UserPointHistoryResponse(
+      userId: json['user_id'],
+      pointHistory: (json['point_history'] as List)
+          .map((item) => PointHistory.fromJson(item))
+          .toList(),
+    );
   }
 }
