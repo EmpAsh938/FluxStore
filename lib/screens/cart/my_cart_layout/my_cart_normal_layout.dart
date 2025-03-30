@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flux_extended/store_locator/services/index.dart';
 import 'package:inspireui/inspireui.dart';
 import 'package:provider/provider.dart';
 
@@ -435,13 +436,16 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
 
                 return ElevatedButton(
                   onPressed: isReadyForCheckout
-                      ? () {
+                      ? () async {
+                          final store = await SaveStoreLocation.getStore();
+
                           // if (kAdvanceConfig.alwaysShowTabBar) {
                           //   MainTabControlDelegate.getInstance()
                           //       .changeTab(RouteList.cart,
                           //           allowPush: false);
                           //   // return;
                           // }
+                          if (store == null || store.name == null) return;
                           onCheckout(
                             model: cartModel,
                             isDialogView: widget.isDialogView,
