@@ -174,6 +174,8 @@ class _CompositeStyleDetailProductWidgetState
         }
       }
     }
+
+    productSubTotal += cartModel.getSubTotal()!;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: floatingActionButton,
