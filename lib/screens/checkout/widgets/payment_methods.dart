@@ -111,6 +111,7 @@ class _PaymentMethodsState extends State<PaymentMethods>
     final useDesktopLayout = Layout.isDisplayDesktop(context);
 
     var innerSubTotal = 0.0;
+
     for (var item in cartModel.cartItemMetaDataInCart.values) {
       if (item != null && item.selectedComponents != null) {
         for (var innerItem in item.selectedComponents!.values) {
@@ -119,6 +120,8 @@ class _PaymentMethodsState extends State<PaymentMethods>
         }
       }
     }
+
+    innerSubTotal += cartModel.getSubTotal()!;
 
     setState(() {
       productSubTotal = innerSubTotal;

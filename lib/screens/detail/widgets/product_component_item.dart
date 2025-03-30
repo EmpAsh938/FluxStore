@@ -223,7 +223,7 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        if (showSelection)
+                        if (false)
                           QuantitySelection(
                             enabled: true,
                             width: 25,
@@ -242,8 +242,8 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
                             },
                             style: QuantitySelectionStyle.style02,
                           ),
-                        if (showSelection && widget.isSelected)
-                          const SizedBox(height: 45),
+                        // if (showSelection && widget.isSelected)
+                        //   const SizedBox(height: 45),
                         if (widget.isSelected) const Icon(Icons.close),
                       ],
                     ),

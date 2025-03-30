@@ -122,6 +122,9 @@ class _ReviewState extends BaseScreen<ReviewScreen> {
         }
       }
     }
+
+    productSubTotal += cartModel.getSubTotal()!;
+
     if (isDesktop) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
