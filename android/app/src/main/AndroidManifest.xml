@@ -79,7 +79,7 @@
     <!-- `android:extractNativeLibs` property is reset to `false` if it is NOT configured in AndroidManifest.xml and minSdkVersion >= 23. -->
     <application
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="HAKKA Express"
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
