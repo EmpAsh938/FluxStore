@@ -272,13 +272,14 @@ class DynamicLayout extends StatelessWidget {
         return Services().widget.renderLargeCardHorizontalListItems(config);
       case Layout.simpleVerticalListItems:
       case Layout.simpleList:
-        return storeData.isNotEmpty
-            ? SimpleStoreList(
-                storeId: storeData['storeId'].toString(),
-              )
-            : SimpleVerticalProductList(
-                config: ProductConfig.fromJson(config),
-              );
+        // return storeData.isNotEmpty
+        //     ? SimpleStoreList(
+        //         storeId: storeData['storeId'].toString(),
+        //       )
+        //     :
+        return SimpleVerticalProductList(
+          config: ProductConfig.fromJson(config),
+        );
 
       case Layout.brand:
         return BrandLayout(

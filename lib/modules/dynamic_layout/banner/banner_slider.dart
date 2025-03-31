@@ -85,152 +85,115 @@ class _StateBannerSlider extends State<BannerSlider> {
     final isCirclePageIndicator =
         widget.config.pageIndicatorType?.isCircle == true;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 5),
-      child: Stack(
-        children: <Widget>[
-          // // Background Image
-          // Container(
-          //   decoration: const BoxDecoration(
-          //     image: DecorationImage(
-          //       image: AssetImage(
-          //           'assets/images/bg-wok.jpg'), // Replace with your image path
-          //       fit: BoxFit.cover, // Adjust the fit as needed
-          //     ),
-          //   ),
-          // ),
-
-          PageView(
-            controller: _controller,
-            onPageChanged: (index) {
-              position = index;
-            },
-            children: <Widget>[
-              for (int i = 0; i < items.length; i++)
-                BannerItemWidget(
-                  config: items[i],
-                  width: width,
-                  boxFit: boxFit,
-                  padding: widget.config.padding,
-                  radius: widget.config.radius,
-                  onTap: widget.onTap,
-                  isSoundOn: widget.config.isSoundOn ?? false,
-                  enableTimeIndicator:
-                      widget.config.enableTimeIndicator ?? true,
-                  autoPlayVideo: widget.config.autoPlayVideo ?? false,
-                  doubleTapToFullScreen:
-                      widget.config.doubleTapToFullScreen ?? false,
-                ),
-            ],
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: SmoothPageIndicator(
-                controller: _controller, // PageController
-                count: items.length,
-                effect: SlideEffect(
-                  spacing: 8.0,
-                  radius: 5.0,
-                  dotWidth: isCirclePageIndicator ? 6.0 : 24.0,
-                  dotHeight: isCirclePageIndicator ? 6.0 : 2.0,
-                  paintStyle: PaintingStyle.fill,
-                  strokeWidth: 1.5,
-                  dotColor: Colors.black12,
-                  activeDotColor: Colors.black87,
-                ),
+    return Stack(
+      children: <Widget>[
+        PageView(
+          controller: _controller,
+          onPageChanged: (index) {
+            position = index;
+          },
+          children: <Widget>[
+            for (int i = 0; i < items.length; i++)
+              BannerItemWidget(
+                config: items[i],
+                width: width,
+                boxFit: boxFit,
+                padding: widget.config.padding,
+                radius: widget.config.radius,
+                onTap: widget.onTap,
+                isSoundOn: widget.config.isSoundOn ?? false,
+                enableTimeIndicator: widget.config.enableTimeIndicator ?? true,
+                autoPlayVideo: widget.config.autoPlayVideo ?? false,
+                doubleTapToFullScreen:
+                    widget.config.doubleTapToFullScreen ?? false,
+              ),
+          ],
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: SmoothPageIndicator(
+              controller: _controller, // PageController
+              count: items.length,
+              effect: SlideEffect(
+                spacing: 8.0,
+                radius: 5.0,
+                dotWidth: isCirclePageIndicator ? 6.0 : 24.0,
+                dotHeight: isCirclePageIndicator ? 6.0 : 2.0,
+                paintStyle: PaintingStyle.fill,
+                strokeWidth: 1.5,
+                dotColor: Colors.black12,
+                activeDotColor: Colors.black87,
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                CurvedContainer(
-                  height: 180,
-                  color: Colors.black87,
-                  child: Container(
-                    // decoration: const BoxDecoration(
-                    //     color: Colors.black,
-                    //     borderRadius: BorderRadius.only(
-                    //       topLeft: Radius.elliptical(300, 150),
-                    //       topRight: Radius.elliptical(300, 150),
-                    //     ),
-                    //     image: DecorationImage(
-                    //         image: AssetImage('assets/images/bg-wok.jpg'),
-                    //         fit: BoxFit.cover)),
-                    // child: Container(
-                    //   decoration: const BoxDecoration(
-                    //     color: Colors.black,
-                    //     borderRadius: BorderRadius.only(
-                    //       topLeft: Radius.elliptical(300, 150),
-                    //       topRight: Radius.elliptical(300, 150),
-                    //     ),
-                    //   ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                            height: 80,
-                            width: 80,
-                            child: Image.asset('assets/images/lines3.gif')),
-                        const Text(
-                          'Welcome',
-                          style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.bold),
-                        ),
-                        const Text(
-                          'To HAKKA Express',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                        const Text(
-                          'Choose Your Meal Type to\nStart Your Order.',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                      ],
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Column(
+            children: [
+              CurvedContainer(
+                height: 145,
+                color: Colors.black87,
+                child: Column(
+                  children: [
+                    SizedBox(
+                        height: 60,
+                        width: 60,
+                        child: Image.asset('assets/images/lines3.gif')),
+                    const Text(
+                      'Welcome',
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  // ),
+                    const Text(
+                      'To HAKKA Express',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    ),
+                    const Text(
+                      'Choose Your Meal Type to\nStart Your Order.',
+                      style: TextStyle(color: Colors.white, fontSize: 10),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+                // ),
+              ),
+            ],
           ),
-          showNumber
-              ? Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 15, right: 0),
-                    child: Container(
-                      decoration:
-                          BoxDecoration(color: Colors.black.withOpacity(0.6)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 7, vertical: 2),
-                        child: ValueListenableBuilder<int>(
-                            valueListenable: _positionNotifier,
-                            builder: (context, value, child) {
-                              return Text(
-                                '${position + 1}/${items.length}',
-                                style: const TextStyle(
-                                    fontSize: 11, color: Colors.white),
-                              );
-                            }),
-                      ),
+        ),
+        showNumber
+            ? Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10, right: 0),
+                  child: Container(
+                    decoration:
+                        BoxDecoration(color: Colors.black.withOpacity(0.6)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 7, vertical: 2),
+                      child: ValueListenableBuilder<int>(
+                          valueListenable: _positionNotifier,
+                          builder: (context, value, child) {
+                            return Text(
+                              '${position + 1}/${items.length}',
+                              style: const TextStyle(
+                                  fontSize: 11, color: Colors.white),
+                            );
+                          }),
                     ),
                   ),
-                )
-              : const SizedBox()
-        ],
-      ),
+                ),
+              )
+            : const SizedBox()
+      ],
     );
   }
 

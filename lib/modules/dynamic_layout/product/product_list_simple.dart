@@ -17,13 +17,8 @@ class SimpleVerticalProductList extends StatelessWidget {
   const SimpleVerticalProductList({required this.config, super.key});
 
   Widget renderProductListWidgets(List<Product> products) {
-    print("prodcuts length is ${products.length}");
-    for (var item in products) {
-      print("product item is $item");
-    }
     return Column(
       children: [
-        const SizedBox(width: 10.0),
         for (var item in products)
           ProductSimpleView(
             item: item,
@@ -62,8 +57,6 @@ class SimpleVerticalProductList extends StatelessWidget {
         ],
       ),
       child: ({maxWidth, maxHeight, products}) {
-        print("prodcuts count is ${products.length}");
-        print("config  ${config.jsonData}");
         return BackgroundColorWidget(
           enable: config.enableBackground,
           child: Column(
