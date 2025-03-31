@@ -70,52 +70,54 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                 bannerConfig.popup.updatedTime) ||
             bannerConfig.popup.alwaysShowUponOpen;
 
-        return Scaffold(
-          // backgroundColor: Theme.of(context).colorScheme.surface,
-          body: Stack(
-            children: <Widget>[
-              // // Background Image
-              Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                        'assets/images/bg-wok.jpg'), // Replace with your image path
-                    fit: BoxFit.cover, // Adjust the fit as needed
+        return SafeArea(
+          child: Scaffold(
+            // backgroundColor: Theme.of(context).colorScheme.surface,
+            body: Stack(
+              children: <Widget>[
+                // // Background Image
+                Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                          'assets/images/bg-wok.jpg'), // Replace with your image path
+                      fit: BoxFit.cover, // Adjust the fit as needed
+                    ),
                   ),
                 ),
-              ),
-              if (appConfig.background != null && isDesktop == false)
-                isStickyHeader
-                    ? SafeArea(
-                        child: HomeBackground(config: appConfig.background),
-                      )
-                    : HomeBackground(config: appConfig.background),
+                if (appConfig.background != null && isDesktop == false)
+                  isStickyHeader
+                      ? SafeArea(
+                          child: HomeBackground(config: appConfig.background),
+                        )
+                      : HomeBackground(config: appConfig.background),
 
-              HomeLayout(
-                isPinAppBar: isStickyHeader,
-                isShowAppbar: isShowAppbar,
-                showNewAppBar:
-                    appConfig.appBar?.shouldShowOn(RouteList.home) ?? false,
-                configs: appConfig.jsonData,
-                key: Key('$langCode$countryCode'),
-                scrollController: widget.scrollController,
-              ),
+                HomeLayout(
+                  isPinAppBar: isStickyHeader,
+                  isShowAppbar: isShowAppbar,
+                  showNewAppBar:
+                      appConfig.appBar?.shouldShowOn(RouteList.home) ?? false,
+                  configs: appConfig.jsonData,
+                  key: Key('$langCode$countryCode'),
+                  scrollController: widget.scrollController,
+                ),
 
-              SmartEngagementBanner(
-                context: App.fluxStoreNavigatorKey.currentContext!,
-                config: bannerConfig,
-                enablePopup: isShowPopupBanner,
-                afterClosePopup: () {
-                  afterClosePopup(bannerConfig.popup.updatedTime);
-                },
-                childWidget: (data) {
-                  return DynamicLayout(configLayout: data);
-                },
-              ),
-              // Remove `WrapStatusBar` because we already have `SafeArea`
-              // inside `HomeLayout`
-              // const WrapStatusBar(),
-            ],
+                SmartEngagementBanner(
+                  context: App.fluxStoreNavigatorKey.currentContext!,
+                  config: bannerConfig,
+                  enablePopup: isShowPopupBanner,
+                  afterClosePopup: () {
+                    afterClosePopup(bannerConfig.popup.updatedTime);
+                  },
+                  childWidget: (data) {
+                    return DynamicLayout(configLayout: data);
+                  },
+                ),
+                // Remove `WrapStatusBar` because we already have `SafeArea`
+                // inside `HomeLayout`
+                // const WrapStatusBar(),
+              ],
+            ),
           ),
         );
       },

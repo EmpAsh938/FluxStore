@@ -39,7 +39,7 @@ class _FluxAppBarState extends State<FluxAppBar> {
         }
         return Container(
           // alignment: Alignment.,
-          margin: const EdgeInsets.only(bottom: 50),
+          // margin: const EdgeInsets.only(bottom: 10),
           decoration: value.backgroundColor != null
               ? BoxDecoration(
                   color: HexColor(value.backgroundColor),

@@ -275,11 +275,11 @@ class _AppBarItemWidgetState extends State<AppBarItemWidget> {
             ? HexColor(item.textColor)
             : Theme.of(context).colorScheme.secondary;
         widget = Container(
-          alignment: Tools.getAlignment(
-            item.alignment,
-            defaultValue: Alignment.center,
-          ),
-          height: 300,
+          // alignment: Tools.getAlignment(
+          //   item.alignment,
+          //   defaultValue: Alignment.center,
+          // ),
+          // height: 300,
           width: item.width?.toDouble(),
           decoration: const BoxDecoration(
             // color: Colors.black,

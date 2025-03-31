@@ -118,7 +118,7 @@ mixin AppBarMixin<T extends StatefulWidget> on State<T> {
               backgroundColor:
                   backgroundColor ?? Theme.of(context).colorScheme.surface,
               title: _getFluxAppBar(isAtTop, popButton: popButton),
-              toolbarHeight: 130,
+              toolbarHeight: 100,
               actions: actions,
             );
           });

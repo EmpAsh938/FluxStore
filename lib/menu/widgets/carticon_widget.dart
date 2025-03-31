@@ -21,7 +21,7 @@ class CartIconWidget extends StatelessWidget {
           child: const Icon(
             Icons.shopping_bag_outlined,
             size: 35,
-            color: Colors.black, // Customize based on theme
+            color: Colors.white, // Customize based on theme
           ),
         ),
         if (itemCount > 0)
