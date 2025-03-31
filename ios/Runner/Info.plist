@@ -148,7 +148,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
-	<string>YES</string>
+	<true/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We would like access to the microphone to allow recording voice messages</string>
 	<key>NSSpeechRecognitionUsageDescription</key>

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flux_extended/store_locator/views/store_locator_screen.dart';
 import 'package:flux_firebase/index.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -75,6 +76,7 @@ void main() {
 
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    MediaKit.ensureInitialized();
 
     /// Call the setup for the application.
     _setupApplication();

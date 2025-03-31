@@ -238,6 +238,9 @@ dependencies:
   meta_seo: 3.0.9
   dart_jsonwebtoken: ^2.17.0
   flutter_launcher_icons: ^0.14.3
+  media_kit: ^1.1.11
+  media_kit_video: ^1.2.5
+  media_kit_libs_video: ^1.0.6
 
 dev_dependencies:
   flutter_lints: ^4.0.0
