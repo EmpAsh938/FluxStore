@@ -433,11 +433,13 @@ class StoreItem extends StatelessWidget {
                 });
                 SaveStoreLocation.saveStore(store);
                 getData();
-                Navigator.of(App.fluxStoreNavigatorKey.currentContext!)
-                    .pushNamedAndRemoveUntil(
-                  RouteList.dashboard,
-                  (Route<dynamic> route) => false,
-                );
+                Navigator.of(context).pop();
+
+                // Navigator.of(App.fluxStoreNavigatorKey.currentContext!)
+                //     .pushNamedAndRemoveUntil(
+                //   RouteList.dashboard,
+                //   (Route<dynamic> route) => false,
+                // );
                 // FluxNavigate.push(
                 //   MaterialPageRoute(
                 //     builder: (context) => StoreProductsScreen(
