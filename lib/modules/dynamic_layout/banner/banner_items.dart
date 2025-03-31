@@ -21,6 +21,8 @@ class BannerItemWidget extends StatelessWidget {
       autoPlayVideo,
       enableTimeIndicator,
       doubleTapToFullScreen;
+  final Function()? onVideoPlay;
+  final Function()? onVideoStop;
 
   const BannerItemWidget({
     super.key,
@@ -37,6 +39,8 @@ class BannerItemWidget extends StatelessWidget {
     this.autoPlayVideo = false,
     this.enableTimeIndicator = true,
     this.doubleTapToFullScreen = false,
+    this.onVideoPlay,
+    this.onVideoStop,
   });
 
   @override
@@ -49,6 +53,8 @@ class BannerItemWidget extends StatelessWidget {
             autoPlayVideo: autoPlayVideo,
             enableTimeIndicator: enableTimeIndicator,
             doubleTapToFullScreen: doubleTapToFullScreen,
+            onVideoStop: onVideoStop,
+            onVideoPlay: onVideoPlay,
           )
         : BannerImageItem(
             config: config,
@@ -116,7 +122,7 @@ class BannerImageItem extends StatelessWidget {
               ),
             if (!enableParallax)
               Container(
-                margin: const EdgeInsets.only(top: 10,left: 10,right: 10),
+                margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -215,6 +221,8 @@ class BannerVideoItem extends StatelessWidget {
       enableTimeIndicator,
       doubleTapToFullScreen;
   final double padding;
+  final Function()? onVideoPlay;
+  final Function()? onVideoStop;
 
   const BannerVideoItem({
     super.key,
@@ -224,24 +232,23 @@ class BannerVideoItem extends StatelessWidget {
     this.enableTimeIndicator = true,
     this.doubleTapToFullScreen = false,
     required this.padding,
+    this.onVideoPlay,
+    this.onVideoStop,
   });
 
   @override
   Widget build(BuildContext context) {
-    var paddingVal = config.padding ?? padding;
-
-    return Padding(
-      padding: EdgeInsets.only(left: paddingVal, right: paddingVal),
-      child: FeatureVideoPlayer(
-        config.video ?? '',
-        autoPlay: autoPlayVideo,
-        isSoundOn: isSoundOn,
-        enableTimeIndicator: enableTimeIndicator,
-        aspectRatio: 16 / 9,
-        doubleTapToFullScreen: doubleTapToFullScreen,
-        showFullScreenButton: true,
-        showVolumeButton: true,
-      ),
+    return FeatureVideoPlayer(
+      config.video ?? '',
+      autoPlay: autoPlayVideo,
+      isSoundOn: isSoundOn,
+      enableTimeIndicator: enableTimeIndicator,
+      aspectRatio: 16 / 9,
+      doubleTapToFullScreen: doubleTapToFullScreen,
+      showFullScreenButton: true,
+      showVolumeButton: true,
+      onVideoPlay: onVideoPlay,
+      onVideoStop: onVideoStop,
     );
   }
 }

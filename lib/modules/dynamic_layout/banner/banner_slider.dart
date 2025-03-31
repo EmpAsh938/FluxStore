@@ -38,6 +38,14 @@ class _StateBannerSlider extends State<BannerSlider> {
   late bool autoPlay;
   Timer? timer;
   late final int intervalTime;
+  bool isVideoPlaying = false;
+
+  void updateVideoStatus(bool isPlaying) {
+    setState(() {
+      print("UPPPPPDATE ${isPlaying}");
+      isVideoPlaying = isPlaying;
+    });
+  }
 
   @override
   void initState() {
@@ -55,7 +63,9 @@ class _StateBannerSlider extends State<BannerSlider> {
       if (widget.config.design != 'default' || !autoPlay) {
         timer!.cancel();
       } else if (widget.config.design == 'default' && autoPlay) {
-        if (position >= items.length - 1 && _controller.hasClients) {
+        if (!isVideoPlaying &&
+            position >= items.length - 1 &&
+            _controller.hasClients) {
           _controller.jumpToPage(0);
         } else {
           if (_controller.hasClients) {
@@ -90,7 +100,11 @@ class _StateBannerSlider extends State<BannerSlider> {
         PageView(
           controller: _controller,
           onPageChanged: (index) {
-            position = index;
+            if (!isVideoPlaying) {
+              setState(() {
+                position = index;
+              });
+            }
           },
           children: <Widget>[
             for (int i = 0; i < items.length; i++)
@@ -106,6 +120,8 @@ class _StateBannerSlider extends State<BannerSlider> {
                 autoPlayVideo: widget.config.autoPlayVideo ?? false,
                 doubleTapToFullScreen:
                     widget.config.doubleTapToFullScreen ?? false,
+                onVideoPlay: () => updateVideoStatus(true),
+                onVideoStop: () => updateVideoStatus(false),
               ),
           ],
         ),

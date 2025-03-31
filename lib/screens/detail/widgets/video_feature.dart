@@ -30,6 +30,8 @@ class FeatureVideoPlayer extends StatefulWidget {
   final Duration? startAt;
   final bool showVolumeButton;
   final bool showFullScreenButton;
+  final Function()? onVideoPlay;
+  final Function()? onVideoStop;
 
   const FeatureVideoPlayer(
     this.url, {
@@ -45,6 +47,8 @@ class FeatureVideoPlayer extends StatefulWidget {
     this.startAt,
     this.showVolumeButton = false,
     this.showFullScreenButton = false,
+    this.onVideoPlay,
+    this.onVideoStop,
   }) : isFullScreen = false;
 
   const FeatureVideoPlayer.fullScreen(
@@ -61,6 +65,8 @@ class FeatureVideoPlayer extends StatefulWidget {
     this.startAt,
     this.showVolumeButton = false,
     this.showFullScreenButton = false,
+    this.onVideoPlay,
+    this.onVideoStop,
   }) : isFullScreen = true;
 
   @override
@@ -99,6 +105,7 @@ class _FeatureVideoPlayerState extends State<FeatureVideoPlayer>
       if ((await _youtubeController.playerState) == PlayerState.playing) {
         await _youtubeController.pauseVideo();
       }
+      widget.onVideoStop?.call();
     });
   }
 
@@ -115,11 +122,16 @@ class _FeatureVideoPlayerState extends State<FeatureVideoPlayer>
           });
           if (widget.autoPlay == true && widget.startAt == null) {
             _controller?.play();
+            widget.onVideoPlay?.call();
             return;
           }
           if (widget.startAt != null && widget.isPlaying) {
+            widget.onVideoPlay?.call();
+
             _controller?.play();
           } else {
+            widget.onVideoStop?.call();
+
             _controller?.pause();
           }
         }
@@ -186,7 +198,13 @@ class _FeatureVideoPlayerState extends State<FeatureVideoPlayer>
   }
 
   void setIsPlaying(bool status) {
-    status == true ? _controller?.play() : _controller?.pause();
+    if (status == true) {
+      _controller?.play();
+      widget.onVideoPlay?.call();
+    } else {
+      _controller?.pause();
+      widget.onVideoStop?.call();
+    }
   }
 
   @override
@@ -242,7 +260,13 @@ class _FeatureVideoPlayerState extends State<FeatureVideoPlayer>
 
   void updateVideoStatus() {
     if (widget.holdToPlayPause == false) {
-      _controller!.value.isPlaying ? _controller?.pause() : _controller?.play();
+      if (_controller!.value.isPlaying) {
+        _controller?.pause();
+        widget.onVideoStop?.call();
+      } else {
+        _controller?.play();
+        widget.onVideoPlay?.call();
+      }
     }
   }
 
@@ -311,6 +335,7 @@ class _FeatureVideoPlayerState extends State<FeatureVideoPlayer>
           onVisibilityChanged: (VisibilityInfo info) {
             if (info.visibleFraction == 0) {
               _controller?.pause();
+              widget.onVideoStop?.call();
             }
           },
           key: ValueKey('mp4_player_iframe-${widget.url}'),
@@ -343,12 +368,15 @@ class _FeatureVideoPlayerState extends State<FeatureVideoPlayer>
                     if (widget.holdToPlayPause) {
                       _cancelTimer();
                       _controller!.play();
+                      widget.onVideoPlay?.call();
                     }
                     if (widget.tapToPlayPause) {
                       if (_controller!.value.isPlaying) {
                         _controller!.pause();
+                        widget.onVideoStop?.call();
                       } else {
                         _controller!.play();
+                        widget.onVideoPlay?.call();
                       }
                     }
                     lastTap = now;
@@ -482,26 +510,33 @@ class _FeatureVideoPlayerState extends State<FeatureVideoPlayer>
       onVisibilityChanged: (VisibilityInfo info) {
         if (info.visibleFraction == 0) {
           _youtubeController.pauseVideo();
+          widget.onVideoStop?.call();
         }
       },
       key: ValueKey('youtube_player_iframe-${widget.url}'),
       child: Listener(
         onPointerDown: (_) {
-          if (widget.holdToPlayPause) {
-            _startTimer();
-          }
+          widget.onVideoPlay?.call();
+          print('UPPPPPPPPPPPPPPP');
+          // if (widget.holdToPlayPause) {
+          //   _startTimer();
+          // }
         },
         onPointerUp: (_) async {
+          // print('DOWWWWWWWWWWWNNNN');
           if (widget.holdToPlayPause) {
             _cancelTimer();
             await _youtubeController.playVideo();
+            widget.onVideoPlay?.call();
           }
           if (widget.tapToPlayPause) {
             var playerState = await _youtubeController.playerState;
             if (playerState == PlayerState.playing) {
               await _youtubeController.pauseVideo();
+              widget.onVideoStop?.call();
             } else {
               await _youtubeController.playVideo();
+              widget.onVideoPlay?.call();
             }
           }
         },
