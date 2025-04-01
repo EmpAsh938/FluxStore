@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flux_extended/store_locator/services/index.dart';
 import 'package:flux_extended/store_locator/views/store_locator_screen.dart';
 import 'package:inspireui/icons/icon_picker.dart' deferred as defer_icon;
 import 'package:inspireui/inspireui.dart' show DeferredWidget;
@@ -7,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../../common/config.dart';
 import '../../../models/app_model.dart';
+import '../../../models/entities/store/store.dart';
 import '../../../widgets/common/flux_image.dart';
 import '../../../widgets/multi_site/multi_site_mixin.dart';
 import '../config/logo_config.dart';
@@ -163,6 +165,21 @@ class Logo extends StatelessWidget with MultiSiteMixin {
     return const SizedBox();
   }
 
+  Future<String?> getAddress() async {
+    try {
+      final addressInfo = await SaveStoreLocation.getAddress();
+
+      if (addressInfo != null && addressInfo['description'] != null) {
+        return addressInfo['description'];
+      }
+
+      return null; // Explicitly return null if no valid address is found
+    } catch (e) {
+      print('Error fetching address: $e');
+      return null; // Ensure a return value even if an error occurs
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var enableMultiSite = Configurations.multiSiteConfigs?.isNotEmpty ?? false;
@@ -215,6 +232,7 @@ class Logo extends StatelessWidget with MultiSiteMixin {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 5, vertical: 5),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(
                               Icons.location_on,
@@ -248,7 +266,44 @@ class Logo extends StatelessWidget with MultiSiteMixin {
                                         fontSize: 16),
                                   ),
                               ],
-                            )
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Expanded(
+                              child: FutureBuilder<String?>(
+                                future: getAddress(), // Call the method here
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const CircularProgressIndicator(); // Show loading state
+                                  } else if (snapshot.hasError) {
+                                    return const Text(
+                                      '',
+                                      style: TextStyle(color: Colors.red),
+                                    );
+                                  } else if (!snapshot.hasData ||
+                                      snapshot.data == null) {
+                                    return const Text(
+                                      '',
+                                      style: TextStyle(color: Colors.black54),
+                                    );
+                                  }
+
+                                  return Text(
+                                    snapshot.data ?? '',
+                                    style: const TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14,
+                                    ),
+                                    softWrap: true,
+                                    overflow: TextOverflow.visible,
+                                    textAlign: TextAlign.right,
+                                  );
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),
