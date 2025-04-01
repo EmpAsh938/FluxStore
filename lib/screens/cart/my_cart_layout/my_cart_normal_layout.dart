@@ -326,17 +326,8 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
     );
   }
 
-  Widget showCheckoutBottomSheet(appModel) {
-    // showBottomSheet(
-    //   context: context,
-    //   // isScrollControlled: true, // Allows the modal to expand fully
-    //   backgroundColor: Colors.transparent, // Transparent background
-    //   builder: (context) {
-    //     return DraggableScrollableSheet(
-    //       initialChildSize: 0.4, // Show 40% of the screen initially
-    //       minChildSize: 0.4,
-    //       maxChildSize: 0.6, // Allow dragging up to 60%
-    //       builder: (_, controller) {
+  Widget showCheckoutBottomSheet(AppModel appModel) {
+    final cartModel = Provider.of<CartModel>(context, listen: false);
     return Positioned(
       bottom: 0,
       left: 0,
@@ -515,6 +506,58 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                 );
               },
             ),
+
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey
+                        .shade100, // Background color for the info icon
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.emoji_events_outlined, // Info icon
+                    size: 34,
+                    color: Colors.blueGrey,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 14,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'If you proceed to checkout, you will earn ',
+                          style: TextStyle(
+                            color: appModel.darkTheme ? kGrey200 : kGrey900,
+                          ),
+                        ),
+                        TextSpan(
+                          text:
+                              '${calculateRewardPoints(cartModel.getTotal()!)} Points!',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: appModel.darkTheme ? kGrey200 : kGrey900,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: kToolbarHeight,
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -523,5 +566,9 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
     // );
     // },
     // );
+  }
+
+  int calculateRewardPoints(double totalPrice) {
+    return (totalPrice / 10).floor(); // Each $10 gives 1 point
   }
 }

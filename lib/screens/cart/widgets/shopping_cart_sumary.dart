@@ -248,6 +248,9 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
 
     productSubTotal += cartModel.getSubTotal()!;
 
+    if (cartModel.getTotal()! > productSubTotal) {
+      productSubTotal = cartModel.getTotal()!;
+    }
     return Consumer<CartModel>(builder: (context, cartModel, child) {
       var couponMsg = '';
       var isApplyCouponSuccess = false;
