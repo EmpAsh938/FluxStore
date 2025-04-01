@@ -445,7 +445,30 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                           //           allowPush: false);
                           //   // return;
                           // }
-                          if (store == null || store.name == null) return;
+                          if (store == null || store.name == null) {
+                            // Show a dialog informing the user that the delivery address needs to be selected
+                            await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Delivery Address Needed'),
+                                  content: const Text(
+                                      'Please select a delivery address to continue.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            return;
+                          }
+
                           onCheckout(
                             model: cartModel,
                             isDialogView: widget.isDialogView,
