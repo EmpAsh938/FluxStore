@@ -215,6 +215,8 @@ class Logo extends StatelessWidget with MultiSiteMixin {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () async {
+                      if (config.layout == null) return;
+                      // config.
                       await Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -276,7 +278,8 @@ class Logo extends StatelessWidget with MultiSiteMixin {
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
-                                    return const CircularProgressIndicator(); // Show loading state
+                                    return const SizedBox.shrink();
+                                    // return const CircularProgressIndicator(); // Show loading state
                                   } else if (snapshot.hasError) {
                                     return const Text(
                                       '',

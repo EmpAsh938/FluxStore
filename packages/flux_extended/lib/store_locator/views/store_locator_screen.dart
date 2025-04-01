@@ -3,11 +3,14 @@ import 'package:flux_extended/store_locator/services/index.dart';
 import 'package:fstore/app.dart';
 import 'package:fstore/common/config.dart';
 import 'package:fstore/common/constants.dart';
+import 'package:fstore/common/tools/navigate_tools.dart';
 import 'package:fstore/generated/l10n.dart';
 import 'package:fstore/models/cart/cart_base.dart';
 import 'package:fstore/models/entities/address.dart';
 import 'package:fstore/models/entities/prediction.dart';
+import 'package:fstore/modules/dynamic_layout/config/logo_config.dart';
 import 'package:fstore/modules/dynamic_layout/logo/logo.dart';
+import 'package:fstore/routes/flux_navigate.dart';
 import 'package:fstore/screens/common/app_bar_mixin.dart';
 import 'package:fstore/widgets/html/index.dart';
 import 'package:fstore/widgets/map/autocomplete_search_input.dart';
@@ -59,293 +62,339 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MapModel>(
-        create: (_) => MapModel(),
-        // create: (_) => MapModel()..getStores(showAll: true),
-        child: Consumer<MapModel>(builder: (context, mapModel, _) {
-          final disableMap =
-              (isMacOS || isWindow || isFuchsia || mapModel.markers.isEmpty);
-          return DefaultTabController(
-            length: 2,
-            child: renderScaffold(
-                secondAppBar: renderAppBar(),
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                routeName: RouteList.storeLocator,
-                child: SafeArea(
-                  bottom: true,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Text(
-                          'HOW WOULD YOU LIKE YOUR MEAL?',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(30, 12, 30, 12),
-                        // Margin for spacing around the tab bar
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Theme.of(context).primaryColor, width: 1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: TabBar(
-                          controller: _tabController,
-                          indicator: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(6),
+    return SafeArea(
+      child: Stack(children: [
+        ChangeNotifierProvider<MapModel>(
+            create: (_) => MapModel(),
+            // create: (_) => MapModel()..getStores(showAll: true),
+            child: Consumer<MapModel>(builder: (context, mapModel, _) {
+              final disableMap = (isMacOS ||
+                  isWindow ||
+                  isFuchsia ||
+                  mapModel.markers.isEmpty);
+              return DefaultTabController(
+                length: 2,
+                child: renderScaffold(
+                    secondAppBar: renderAppBar(),
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    routeName: RouteList.storeLocator,
+                    child: SafeArea(
+                      bottom: true,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Text(
+                              'HOW WOULD YOU LIKE YOUR MEAL?',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black),
+                            ),
                           ),
-                          labelColor: Colors.white,
-                          unselectedLabelColor: Colors.black,
-
-                          // textScaler: const TextScaler.linear(1.3),
-                          onTap: (value) {
-                            // resetText();
-                            // mapModel.showAllStores();
-                          },
-                          tabs: const [
-                            Tab(
-                              text: 'Pick-up',
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(30, 12, 30, 12),
+                            // Margin for spacing around the tab bar
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            Tab(text: 'Delivery'),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          physics: NeverScrollableScrollPhysics(),
-                          controller: _tabController,
-                          children: [
-                            /// pick up view
-                            Column(
-                              children: [
-                                TextFieldRow(
-                                  mapModel: mapModel,
-                                  hintText: 'PICK A LOCATION NEAR YOU',
+                            child: TabBar(
+                              controller: _tabController,
+                              indicator: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              labelColor: Colors.white,
+                              unselectedLabelColor: Colors.black,
+
+                              // textScaler: const TextScaler.linear(1.3),
+                              onTap: (value) {
+                                // resetText();
+                                // mapModel.showAllStores();
+                              },
+                              tabs: const [
+                                Tab(
+                                  text: 'Pick-up',
                                 ),
-                                UseMyLocationRow(
-                                  mapModel: mapModel,
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Expanded(
-                                  child: mapModel.state == MapModelState.loading
-                                      ? Center(
-                                          child: kLoadingWidget(context),
-                                        )
-                                      : mapModel.showStores
-                                          ? Stack(
-                                              children: [
-                                                if (!_showMap ||
-                                                    mapModel.stores.isEmpty)
-                                                  Container(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.1),
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                      left: 30,
-                                                      right: 30,
-                                                    ),
-                                                    child: mapModel
-                                                            .stores.isNotEmpty
-                                                        ? ListView.builder(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 5,
-                                                                    right: 5,
-                                                                    bottom: 15),
-                                                            itemCount: mapModel
-                                                                .stores.length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int index) {
-                                                              return StoreItem(
-                                                                selectShipType:
-                                                                    'Pick up',
-                                                                store: mapModel
-                                                                        .stores[
-                                                                    index],
-                                                              );
-                                                            })
-                                                        : Center(
-                                                            child: Text(S
-                                                                .of(context)
-                                                                .searchEmptyDataMessage),
-                                                          ),
-                                                  )
-                                              ],
-                                            )
-                                          : Container(),
-                                )
+                                Tab(text: 'Delivery'),
                               ],
                             ),
-
-                            /// delivery view
-                            Column(
+                          ),
+                          Expanded(
+                            child: TabBarView(
+                              physics: NeverScrollableScrollPhysics(),
+                              controller: _tabController,
                               children: [
-                                TextFieldRow(
-                                  mapModel: mapModel,
-                                  hintText: userAddress.isEmpty
-                                      ? 'DELIVER AT YOUR SELECTED LOCATION'
-                                      : userAddress,
-                                ),
-                                UseMyLocationRow(
-                                  mapModel: mapModel,
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Expanded(
-                                  child: mapModel.state == MapModelState.loading
-                                      ? Center(
-                                          child: kLoadingWidget(context),
-                                        )
-                                      : mapModel.showStores
-                                          ? Stack(
-                                              children: [
-                                                if (!_showMap ||
-                                                    mapModel.stores.isEmpty)
-                                                  Container(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.1),
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                      left: 30,
-                                                      right: 30,
-                                                    ),
-                                                    child: mapModel
-                                                            .stores.isNotEmpty
-                                                        ? ListView.builder(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 5,
-                                                                    right: 5,
-                                                                    bottom: 15),
-                                                            itemCount: mapModel
-                                                                .stores.length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int index) {
-                                                              return StoreItem(
-                                                                selectShipType:
-                                                                    'Delivery',
-                                                                store: mapModel
-                                                                        .stores[
-                                                                    index],
-                                                              );
-                                                            })
-                                                        : Center(
-                                                            child: Text(S
-                                                                .of(context)
-                                                                .searchEmptyDataMessage),
-                                                          ),
-                                                  )
-                                              ],
+                                /// pick up view
+                                Column(
+                                  children: [
+                                    TextFieldRow(
+                                      mapModel: mapModel,
+                                      hintText: 'PICK A LOCATION NEAR YOU',
+                                    ),
+                                    UseMyLocationRow(
+                                      mapModel: mapModel,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Expanded(
+                                      child: mapModel.state ==
+                                              MapModelState.loading
+                                          ? Center(
+                                              child: kLoadingWidget(context),
                                             )
-                                          : Container(),
+                                          : mapModel.showStores
+                                              ? Stack(
+                                                  children: [
+                                                    if (!_showMap ||
+                                                        mapModel.stores.isEmpty)
+                                                      Container(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.1),
+                                                        margin: const EdgeInsets
+                                                            .only(
+                                                          left: 30,
+                                                          right: 30,
+                                                        ),
+                                                        child: mapModel.stores
+                                                                .isNotEmpty
+                                                            ? ListView.builder(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        left: 5,
+                                                                        right:
+                                                                            5,
+                                                                        bottom:
+                                                                            15),
+                                                                itemCount:
+                                                                    mapModel
+                                                                        .stores
+                                                                        .length,
+                                                                itemBuilder:
+                                                                    (BuildContext
+                                                                            context,
+                                                                        int index) {
+                                                                  return StoreItem(
+                                                                    selectShipType:
+                                                                        'Pick up',
+                                                                    store: mapModel
+                                                                            .stores[
+                                                                        index],
+                                                                  );
+                                                                })
+                                                            : Center(
+                                                                child: Text(S
+                                                                    .of(context)
+                                                                    .searchEmptyDataMessage),
+                                                              ),
+                                                      )
+                                                  ],
+                                                )
+                                              : Container(),
+                                    )
+                                  ],
+                                ),
+
+                                /// delivery view
+                                Column(
+                                  children: [
+                                    TextFieldRow(
+                                      mapModel: mapModel,
+                                      hintText: userAddress.isEmpty
+                                          ? 'DELIVER AT YOUR SELECTED LOCATION'
+                                          : userAddress,
+                                    ),
+                                    UseMyLocationRow(
+                                      mapModel: mapModel,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Expanded(
+                                      child: mapModel.state ==
+                                              MapModelState.loading
+                                          ? Center(
+                                              child: kLoadingWidget(context),
+                                            )
+                                          : mapModel.showStores
+                                              ? Stack(
+                                                  children: [
+                                                    if (!_showMap ||
+                                                        mapModel.stores.isEmpty)
+                                                      Container(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.1),
+                                                        margin: const EdgeInsets
+                                                            .only(
+                                                          left: 30,
+                                                          right: 30,
+                                                        ),
+                                                        child: mapModel.stores
+                                                                .isNotEmpty
+                                                            ? ListView.builder(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        left: 5,
+                                                                        right:
+                                                                            5,
+                                                                        bottom:
+                                                                            15),
+                                                                itemCount:
+                                                                    mapModel
+                                                                        .stores
+                                                                        .length,
+                                                                itemBuilder:
+                                                                    (BuildContext
+                                                                            context,
+                                                                        int index) {
+                                                                  return StoreItem(
+                                                                    selectShipType:
+                                                                        'Delivery',
+                                                                    store: mapModel
+                                                                            .stores[
+                                                                        index],
+                                                                  );
+                                                                })
+                                                            : Center(
+                                                                child: Text(S
+                                                                    .of(context)
+                                                                    .searchEmptyDataMessage),
+                                                              ),
+                                                      )
+                                                  ],
+                                                )
+                                              : Container(),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                          //   child: AutocompleteSearchInput(
+                          //     hintText: S.of(context).storeLocatorSearchPlaceholder,
+                          //     onChanged: (Prediction prediction) {
+                          //       mapModel.updateCurrentLocation(prediction);
+                          //     },
+                          //     onCancel: () {
+                          //       _showMap = false;
+                          //       mapModel.showAllStores();
+                          //     },
+                          //   ),
+                          // ),
+                          /// map and slider view
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: RadiusSlider(
+                          //         maxRadius: mapModel.maxRadius,
+                          //         minRadius: mapModel.minRadius,
+                          //         onCallBack: (val) =>
+                          //             mapModel.getStores(radius: val),
+                          //         currentVal: mapModel.radius,
+                          //         decoration: BoxDecoration(
+                          //           border: Border.all(
+                          //               width: 1,
+                          //               color: Theme.of(context).primaryColorLight),
+                          //           borderRadius: BorderRadius.circular(5.0),
+                          //           color: Theme.of(context).cardColor,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     if (!disableMap)
+                          //       IconButton(
+                          //           onPressed: () {
+                          //             setState(() {
+                          //               _showMap = !_showMap;
+                          //             });
+                          //           },
+                          //           icon: Icon(
+                          //               _showMap
+                          //                   ? Icons.list_alt
+                          //                   : Icons.map_outlined,
+                          //               color: Theme.of(context).primaryColor))
+                          //   ],
+                          // ),
+                          // Expanded(
+                          //   child: mapModel.state == MapModelState.loading
+                          //       ? Center(
+                          //           child: kLoadingWidget(context),
+                          //         )
+                          //       : Stack(
+                          //           children: [
+                          //             const StoresMapView(),
+                          //             if (!_showMap || mapModel.stores.isEmpty)
+                          //               Container(
+                          //                 color:
+                          //                     Theme.of(context).colorScheme.surface,
+                          //                 child: mapModel.stores.isNotEmpty
+                          //                     ? ListView.builder(
+                          //                         padding: const EdgeInsets.only(
+                          //                             left: 15,
+                          //                             right: 15,
+                          //                             bottom: 15),
+                          //                         itemCount: mapModel.stores.length,
+                          //                         itemBuilder:
+                          //                             (BuildContext context,
+                          //                                 int index) {
+                          //                           return StoreItem(
+                          //                             store: mapModel.stores[index],
+                          //                           );
+                          //                         })
+                          //                     : Center(
+                          //                         child: Text(S
+                          //                             .of(context)
+                          //                             .searchEmptyDataMessage),
+                          //                       ),
+                          //               )
+                          //           ],
+                          //         ),
+                          // ),
+                        ],
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 10),
-                      //   child: AutocompleteSearchInput(
-                      //     hintText: S.of(context).storeLocatorSearchPlaceholder,
-                      //     onChanged: (Prediction prediction) {
-                      //       mapModel.updateCurrentLocation(prediction);
-                      //     },
-                      //     onCancel: () {
-                      //       _showMap = false;
-                      //       mapModel.showAllStores();
-                      //     },
-                      //   ),
-                      // ),
-                      /// map and slider view
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: RadiusSlider(
-                      //         maxRadius: mapModel.maxRadius,
-                      //         minRadius: mapModel.minRadius,
-                      //         onCallBack: (val) =>
-                      //             mapModel.getStores(radius: val),
-                      //         currentVal: mapModel.radius,
-                      //         decoration: BoxDecoration(
-                      //           border: Border.all(
-                      //               width: 1,
-                      //               color: Theme.of(context).primaryColorLight),
-                      //           borderRadius: BorderRadius.circular(5.0),
-                      //           color: Theme.of(context).cardColor,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     if (!disableMap)
-                      //       IconButton(
-                      //           onPressed: () {
-                      //             setState(() {
-                      //               _showMap = !_showMap;
-                      //             });
-                      //           },
-                      //           icon: Icon(
-                      //               _showMap
-                      //                   ? Icons.list_alt
-                      //                   : Icons.map_outlined,
-                      //               color: Theme.of(context).primaryColor))
-                      //   ],
-                      // ),
-                      // Expanded(
-                      //   child: mapModel.state == MapModelState.loading
-                      //       ? Center(
-                      //           child: kLoadingWidget(context),
-                      //         )
-                      //       : Stack(
-                      //           children: [
-                      //             const StoresMapView(),
-                      //             if (!_showMap || mapModel.stores.isEmpty)
-                      //               Container(
-                      //                 color:
-                      //                     Theme.of(context).colorScheme.surface,
-                      //                 child: mapModel.stores.isNotEmpty
-                      //                     ? ListView.builder(
-                      //                         padding: const EdgeInsets.only(
-                      //                             left: 15,
-                      //                             right: 15,
-                      //                             bottom: 15),
-                      //                         itemCount: mapModel.stores.length,
-                      //                         itemBuilder:
-                      //                             (BuildContext context,
-                      //                                 int index) {
-                      //                           return StoreItem(
-                      //                             store: mapModel.stores[index],
-                      //                           );
-                      //                         })
-                      //                     : Center(
-                      //                         child: Text(S
-                      //                             .of(context)
-                      //                             .searchEmptyDataMessage),
-                      //                       ),
-                      //               )
-                      //           ],
-                      //         ),
-                      // ),
-                    ],
-                  ),
-                )),
-          );
-        }));
+                    )),
+              );
+            })),
+        Positioned(
+          bottom: 0,
+          left: 20,
+          right: 0,
+          child: Expanded(
+            child: Logo(
+              config: LogoConfig.fromJson({}),
+              onSearch: () {
+                // FluxNavigate.pushNamed(
+                //   RouteList.homeSearch,
+                //   context: context,
+                // );
+              },
+              onCheckout: () {
+                FluxNavigate.pushNamed(
+                  RouteList.cart,
+                  context: context,
+                );
+              },
+              onTapNotifications: () {
+                FluxNavigate.pushNamed(
+                  RouteList.notify,
+                  context: context,
+                );
+              },
+              onTapDrawerMenu: () => NavigateTools.onTapOpenDrawerMenu(context),
+            ),
+          ),
+        ),
+      ]),
+    );
   }
 
   AppBar? renderAppBar() {
