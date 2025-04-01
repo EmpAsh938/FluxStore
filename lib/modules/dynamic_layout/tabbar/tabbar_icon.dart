@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:inspireui/icons/icon_picker.dart' deferred as defer_icon;
 import 'package:inspireui/inspireui.dart' show DeferredWidget;
+import 'package:provider/provider.dart';
 
+import '../../../models/index.dart';
 import '../../../widgets/common/flux_image.dart';
 import '../config/app_config.dart';
 import '../config/tab_bar_config.dart';
@@ -31,6 +33,8 @@ class TabBarIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appModel = Provider.of<AppModel>(context, listen: false);
+
     if (isEmptySpace) {
       return const SizedBox(
         width: 60,
@@ -40,7 +44,11 @@ class TabBarIcon extends StatelessWidget {
 
     Widget icon = Builder(
       builder: (context) {
-        var iconColor = isActive ? const Color(0xffcc1c24) : Colors.black;
+        var iconColor = isActive
+            ? const Color(0xffcc1c24)
+            : appModel.darkTheme
+                ? Colors.white
+                : Colors.black;
 
         if (item.icon.isEmpty) {
           return Icon(

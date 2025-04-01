@@ -56,6 +56,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
     var layoutType = Provider.of<AppModel>(context).productDetailLayout;
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final canPop = parentRoute?.canPop ?? false;
+    final appModel = Provider.of<AppModel>(context, listen: false);
 
     return Selector<CartModel, String?>(
       selector: (_, carModel) => '${cartModel.productsInCart.keys.firstOrNull}'
@@ -66,8 +67,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
           context: context,
           removeTop: widget.hasNewAppBar && widget.isModal != true,
           child: Scaffold(
-            // backgroundColor: Theme.of(context).colorScheme.surface,
-            backgroundColor: kGrey200,
+            backgroundColor: appModel.darkTheme ? kGrey900 : kGrey200,
             // floatingActionButtonLocation:
             //     kAdvanceConfig.floatingCartCheckoutButtonLocation,
             // floatingActionButton:
@@ -317,7 +317,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                     )
                   ],
                 ),
-                showCheckoutBottomSheet(),
+                showCheckoutBottomSheet(appModel),
               ],
             ),
           ),
@@ -326,7 +326,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
     );
   }
 
-  Widget showCheckoutBottomSheet() {
+  Widget showCheckoutBottomSheet(appModel) {
     // showBottomSheet(
     //   context: context,
     //   // isScrollControlled: true, // Allows the modal to expand fully
@@ -342,10 +342,10 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
       left: 0,
       width: MediaQuery.of(context).size.width,
       child: Container(
-        decoration: const BoxDecoration(
-            color: Colors.white, // Dark background
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-            border: Border(
+        decoration: BoxDecoration(
+            color: appModel.darkTheme ? Colors.black : Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+            border: const Border(
               top: BorderSide(
                 color: Colors.black12,
                 width: 1.0,

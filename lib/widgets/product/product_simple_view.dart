@@ -6,6 +6,7 @@ import '../../../common/config.dart';
 import '../../../common/tools.dart';
 import '../../../generated/l10n.dart';
 import '../../../models/index.dart' show AppModel, Product;
+import '../../common/theme/colors.dart';
 import '../../modules/dynamic_layout/config/product_config.dart';
 import '../../services/index.dart';
 import '../html/index.dart';
@@ -34,8 +35,9 @@ class ProductSimpleView extends StatelessWidget with ActionButtonMixin {
     if (item?.name == null) return const SizedBox();
     var productConfig = config ?? ProductConfig.empty();
 
-    final currency = Provider.of<AppModel>(context).currency;
-    final currencyRate = Provider.of<AppModel>(context).currencyRate;
+    final appModel = Provider.of<AppModel>(context);
+    final currency = appModel.currency;
+    final currencyRate = appModel.currencyRate;
     var screenWidth = MediaQuery.of(context).size.width;
     var titleFontSize = 15.0;
     var imageWidth = 60.0;
@@ -125,10 +127,7 @@ class ProductSimpleView extends StatelessWidget with ActionButtonMixin {
         child: Container(
           width: screenWidth,
           decoration: BoxDecoration(
-            color: Colors.white,
-            // color: type == SimpleType.backgroundColor && enableBackgroundColor
-            //     ? Theme.of(context).primaryColorLight
-            //     : null,
+            color: appModel.darkTheme ? Colors.black : Colors.white,
             border: Border.all(
               color: Colors.black12,
               width: 1,

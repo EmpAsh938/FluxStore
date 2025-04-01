@@ -253,6 +253,8 @@ class _ShippingAddressState extends State<ShippingAddress> {
 
   @override
   Widget build(BuildContext context) {
+    final appModel = Provider.of<AppModel>(context, listen: false);
+
     if (address == null) {
       return SizedBox(height: 100, child: kLoadingWidget(context));
     }
@@ -275,7 +277,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
     );
 
     return Container(
-      color: kGrey200,
+      color: appModel.darkTheme ? kGrey900 : kGrey200,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

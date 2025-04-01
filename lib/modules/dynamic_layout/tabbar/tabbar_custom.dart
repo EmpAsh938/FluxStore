@@ -88,10 +88,11 @@ class TabBarCustom extends StatelessWidget {
   Widget _buildTabBar(context) {
     final theme = Theme.of(context);
     final tabConfig = config.tabBarConfig;
+    final appModel = Provider.of<AppModel>(context, listen: false);
 
     final labelTextStyle = theme.primaryTextTheme.bodyLarge;
     // final colorIcon = tabConfig.colorIcon ?? theme.colorScheme.secondary;
-    const colorIcon = Colors.black;
+    final colorIcon = appModel.darkTheme ? Colors.white : Colors.black;
     // final colorActiveIcon = tabConfig.colorActiveIcon ?? theme.primaryColor;
     const colorActiveIcon = Color(0xffcc1c24);
 
@@ -206,7 +207,7 @@ class TabBarCustom extends StatelessWidget {
                     //     ? null
                     //     : tabConfig.color ??
                     //         Theme.of(context).colorScheme.surface,
-                    color: Colors.white,
+                    color: appModel.darkTheme ? Colors.black : Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(tabConfig.radiusTopLeft),
                       topRight: Radius.circular(tabConfig.radiusTopRight),

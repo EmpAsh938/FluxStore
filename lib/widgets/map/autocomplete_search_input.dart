@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_async_autocomplete/flutter_async_autocomplete.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/config.dart';
 import '../../common/tools/flash.dart';
 import '../../generated/l10n.dart';
+import '../../models/app_model.dart';
 import '../../models/entities/prediction.dart';
 import '../../services/services.dart';
 import '../common/place_picker.dart';
@@ -34,6 +36,8 @@ class _AutocompleteSearchInputState extends State<AutocompleteSearchInput> {
 
   @override
   Widget build(BuildContext context) {
+    final appModel = Provider.of<AppModel>(context, listen: false);
+
     return AsyncAutocomplete<Prediction>(
       // ignoreFirstFocus: true,
       progressIndicatorBuilder: kLoadingWidget(context),
@@ -53,7 +57,10 @@ class _AutocompleteSearchInputState extends State<AutocompleteSearchInput> {
       cursorColor: Theme.of(context).primaryColor,
       decoration: InputDecoration(
         hintText: widget.hintText ?? S.of(context).search,
-        hintStyle: const TextStyle(fontSize: 12, color: Colors.black),
+        hintStyle: TextStyle(
+          fontSize: 12,
+          color: appModel.darkTheme ? Colors.white : Colors.black,
+        ),
         filled: true,
         fillColor: Theme.of(context).colorScheme.surface,
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 25),

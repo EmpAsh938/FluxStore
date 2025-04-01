@@ -7,6 +7,7 @@ import 'package:inspireui/inspireui.dart' show DeferredWidget;
 import 'package:provider/provider.dart';
 
 import '../../../common/config.dart';
+import '../../../common/theme/colors.dart';
 import '../../../models/app_model.dart';
 import '../../../models/entities/store/store.dart';
 import '../../../widgets/common/flux_image.dart';
@@ -183,7 +184,8 @@ class Logo extends StatelessWidget with MultiSiteMixin {
   @override
   Widget build(BuildContext context) {
     var enableMultiSite = Configurations.multiSiteConfigs?.isNotEmpty ?? false;
-    var multiSiteIcon = Provider.of<AppModel>(context).multiSiteConfig?.icon;
+    final appModel = Provider.of<AppModel>(context);
+    var multiSiteIcon = appModel.multiSiteConfig?.icon;
 
     final textConfig = config.textConfig;
 
@@ -196,6 +198,7 @@ class Logo extends StatelessWidget with MultiSiteMixin {
       ),
       color: config.color ??
           Theme.of(context).colorScheme.surface.withOpacity(config.opacity),
+      // color: Colors.white,
       child: Row(
         children: [
           if (config.showMenu ?? false)
@@ -226,7 +229,8 @@ class Logo extends StatelessWidget with MultiSiteMixin {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.black,
+                          color:
+                              appModel.darkTheme ? Colors.white : Colors.black,
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -254,16 +258,21 @@ class Logo extends StatelessWidget with MultiSiteMixin {
                                           ? 'Delivery from'
                                           : 'Pickup at'
                                       : 'Select Pickup or Delivery',
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 12),
+                                  style: TextStyle(
+                                      color: appModel.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: 12),
                                 ),
                                 if (storeData.isNotEmpty)
                                   Text(
                                     storeData.isNotEmpty
                                         ? storeData['storeName'].toString()
                                         : 'ADDRESS',
-                                    style: const TextStyle(
-                                        color: Colors.black,
+                                    style: TextStyle(
+                                        color: appModel.darkTheme
+                                            ? Colors.white
+                                            : Colors.black,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16),
                                   ),
@@ -295,8 +304,10 @@ class Logo extends StatelessWidget with MultiSiteMixin {
 
                                   return Text(
                                     snapshot.data ?? '',
-                                    style: const TextStyle(
-                                      color: Colors.black54,
+                                    style: TextStyle(
+                                      color: appModel.darkTheme
+                                          ? Colors.white
+                                          : Colors.black54,
                                       fontWeight: FontWeight.normal,
                                       fontSize: 14,
                                     ),

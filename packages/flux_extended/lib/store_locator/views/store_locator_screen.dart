@@ -5,6 +5,7 @@ import 'package:fstore/common/config.dart';
 import 'package:fstore/common/constants.dart';
 import 'package:fstore/common/tools/navigate_tools.dart';
 import 'package:fstore/generated/l10n.dart';
+import 'package:fstore/models/app_model.dart';
 import 'package:fstore/models/cart/cart_base.dart';
 import 'package:fstore/models/entities/address.dart';
 import 'package:fstore/models/entities/prediction.dart';
@@ -62,6 +63,7 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
 
   @override
   Widget build(BuildContext context) {
+    final appModel = Provider.of<AppModel>(context, listen: false);
     return SafeArea(
       child: Stack(children: [
         ChangeNotifierProvider<MapModel>(
@@ -91,7 +93,9 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
                                   .bodyLarge
                                   ?.copyWith(
                                       fontWeight: FontWeight.w700,
-                                      color: Colors.black),
+                                      color: appModel.darkTheme
+                                          ? Colors.white
+                                          : Colors.black),
                             ),
                           ),
                           Container(
@@ -182,6 +186,8 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
                                                                             context,
                                                                         int index) {
                                                                   return StoreItem(
+                                                                    appModel:
+                                                                        appModel,
                                                                     selectShipType:
                                                                         'Pick up',
                                                                     store: mapModel
@@ -256,6 +262,8 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
                                                                             context,
                                                                         int index) {
                                                                   return StoreItem(
+                                                                    appModel:
+                                                                        appModel,
                                                                     selectShipType:
                                                                         'Delivery',
                                                                     store: mapModel
@@ -366,7 +374,7 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
             })),
         Positioned(
           bottom: 0,
-          left: 20,
+          left: 0,
           right: 0,
           child: Expanded(
             child: Logo(
@@ -428,15 +436,19 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
 
 class StoreItem extends StatelessWidget {
   final String selectShipType;
+  final AppModel appModel;
   const StoreItem(
-      {super.key, required this.store, required this.selectShipType});
+      {super.key,
+      required this.store,
+      required this.selectShipType,
+      required this.appModel});
 
   final Store store;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: appModel.darkTheme ? kGrey900 : Colors.white,
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(bottom: 12, top: 5),
       child: Column(
@@ -698,6 +710,7 @@ class StoresList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appModel = Provider.of<AppModel>(context, listen: false);
     return Expanded(
       child: mapModel.state == MapModelState.loading
           ? Center(
@@ -716,6 +729,7 @@ class StoresList extends StatelessWidget {
                             itemCount: mapModel.stores.length,
                             itemBuilder: (BuildContext context, int index) {
                               return StoreItem(
+                                appModel: appModel,
                                 selectShipType: 'Pick up',
                                 store: mapModel.stores[index],
                               );
