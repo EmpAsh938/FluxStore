@@ -18,7 +18,7 @@ class HeaderView extends StatelessWidget {
     this.showSeeAll = false,
     super.key,
     this.callback,
-    this.verticalMargin = 6.0,
+    this.verticalMargin = 18.0,
     this.horizontalMargin,
     this.showCountdown = false,
     this.countdownDuration = const Duration(),
@@ -47,19 +47,24 @@ class HeaderView extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (isDesktop) ...[
-                    const SizedBox(height: 16),
-                  ],
-                  Text(
-                    headerText ?? '',
-                    style: isDesktop
-                        ? Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(fontWeight: FontWeight.w700)
-                        : Theme.of(context).textTheme.titleLarge,
+                  // if (isDesktop) ...[
+                  //   const SizedBox(height: 16),
+                  // ],
+                  // Text(
+                  //   headerText ?? '',
+                  //   style: isDesktop
+                  //       ? Theme.of(context)
+                  //           .textTheme
+                  //           .headlineSmall!
+                  //           .copyWith(fontWeight: FontWeight.w700)
+                  //       : Theme.of(context).textTheme.titleLarge,
+                  // ),
+                  const Text(
+                    'Choose Your Meal Type to Start Your Order',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                    textAlign: TextAlign.center,
                   ),
                   if (showCountdown)
                     Row(
@@ -84,20 +89,20 @@ class HeaderView extends StatelessWidget {
                 ],
               ),
             ),
-            if (showSeeAll)
-              InkResponse(
-                onTap: callback,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    S.of(context).seeAll,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: Theme.of(context).primaryColor),
-                  ),
-                ),
-              ),
+            // if (showSeeAll)
+            //   InkResponse(
+            //     onTap: callback,
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Text(
+            //         S.of(context).seeAll,
+            //         style: Theme.of(context)
+            //             .textTheme
+            //             .bodySmall!
+            //             .copyWith(color: Theme.of(context).primaryColor),
+            //       ),
+            //     ),
+            //   ),
           ],
         ),
       ),

@@ -84,15 +84,15 @@ class ProductSimpleView extends StatelessWidget with ActionButtonMixin {
                 Text(
                   item!.type == 'grouped'
                       ? '${S.of(context).from} ${PriceTools.getPriceProduct(item, currencyRate, currency, onSale: true)}'
-                      : 
-                      item!.isCompositeProduct==true? "":
-                      PriceTools.getPriceProduct(item, currencyRate, currency,
-                          onSale: true)!,
+                      : item!.isCompositeProduct == true
+                          ? ""
+                          : PriceTools.getPriceProduct(
+                              item, currencyRate, currency,
+                              onSale: true)!,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold
-                      ),
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 ),
               if (isSale) ...[
                 const SizedBox(width: 5),
@@ -124,12 +124,16 @@ class ProductSimpleView extends StatelessWidget with ActionButtonMixin {
             config: config),
         child: Container(
           width: screenWidth,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
             // color: type == SimpleType.backgroundColor && enableBackgroundColor
             //     ? Theme.of(context).primaryColorLight
             //     : null,
-            borderRadius: BorderRadius.all(
+            border: Border.all(
+              color: Colors.black12,
+              width: 1,
+            ),
+            borderRadius: const BorderRadius.all(
               Radius.circular(12),
             ),
           ),
@@ -144,16 +148,20 @@ class ProductSimpleView extends StatelessWidget with ActionButtonMixin {
                     ClipRRect(
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10.0)),
-                          child: CachedNetworkImage(
-                            width: imageWidth,
-                            height: imageHeight,
-                            fit: BoxFit.cover,
-                            imageUrl: item?.imageFeature??"",
-                            progressIndicatorBuilder: (context, url, downloadProgress) => 
-                                    Container(height: imageHeight,width: imageWidth,color: Colors.grey.withOpacity(0.5),),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
-                          ),
-                                            
+                      child: CachedNetworkImage(
+                        width: imageWidth,
+                        height: imageHeight,
+                        fit: BoxFit.cover,
+                        imageUrl: item?.imageFeature ?? "",
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) => Container(
+                          height: imageHeight,
+                          width: imageWidth,
+                          color: Colors.grey.withOpacity(0.5),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
                     ),
                     ProductOnSale(
                       product: item!,
@@ -184,13 +192,13 @@ class ProductSimpleView extends StatelessWidget with ActionButtonMixin {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                 HtmlWidget(
-                              item!.shortDescription!,
-                              textStyle: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
-                            ),
+                                HtmlWidget(
+                                  item!.shortDescription!,
+                                  textStyle: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -210,11 +218,14 @@ class ProductSimpleView extends StatelessWidget with ActionButtonMixin {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  item!.isCompositeProduct==true?
-                                  const SizedBox(): const Text('Starting at',style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12
-                                ),),
+                                  item!.isCompositeProduct == true
+                                      ? const SizedBox()
+                                      : const Text(
+                                          'Starting at',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12),
+                                        ),
                                   productPricing,
                                 ],
                               ),
@@ -236,14 +247,18 @@ class ProductSimpleView extends StatelessWidget with ActionButtonMixin {
                 if (type == SimpleType.priceOnTheRight)
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
-                    child: Column(children: [
-                       item!.isCompositeProduct==true? const SizedBox(): 
-                       const Text('Starting at',style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12
-                      ),),
-                      productPricing
-                    ],),
+                    child: Column(
+                      children: [
+                        item!.isCompositeProduct == true
+                            ? const SizedBox()
+                            : const Text(
+                                'Starting at',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 12),
+                              ),
+                        productPricing
+                      ],
+                    ),
                   ),
                 if ((kProductDetail.showAddToCartInSearchResult &&
                     canAddToCart &&
@@ -252,15 +267,15 @@ class ProductSimpleView extends StatelessWidget with ActionButtonMixin {
                   //   product: item!,
                   //   config: productConfig,
                   // ),
-                if (imageUrl != null && imageUrl.isNotEmpty)
-                  ImageResize(
-                    url: imageUrl,
-                    width: 30,
-                    size: kSize.medium,
-                    isResize: true,
-                    // fit: ImageTools.boxFit(config.imageBoxfit),
-                    offset:  0.0,
-                  ),
+                  if (imageUrl != null && imageUrl.isNotEmpty)
+                    ImageResize(
+                      url: imageUrl,
+                      width: 30,
+                      size: kSize.medium,
+                      isResize: true,
+                      // fit: ImageTools.boxFit(config.imageBoxfit),
+                      offset: 0.0,
+                    ),
               ],
             ),
           ),
