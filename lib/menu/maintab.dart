@@ -749,7 +749,6 @@ extension TabBarMenuExtention on MainTabsState {
                   child: tabBarMenu(),
                 );
               }
-
               return tabBarMenu();
             },
           ),

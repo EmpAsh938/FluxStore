@@ -90,8 +90,10 @@ class TabBarCustom extends StatelessWidget {
     final tabConfig = config.tabBarConfig;
 
     final labelTextStyle = theme.primaryTextTheme.bodyLarge;
-    final colorIcon = tabConfig.colorIcon ?? theme.colorScheme.secondary;
-    final colorActiveIcon = tabConfig.colorActiveIcon ?? theme.primaryColor;
+    // final colorIcon = tabConfig.colorIcon ?? theme.colorScheme.secondary;
+    const colorIcon = Colors.black;
+    // final colorActiveIcon = tabConfig.colorActiveIcon ?? theme.primaryColor;
+    const colorActiveIcon = Color(0xffcc1c24);
 
     final indicatorSize = tabConfig.indicatorStyle == IndicatorStyle.rectangular
         ? TabBarIndicatorSize.tab
@@ -105,7 +107,6 @@ class TabBarCustom extends StatelessWidget {
     /// only disable visible tab icon and not the tabMenu
     // var tabList =
     //     tabData.where((e) => e.visible != false && e.tabMenu != true).toList();
-
     return custom.TabBar(
       key: const Key('mainTabBar'),
       controller: tabController,
@@ -183,9 +184,10 @@ class TabBarCustom extends StatelessWidget {
       child: shouldHideTabBar
           ? const SizedBox()
           : Container(
-              color: tabConfig.showFloating
-                  ? null
-                  : Theme.of(context).colorScheme.surface,
+              // color: tabConfig.showFloating
+              //     ? null
+              //     : Theme.of(context).colorScheme.surface,
+              color: Colors.white,
               child: Container(
                 padding: EdgeInsets.only(
                   left: tabConfig.paddingLeft,
@@ -200,10 +202,11 @@ class TabBarCustom extends StatelessWidget {
                   top: tabConfig.marginTop,
                 ),
                 decoration: BoxDecoration(
-                    color: tabConfig.showFloating
-                        ? null
-                        : tabConfig.color ??
-                            Theme.of(context).colorScheme.surface,
+                    // color: tabConfig.showFloating
+                    //     ? null
+                    //     : tabConfig.color ??
+                    //         Theme.of(context).colorScheme.surface,
+                    color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(tabConfig.radiusTopLeft),
                       topRight: Radius.circular(tabConfig.radiusTopRight),

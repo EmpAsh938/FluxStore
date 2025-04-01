@@ -40,9 +40,7 @@ class TabBarIcon extends StatelessWidget {
 
     Widget icon = Builder(
       builder: (context) {
-        var iconColor =
-            (isActive ? config.colorActiveIcon : config.colorIcon) ??
-                IconTheme.of(context).color;
+        var iconColor = isActive ? const Color(0xffcc1c24) : Colors.black;
 
         if (item.icon.isEmpty) {
           return Icon(
