@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_async_autocomplete/flutter_async_autocomplete.dart';
 
 import '../../common/config.dart';
@@ -39,6 +40,9 @@ class _AutocompleteSearchInputState extends State<AutocompleteSearchInput> {
       controller: _autoController,
       scrollBarController: _scrollController,
       maxListHeight: 300,
+      inputFormatter: [
+        FilteringTextInputFormatter.deny(RegExp(r'#')), // Prevent typing '#'
+      ],
 
       onTapItem: (Prediction item) {
         setState(() {
