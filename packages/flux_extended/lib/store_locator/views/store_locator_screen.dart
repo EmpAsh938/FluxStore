@@ -648,7 +648,6 @@ class UseMyLocationRow extends StatelessWidget {
             height: 45,
             margin: const EdgeInsets.only(left: 20),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 1),
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.circular(12),
             ),
