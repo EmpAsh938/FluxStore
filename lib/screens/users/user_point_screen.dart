@@ -9,7 +9,12 @@ import '../../common/config.dart';
 import '../../common/constants.dart';
 import '../../generated/l10n.dart';
 import '../../models/index.dart'
-    show UserModel, UserPointHistoryResponse, UserPoints, UserRewardPoints;
+    show
+        PointHistory,
+        UserModel,
+        UserPointHistoryResponse,
+        UserPoints,
+        UserRewardPoints;
 import '../../services/index.dart' show ServerConfig;
 
 class UserPointScreen extends StatefulWidget {
@@ -21,10 +26,41 @@ class _StateUserPoint extends State<UserPointScreen> {
   final dateWidth = 100;
   final pointWidth = 50;
   final borderWidth = 0.5;
+  int totalCollectedPoints = 0;
+  UserRewardPoints? userPoints;
+  UserPointHistoryResponse? pointsHistory;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    try {
+      // Fetch user points
+      final userPointsResponse = await getUserPoint(context);
+
+      // Fetch user points history
+      final pointsHistoryResponse = await getPointsHistory(context);
+
+      // If we successfully fetch the data, update the state
+      setState(() {
+        userPoints = userPointsResponse;
+        pointsHistory = pointsHistoryResponse; // Fix here
+        // Update total points collected
+        totalCollectedPoints = pointsHistory!.pointHistory.length;
+      });
+    } catch (e) {
+      // Handle errors if any
+      print("Error fetching data: $e");
+      // Optionally show an error message to the user
+    }
+  }
 
   Future<UserRewardPoints> getUserPoint(BuildContext context) async {
     try {
-      // Get user model
+      // Get user model (assuming you're using provider for user data)
       final userModel = Provider.of<UserModel>(context, listen: false);
 
       // Check if user is available
@@ -32,7 +68,7 @@ class _StateUserPoint extends State<UserPointScreen> {
         throw Exception("User is not logged in");
       }
 
-      // Make API request
+      // Make API request to get user points
       final response = await http.get(
         Uri.parse(
             'https://hakkaexpress.com/wp-json/yith-points/v1/user/${userModel.user!.id}'),
@@ -40,14 +76,14 @@ class _StateUserPoint extends State<UserPointScreen> {
 
       // Check if the response is successful (status code 200)
       if (response.statusCode == 200) {
-        // Parse the response body
+        // Parse the response body and return the UserRewardPoints object
         return UserRewardPoints.fromJson(json.decode(response.body));
       } else {
         // If the server does not respond with a 200 status, throw an error
         throw Exception('Failed to load user points');
       }
     } catch (e) {
-      // Handle any errors
+      // Handle any errors (e.g., network issues, JSON parsing errors)
       throw Exception('Error fetching user points: $e');
     }
   }
@@ -55,7 +91,7 @@ class _StateUserPoint extends State<UserPointScreen> {
   Future<UserPointHistoryResponse> getPointsHistory(
       BuildContext context) async {
     try {
-      // Get user model
+      // Get user model (assuming you're using provider for user data)
       final userModel = Provider.of<UserModel>(context, listen: false);
 
       // Check if user is available
@@ -63,7 +99,7 @@ class _StateUserPoint extends State<UserPointScreen> {
         throw Exception("User is not logged in");
       }
 
-      // Make API request
+      // Make API request to get points history
       final response = await http.get(
         Uri.parse(
             'https://hakkaexpress.com/wp-json/yith-points/v1/point-history/${userModel.user!.id}'),
@@ -71,14 +107,14 @@ class _StateUserPoint extends State<UserPointScreen> {
 
       // Check if the response is successful (status code 200)
       if (response.statusCode == 200) {
-        // Parse the response body
+        // Parse the response body and return the UserPointHistoryResponse object
         return UserPointHistoryResponse.fromJson(json.decode(response.body));
       } else {
         // If the server does not respond with a 200 status, throw an error
         throw Exception('Failed to load user points history');
       }
     } catch (e) {
-      // Handle any errors
+      // Handle any errors (e.g., network issues, JSON parsing errors)
       throw Exception('Error fetching user points history: $e');
     }
   }
@@ -86,196 +122,159 @@ class _StateUserPoint extends State<UserPointScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColorLight,
-          flexibleSpace: const Image(
-            image: AssetImage('assets/images/app-bg.png'),
-            fit: BoxFit.cover,
-          ),
-          title: Text(
-            S.of(context).myPoints,
-            style: const TextStyle(
-              // color: Theme.of(context).colorScheme.secondary,
-              color: Colors.white,
-            ),
-          ),
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back_ios,
-              // color: Theme.of(context).colorScheme.secondary,
-              color: Colors.white,
-            ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColorLight,
+        flexibleSpace: const Image(
+          image: AssetImage('assets/images/app-bg.png'),
+          fit: BoxFit.cover,
+        ),
+        title: Text(
+          S.of(context).myPoints,
+          style: const TextStyle(color: Colors.white),
+        ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
           ),
         ),
-        body: FutureBuilder<UserRewardPoints>(
-          future: getUserPoint(context),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Align(
-                alignment: Alignment.center,
-                child: kLoadingWidget(context),
-              );
-            }
-
-            if (snapshot.hasError) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: Text(
-                    "${snapshot.error}",
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                ),
-              );
-            }
-
-            if (!snapshot.hasData) {
-              return const Center(
-                child: Text(
-                    'Could not retreive data for the user'), // Or any message you want to show.
-              );
-            }
-
-            // Data is available, now display the user points.
-            final userPoints = snapshot.data;
-
-            return Padding(
+      ),
+      body: userPoints != null && pointsHistory != null
+          ? Padding(
               padding: const EdgeInsets.all(10),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    ListTile(
-                      trailing: Text(
-                        userPoints!.total_points!.toString(),
-                        // 'points',
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 35,
-                                ),
+                    Card(
+                      elevation: 2,
+                      color: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      title: Text(
-                        S.of(context).myPoints,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Points',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                            ),
+                            const SizedBox(height: 8),
+                            const Text(
+                              'To Redeem',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              userPoints!.total_points!.toString(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontSize: 35,
+                                  ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Total Collected: $totalCollectedPoints',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                     const Divider(indent: 15.0, endIndent: 15.0),
                     const Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(15.0),
                       child: Text(
                         'Points History',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                     ),
                     Column(
                       children: <Widget>[
-                        FutureBuilder<UserPointHistoryResponse>(
-                          future: getPointsHistory(context),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Align(
-                                alignment: Alignment.center,
-                                child: kLoadingWidget(context),
-                              );
-                            }
-
-                            if (snapshot.hasError) {
-                              return Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: Text(
-                                    "${snapshot.error}",
-                                    style: const TextStyle(color: Colors.red),
-                                  ),
-                                ),
-                              );
-                            }
-
-                            if (!snapshot.hasData) {
-                              return const Center(
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: pointsHistory!.pointHistory.length,
+                          itemBuilder: (context, index) {
+                            final event = pointsHistory!.pointHistory[index];
+                            return ListTile(
+                              trailing: CircleAvatar(
+                                backgroundColor: Theme.of(context).primaryColor,
                                 child: Text(
-                                  'No data available. Please try again later.',
-                                  style: TextStyle(color: Colors.grey),
+                                  event.amount,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
                                 ),
-                              );
-                            }
-
-                            if (snapshot.data!.pointHistory.isEmpty) {
-                              return const Center(
-                                child: Text(
-                                  'No point history found for this user.',
-                                  style: TextStyle(color: Colors.grey),
+                              ),
+                              title: Text(event.description == ''
+                                  ? capitalizeFirstLetter(
+                                      event.action.split('_').join(' '))
+                                  : capitalizeFirstLetter(event.description)),
+                              subtitle: Text(
+                                formatDate(event.dateEarning),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondary
+                                      .withOpacity(0.6),
                                 ),
-                              );
-                            }
-
-                            final pointsHistory = snapshot.data!.pointHistory;
-
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: pointsHistory.length,
-                              itemBuilder: (context, index) {
-                                final event = pointsHistory[index];
-
-                                return ListTile(
-                                  trailing: CircleAvatar(
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    child: Text(
-                                      event.amount,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                          ),
-                                    ),
-                                  ),
-                                  title: Text(event.description == ''
-                                      ? capitalizeFirstLetter(
-                                          event.action.split('_').join(' '))
-                                      : capitalizeFirstLetter(
-                                          event.description)),
-                                  subtitle: Text(
-                                    formatDate(event.dateEarning),
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary
-                                          .withOpacity(0.6),
-                                    ),
-                                  ),
-                                );
-                              },
+                              ),
                             );
                           },
                         ),
+                        if (pointsHistory!.pointHistory.isEmpty)
+                          const Center(
+                            child: Text(
+                              'No point history found for this user.',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          )
                       ],
                     )
                   ],
                 ),
               ),
-            );
-          },
-        ));
+            )
+          : Center(
+              child: kLoadingWidget(
+                  context)), // Display loading indicator until data is fetched
+    );
   }
 
   String capitalizeFirstLetter(String text) {
