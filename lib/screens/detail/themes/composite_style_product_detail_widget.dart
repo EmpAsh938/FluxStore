@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -209,14 +210,10 @@ class _CompositeStyleDetailProductWidgetState
                   ),
                   leading: Container(
                     padding: const EdgeInsets.only(left: 5),
-                    child: TextButton(
-                      style: const ButtonStyle(
-                          // backgroundColor:
-                          //     WidgetStatePropertyAll<Color>(Color(0xffcc1c24)),
-                          foregroundColor:
-                              WidgetStatePropertyAll<Color>(Colors.white)),
+                    child: IconButton(
+                      color: Colors.white,
                       onPressed: () => {Navigator.pop(context)},
-                      child: const Text('Back'),
+                      icon: const Icon(Icons.arrow_back_ios),
                     ),
                   ),
                   actions: [
