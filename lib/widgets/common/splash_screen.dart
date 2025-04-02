@@ -53,6 +53,10 @@ class _SplashScreenIndexState extends State<SplashScreenIndex> {
     //   widget.actionDone(); // Trigger the action when video completes
     // });
 
+    player.stream.error.listen((_) {
+      widget.actionDone();
+    });
+
     player.stream.completed.listen((completed) {
       if (completed) {
         widget.actionDone();

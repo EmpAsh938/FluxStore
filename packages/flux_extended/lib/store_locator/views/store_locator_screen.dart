@@ -377,27 +377,17 @@ class _StoreLocatorScreenState extends State<StoreLocatorScreen>
           left: 0,
           right: 0,
           child: Expanded(
-            child: Logo(
-              config: LogoConfig.fromJson({}),
-              onSearch: () {
-                // FluxNavigate.pushNamed(
-                //   RouteList.homeSearch,
-                //   context: context,
-                // );
-              },
-              onCheckout: () {
-                FluxNavigate.pushNamed(
-                  RouteList.cart,
-                  context: context,
-                );
-              },
-              onTapNotifications: () {
-                FluxNavigate.pushNamed(
-                  RouteList.notify,
-                  context: context,
-                );
-              },
-              onTapDrawerMenu: () => NavigateTools.onTapOpenDrawerMenu(context),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 24,
+              ),
+              child: Logo(
+                config: LogoConfig.fromJson({}),
+                onSearch: () {},
+                onCheckout: () {},
+                onTapNotifications: () {},
+                onTapDrawerMenu: () {},
+              ),
             ),
           ),
         ),

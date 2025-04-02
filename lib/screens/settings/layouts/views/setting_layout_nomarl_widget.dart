@@ -40,7 +40,7 @@ class _SettingLayoutNormalWidgetState extends State<SettingLayoutNormalWidget>
   @override
   Widget build(BuildContext context) {
     final userModel = Provider.of<UserModel>(context, listen: false);
-    final jwtToken = userModel.user!.jwtToken;
+    final user = userModel.user;
     return CustomScrollView(
       controller: scrollController,
       slivers: <Widget>[
@@ -112,7 +112,7 @@ class _SettingLayoutNormalWidgetState extends State<SettingLayoutNormalWidget>
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  WebViewScreen(token: jwtToken!)));
+                                  WebViewScreen(user: user!)));
                         },
                       ),
                     ),
@@ -142,8 +142,8 @@ class _SettingLayoutNormalWidgetState extends State<SettingLayoutNormalWidget>
 }
 
 class WebViewScreen extends StatefulWidget {
-  final String token;
-  const WebViewScreen({super.key, required this.token});
+  final User user;
+  const WebViewScreen({super.key, required this.user});
 
   @override
   State<WebViewScreen> createState() => _WebViewScreenState();
@@ -169,13 +169,36 @@ class _WebViewScreenState extends State<WebViewScreen> {
         ),
       )
       ..loadRequest(Uri.parse(
-          'https://hakkaexpress.com/my-account/orders/?token=${widget.token}'));
+          'https://hakkaexpress.com/my-account/orders/?token=${widget.user.cookie}'));
   }
 
   @override
   Widget build(BuildContext context) {
+    //appbar
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: AppBar(
+          // toolbarHeight: 100,
+          backgroundColor: Theme.of(context).primaryColorLight,
+          flexibleSpace: const Image(
+            image: AssetImage('assets/images/app-bg.png'),
+            fit: BoxFit.cover,
+          ),
+          title: const Text(
+            'Live Tracking',
+            style: TextStyle(color: Colors.white),
+          ),
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+          ),
+        ),
         body: webview.WebViewWidget(controller: controller),
       ),
     );

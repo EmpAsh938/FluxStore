@@ -208,14 +208,14 @@ class Logo extends StatelessWidget with MultiSiteMixin {
               config: config,
             ),
           Expanded(
-            flex: 8,
+            flex: 10,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Expanded(
                     child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(0.0),
                   child: GestureDetector(
                     onTap: () async {
                       if (config.layout == null) return;
