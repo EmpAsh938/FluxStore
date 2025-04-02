@@ -1150,6 +1150,10 @@ class WooCommerceService extends BaseServices {
         params['transaction_id'] = additionalPaymentInfo?.transactionId;
       }
 
+      params['currency'] = 'USD';
+      params['shipping']['country'] = 'TT';
+      params['billing']['country'] = 'TT';
+
       final response = await httpPost(
           '$domain/wp-json/api/flutter_order/create'.toUri()!,
           body: convert.jsonEncode(params),
@@ -1157,6 +1161,7 @@ class WooCommerceService extends BaseServices {
             'User-Cookie': user.user != null ? user.user!.cookie! : '',
             'Content-Type': 'application/json'
           });
+      print('Status Code ${response.statusCode}');
       var body = convert.jsonDecode(response.body);
       checkExpiredCookie(response);
       if ((response.statusCode == 201 || response.statusCode == 200) &&

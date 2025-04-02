@@ -227,6 +227,8 @@ class WooWidget extends BaseFrameworks
     final token = userModel.user?.cookie;
 
     try {
+      print('COOOOOOOODD $cod');
+
       final order = await Services().api.createOrder(
           cartModel: cartModel,
           user: userModel,

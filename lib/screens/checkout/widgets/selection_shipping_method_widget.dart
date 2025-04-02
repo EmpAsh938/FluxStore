@@ -57,6 +57,7 @@ class _SelectionShippingMethodWidgetState
       });
       final store = await SaveStoreLocation.getStore();
       final userAddress = await SaveStoreLocation.getAddress();
+      print(store.toJson());
       print('WIEAT');
 
       final response = await WieatService().getWieatCost(

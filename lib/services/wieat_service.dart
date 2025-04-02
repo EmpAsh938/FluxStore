@@ -20,6 +20,8 @@ class WieatService {
       );
 
       if (response.statusCode == 200) {
+        print('BranchId ${branchId} address ');
+        print(response.body);
         return jsonDecode(response.body);
       } else {
         throw Exception('Failed to fetch cost: ${response.statusCode}');
