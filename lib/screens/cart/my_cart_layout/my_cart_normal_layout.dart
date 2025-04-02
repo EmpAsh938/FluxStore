@@ -543,7 +543,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                         ),
                         TextSpan(
                           text:
-                              '${calculateRewardPoints(cartModel.getTotal()!)} Points!',
+                              '${calculateRewardPoints(cartModel.getSubTotal()!)} Points!',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: appModel.darkTheme ? kGrey200 : kGrey900,
