@@ -396,21 +396,21 @@ class _PaymentMethodsState extends State<PaymentMethods>
               if (isPaying || selectedId == null) {
                 showSnackbar();
               } else {
-                if (selectedId != null && selectedId == 'fygaro') {
-                  // Launch Fygaro payment
-                  FygaroPayment.launchPayment(
-                      amount: productSubTotal + wieatCost,
-                      currency: 'USD',
-                      orderId: 'ORDER5678',
-                      kid: '12298235-f537-440c-a0e8-80f7d1388a78',
-                      clientData: {
-                        'name': userModel.user!.fullName,
-                        'email': userModel.user!.email.toString(),
-                        'phone': userModel.user!.phoneNumber.toString(),
-                      });
-                } else {
-                  placeOrder(paymentMethodModel, cartModel);
-                }
+                // if (selectedId != null && selectedId == 'fygaro') {
+                //   // Launch Fygaro payment
+                //   FygaroPayment.launchPayment(
+                //       amount: productSubTotal + wieatCost,
+                //       currency: 'USD',
+                //       orderId: 'ORDER5678',
+                //       kid: '12298235-f537-440c-a0e8-80f7d1388a78',
+                //       clientData: {
+                //         'name': userModel.user!.fullName,
+                //         'email': userModel.user!.email.toString(),
+                //         'phone': userModel.user!.phoneNumber.toString(),
+                //       });
+                // } else {
+                placeOrder(paymentMethodModel, cartModel);
+                // }
               }
             },
       labelSecondary: kPaymentConfig.enableReview
