@@ -191,11 +191,8 @@ class Logo extends StatelessWidget with MultiSiteMixin {
 
     return Container(
       constraints: const BoxConstraints(minHeight: kToolbarHeight),
-      padding: const EdgeInsets.only(
-        left: 15.0,
-        right: 15.0,
-        // bottom: 5.0,
-      ),
+      padding:
+          const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 5.0, top: 5.0),
       color: config.color ??
           Theme.of(context).colorScheme.surface.withOpacity(config.opacity),
       // color: Colors.white,
