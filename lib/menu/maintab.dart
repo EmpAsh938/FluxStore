@@ -290,10 +290,14 @@ class MainTabsState extends CustomOverlayState<MainTabs>
     final lazyLoading = tabBarConfig.lazyLoading;
 
     printLog('[ScreenSize]: ${size.width} x ${size.height}');
+    printLog('[ScreeenName]: ${currentTabName}');
 
     final isProductBottomBar = currentTabName!.contains('product?id=') ||
         currentTabName!.contains('cart') ||
-        currentTabName!.contains('checkout');
+        currentTabName!.contains('checkout') ||
+        currentTabName!.contains('orders') ||
+        currentTabName!.contains('language');
+    // currentTabName!.isEmpty;
 
     return Consumer<BottomBarModel>(builder: (_, bottomBarModel, child) {
       return SideMenu(
@@ -618,6 +622,7 @@ extension TabBarMenuExtention on MainTabsState {
 
     if (index == 4) {
       FluxNavigate.push(
+          forceRootNavigator: true,
           MaterialPageRoute(builder: (context) => UserPointScreen()),
           context: context);
       if (tabController.indexIsChanging) {
@@ -629,6 +634,7 @@ extension TabBarMenuExtention on MainTabsState {
     if (tabData != null && tabData.isFullscreen) {
       if (index == 4) {
         FluxNavigate.push(
+            forceRootNavigator: true,
             MaterialPageRoute(builder: (context) => UserPointScreen()),
             context: context);
         if (tabController.indexIsChanging) {
