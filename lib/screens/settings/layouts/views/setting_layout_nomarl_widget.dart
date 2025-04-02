@@ -168,8 +168,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
           onWebResourceError: (webview.WebResourceError error) {},
         ),
       )
-      ..loadRequest(Uri.parse(
-          'https://hakkaexpress.com/my-account/orders/?token=${widget.user.cookie}'));
+      ..loadRequest(
+          Uri.parse(
+              'https://hakkaexpress.com/my-account/orders/?token=${widget.user.cookie}'),
+          headers: {
+            'Cookie': widget.user.cookie ?? '',
+          });
   }
 
   @override
