@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:media_kit/media_kit.dart'; // Provides [Player], [Media], [Playlist] etc.
-import 'package:media_kit_video/media_kit_video.dart';
+import 'package:video_player/video_player.dart';
+// import 'package:media_kit/media_kit.dart'; // Provides [Player], [Media], [Playlist] etc.
+// import 'package:media_kit_video/media_kit_video.dart';
 
 import '../../common/config.dart';
 import '../../common/constants.dart';
@@ -37,15 +38,16 @@ class SplashScreenIndex extends StatefulWidget {
 }
 
 class _SplashScreenIndexState extends State<SplashScreenIndex> {
-  late final player = Player();
-  late final controller = VideoController(player);
+  // late final player = Player();
+  // late final controller = VideoController(player);
+  late VideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
 
-    player.open(Media(
-        "https://rawcdn.githack.com/EmpAsh938/FluxStore/0d06800dd707b1837c507d2232df9cc6e06e1d5c/assets/splash.mp4"));
+    // player.open(Media(
+    //     "https://rawcdn.githack.com/EmpAsh938/FluxStore/0d06800dd707b1837c507d2232df9cc6e06e1d5c/assets/splash.mp4"));
     // 'https://user-images.githubusercontent.com/28951144/229373695-22f88f13-d18f-4288-9bf1-c3e078d83722.mp4'));
     // 'assets/splash.mp4'));
     // Add onCompletion callback to navigate when the video ends
@@ -53,20 +55,33 @@ class _SplashScreenIndexState extends State<SplashScreenIndex> {
     //   widget.actionDone(); // Trigger the action when video completes
     // });
 
-    player.stream.error.listen((_) {
-      widget.actionDone();
-    });
+    // player.stream.error.listen((_) {
+    //   widget.actionDone();
+    // });
 
-    player.stream.completed.listen((completed) {
-      if (completed) {
-        widget.actionDone();
+    // player.stream.completed.listen((completed) {
+    //   if (completed) {
+    //     widget.actionDone();
+    //   }
+    // });
+
+    _controller = VideoPlayerController.asset(
+        'assets/splash.mp4') // Use network or file if needed
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.play();
+      });
+
+    _controller.addListener(() {
+      if (_controller.value.position >= _controller.value.duration) {
+        widget.actionDone(); // Navigate when video ends
       }
     });
   }
 
   @override
   void dispose() {
-    player.dispose();
+    // player.dispose();
     super.dispose();
   }
 
@@ -74,15 +89,18 @@ class _SplashScreenIndexState extends State<SplashScreenIndex> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          // Use [Video] widget to display video output.
-          child: Video(
-              fit: BoxFit.cover,
-              controls: NoVideoControls,
-              controller: controller),
+      body: SizedBox.expand(
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: Transform.scale(
+            alignment: Alignment.center,
+            scale: 1.1,
+            child: SizedBox(
+              width: _controller.value.size.width,
+              height: _controller.value.size.height,
+              child: VideoPlayer(_controller),
+            ),
+          ),
         ),
       ),
     );
