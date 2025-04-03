@@ -96,71 +96,32 @@ class _SelectionCompositeProductWidgetState
     final listWidget = <Widget>[];
     final products = _component.products;
     var selectedComponent = _selectedComponents?[_component.id];
-    print('PRODUCTSSSSS ${products!.first.toJson()}');
 
-    if (_isSelected ||
-        (_selectedComponents != null && _selectedComponents!.isNotEmpty)) {
-      // final itemSelected = _selectedComponents![_componentId]!;
-      // print('SELECTEDDDDDDDD ${widget.selectedComponents}');
-      // products?.forEach(
-      //   (product) {
-      //     if (product == itemSelected.product) {
-      //       listWidget.add(ProductComponentItem(
-      //           product: product,
-      //           isSelected: true,
-      //           cpPerItemPricing: widget.cpPerItemPricing,
-      //           onSelected: (ProductVariation? variant) {
-      //             // if (_selectedComponents != null) {
-      //             //   _selectedComponents!
-      //             //       .removeWhere((key, value) => key == _component.id);
-      //             // }
-      //             widget.onChanged?.call(_selectedComponents);
-      //           },
-      //           onChanged: (SelectedProductComponent selectedComponent) {},
-      //           selectedComponent: _selectedComponents?[_component.id]));
-      //       listWidget.add(const SizedBox(height: 5));
-      //     }
-      //   },
-      // );
-      _selectedComponents?.forEach((key, selectedComponent) {
-        products?.forEach((product) {
-          if (product == selectedComponent.product) {
+    if (_isSelected) {
+      final itemSelected = _selectedComponents![_componentId]!;
+
+      products?.forEach(
+        (product) {
+          if (product == itemSelected.product) {
             listWidget.add(ProductComponentItem(
-              product: product,
-              isSelected: true,
-              cpPerItemPricing: widget.cpPerItemPricing,
-              onSelected: (ProductVariation? variant) {
-                if (_selectedComponents != null) {
-                  _selectedComponents!
-                      .removeWhere((key, value) => key == _component.id);
-                }
-                widget.onChanged?.call(_selectedComponents);
-              },
-              onChanged: (SelectedProductComponent selectedComponent) {},
-              selectedComponent: selectedComponent,
-            ));
+                product: product,
+                isSelected: true,
+                cpPerItemPricing: widget.cpPerItemPricing,
+                onSelected: (ProductVariation? variant) {
+                  if (_selectedComponents != null) {
+                    _selectedComponents!
+                        .removeWhere((key, value) => key == _component.id);
+                  }
+                  widget.onChanged?.call(_selectedComponents);
+                },
+                onChanged: (SelectedProductComponent selectedComponent) {},
+                selectedComponent: _selectedComponents?[_component.id]));
             listWidget.add(const SizedBox(height: 5));
           }
-        });
-      });
-    }
-
-    if (!_isSelected ||
-        selectedComponent!.product.categoryId == '98' ||
-        selectedComponent!.product.categoryId == '82' ||
-        selectedComponent!.product.categoryId == '66') {
+        },
+      );
+    } else {
       products?.forEach((product) {
-        // if (selectedComponent != null &&
-        //     product.id == selectedComponent.product.id) {
-        //   return;
-        // }
-        // Skip adding already selected products
-        if (_selectedComponents?.values
-                .any((selected) => selected.product.id == product.id) ??
-            false) {
-          return;
-        }
-
         listWidget.add(ProductComponentItem(
             product: product,
             cpPerItemPricing: widget.cpPerItemPricing,
@@ -176,10 +137,6 @@ class _SelectionCompositeProductWidgetState
               );
               if (_selectedComponents == null) {
                 _selectedComponents = {key: newItem};
-              } else if (_selectedComponents!.containsKey(key)) {
-                final id = generateUniqueId();
-                _selectedComponents![id] = newItem;
-                print("DUPPPPPP $id");
               } else {
                 _selectedComponents![key] = newItem;
               }
@@ -228,8 +185,7 @@ class _SelectionCompositeProductWidgetState
                   padding: const EdgeInsets.only(left: 10),
                   child: TextButton.icon(
                     onPressed: () {
-                      widget.selectedComponents?.clear();
-                      // widget.selectedComponents?.remove(_component.id);
+                      widget.selectedComponents?.remove(_component.id);
                       widget.onChanged?.call(widget.selectedComponents);
                     },
                     style: TextButton.styleFrom(
@@ -263,9 +219,5 @@ class _SelectionCompositeProductWidgetState
         ),
       ],
     );
-  }
-
-  String generateUniqueId() {
-    return DateTime.now().microsecondsSinceEpoch.toString();
   }
 }

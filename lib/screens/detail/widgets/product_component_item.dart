@@ -7,6 +7,7 @@ import '../../../common/theme/colors.dart';
 import '../../../common/tools/image_resize.dart';
 import '../../../common/tools/image_tools.dart';
 import '../../../common/tools/price_tools.dart';
+import '../../../frameworks/frameworks.dart';
 import '../../../generated/l10n.dart';
 import '../../../models/app_model.dart';
 import '../../../models/entities/product.dart';
@@ -137,13 +138,19 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
     //     imageUrl = '';
     //   }
     // }
+    final categoryId = widget.product.categoryId;
+    final isPopup = inStock && categoryId == '66';
 
     return GestureDetector(
-      onTap: inStock
-          ? () {
-              widget.onSelected(variant);
-            }
-          : null,
+      onTap: !inStock
+          ? null
+          : isPopup
+              ? () {
+                  showPopupDialog(context, currency, currencyRate, variant);
+                }
+              : () {
+                  widget.onSelected(variant);
+                },
       behavior: HitTestBehavior.translucent,
       child: Stack(
         children: [
@@ -175,6 +182,7 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
                                           fontWeight: FontWeight.bold,
                                           color: Theme.of(context).primaryColor)
                                   : Theme.of(context).textTheme.titleSmall),
+                          Text('\$${widget.product.price!}'),
                           const SizedBox(height: 5),
                           if ((variant == null && !hidePrice) ||
                               (widget.selectedComponent?.variant == null &&
@@ -314,6 +322,72 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
           ),
         ],
       ),
+    );
+  }
+
+  void showPopupDialog(BuildContext context, String? currency,
+      Map<String, dynamic> currencyRate, ProductVariation? variant) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize:
+                  MainAxisSize.min, // Makes dialog only as big as needed
+              children: [
+                CachedNetworkImage(
+                  width: 100,
+                  height: 100,
+                  imageUrl: widget.product.imageFeature.toString(),
+                  placeholder: (context, url) => const SizedBox(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  widget.product.name ?? '',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  PriceTools.getCurrencyFormatted(
+                      widget.product.price, currencyRate,
+                      currency: currency)!,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontWeight: FontWeight.w300,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                ),
+                const SizedBox(height: 15),
+                ElevatedButton(
+                  onPressed: () {
+                    Services().widget.addToCart(
+                        context,
+                        widget.product,
+                        1,
+                        AddToCartArgs(
+                          productVariation: variant,
+                          mapAttribute: {},
+                          selectedComponents: {},
+                        ),
+                        false,
+                        true);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Add to Cart'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
