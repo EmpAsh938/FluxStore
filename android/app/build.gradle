@@ -67,7 +67,7 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    namespace "com.inspireui.fluxstore"
+    namespace "com.hakka.express"
     compileSdkVersion 35
 
     ndkVersion "25.1.8937393"

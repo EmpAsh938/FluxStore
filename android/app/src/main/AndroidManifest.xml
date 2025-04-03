@@ -147,7 +147,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
-                    android:scheme="com.inspireui.fluxstore"
+                    android:scheme="com.hakka.express"
                     android:host="payment_success"
                     />
             </intent-filter>

@@ -9,7 +9,7 @@ class FygaroPayment {
     required String orderId,
     required Map<String, String> clientData,
   }) async {
-    const redirectUrl = 'com.inspireui.fluxstore://payment_success';
+    const redirectUrl = 'com.hakka.express://payment_success';
     const String baseUrl =
         'https://www.fygaro.com/en/pb/a9e1f8bb-58f4-495d-acc8-76ebf97d9d6c/'; // Replace with your Fygaro button ID
     final token = generateFygaroJWT(

@@ -1,4 +1,4 @@
-package com.inspireui.fluxstore
+package com.hakka.express
 
 import android.app.NotificationManager
 import android.content.Context
