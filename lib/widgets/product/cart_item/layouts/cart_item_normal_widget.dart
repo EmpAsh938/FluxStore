@@ -40,6 +40,8 @@ class CartItemNormalWidget extends StatelessWidget {
         ? totalPrice
         : double.parse(priceFromState);
 
+    print("CARTCOMPOENENNT ${stateUI.product.toJson()}");
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16.0,
@@ -96,7 +98,8 @@ class CartItemNormalWidget extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(height: 7),
-                                if (stateUI.showPrice(context))
+                                if (stateUI.showPrice(context) &&
+                                    totalPrice > 0.0)
                                   Text(
                                     // stateUI.priceWithQuantity!,
                                     '\$${totalPrice.toString()}',

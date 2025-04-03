@@ -139,7 +139,8 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
     //   }
     // }
     final categoryId = widget.product.categoryId;
-    final isPopup = inStock && categoryId == '66';
+    final isPopup = inStock &&
+        (categoryId == '66' || categoryId == '98' || categoryId == '82');
 
     return GestureDetector(
       onTap: !inStock
@@ -182,7 +183,8 @@ class _ProductComponentItemState extends State<ProductComponentItem> {
                                           fontWeight: FontWeight.bold,
                                           color: Theme.of(context).primaryColor)
                                   : Theme.of(context).textTheme.titleSmall),
-                          Text('\$${widget.product.price!}'),
+                          if (widget.product.price! != '0')
+                            Text('\$${widget.product.price!}'),
                           const SizedBox(height: 5),
                           if ((variant == null && !hidePrice) ||
                               (widget.selectedComponent?.variant == null &&

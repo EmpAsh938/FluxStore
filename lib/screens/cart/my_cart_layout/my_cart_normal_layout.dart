@@ -189,7 +189,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                           return AutoHideKeyboard(
                             child: SingleChildScrollView(
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom: 350.0),
+                                padding: const EdgeInsets.only(bottom: 400.0),
                                 child: Column(
                                   children: [
                                     if (totalCartQuantity > 0)
@@ -334,14 +334,23 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
       width: MediaQuery.of(context).size.width,
       child: Container(
         decoration: BoxDecoration(
-            color: appModel.darkTheme ? Colors.black : Colors.white,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
-            border: const Border(
-              top: BorderSide(
-                color: Colors.black12,
-                width: 1.0,
-              ),
-            )),
+          color: appModel.darkTheme ? Colors.black : Colors.white,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+          border: const Border(
+            top: BorderSide(
+              color: Colors.black12,
+              width: 1.0,
+            ),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2), // Shadow color
+              spreadRadius: 2, // How much the shadow should spread
+              blurRadius: 10, // Softness of the shadow
+              offset: const Offset(4, 4), // X and Y offset
+            ),
+          ],
+        ),
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -442,9 +451,10 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: const Text('Delivery Address Needed'),
+                                  title: const Text(
+                                      'Pickup/Delivery Address Needed'),
                                   content: const Text(
-                                      'Please select a delivery address to continue.'),
+                                      'Please select a pickup/delivery address to continue.'),
                                   actions: <Widget>[
                                     TextButton(
                                       onPressed: () {
