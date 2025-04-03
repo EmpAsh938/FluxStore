@@ -94,7 +94,7 @@ class _SplashScreenIndexState extends State<SplashScreenIndex> {
           fit: BoxFit.cover,
           child: Transform.scale(
             alignment: Alignment.center,
-            scale: 1.1,
+            scale: 1,
             child: SizedBox(
               width: _controller.value.size.width,
               height: _controller.value.size.height,
