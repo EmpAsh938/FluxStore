@@ -20,7 +20,6 @@
 
     <!-- Use for take photo and photo gallery feature -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- Use for printer POS feature -->
 <!--    <uses-permission android:name="android.permission.BLUETOOTH" />-->

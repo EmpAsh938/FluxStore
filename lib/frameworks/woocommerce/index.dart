@@ -750,17 +750,101 @@ class WooWidget extends BaseFrameworks
     try {
       var items =
           await (Services().api.getCartInfo(token) as Future<List<dynamic>?>);
+
       if (items != null && items.isNotEmpty) {
         cartModel.clearCart();
+        Product? currentCompositeProduct;
+        Map<String, SelectedProductComponent> currentComponents = {};
+
         for (var item in List<Map<String, dynamic>>.from(items)) {
-          cartModel.addProductToCart(
+          Product product = Product.jsonParser(item['product']);
+          int quantity = num.tryParse('${item['quantity']}')?.toInt() ?? 0;
+          var variation = item['variation'] != null
+              ? ProductVariation.fromJson(item['variation'])
+              : null;
+
+          if (product.type == 'yith-composite') {
+            // If we have a current composite with components, add it first
+            if (currentCompositeProduct != null &&
+                currentComponents.isNotEmpty) {
+              cartModel.addProductToCart(
+                context: context,
+                product: currentCompositeProduct,
+                quantity: 1, // Composite product quantity is always 1
+                cartItemMetaData: CartItemMetaData(
+                  variation: null,
+                  selectedComponents: Map.from(currentComponents),
+                ),
+              );
+              currentComponents.clear();
+            }
+
+            // Start a new composite group
+            currentCompositeProduct = product;
+            // Add the composite product itself with quantity 1
+            cartModel.addProductToCart(
               context: context,
-              product: Product.jsonParser(item['product']),
-              quantity: num.tryParse('${item['quantity']}')?.toInt() ?? 0,
-              cartItemMetaData: CartItemMetaData(
-                  variation: item['variation'] != null
-                      ? ProductVariation.fromJson(item['variation'])
-                      : null));
+              product: product,
+              quantity: quantity,
+              cartItemMetaData: CartItemMetaData(variation: variation),
+            );
+          } else {
+            if (currentCompositeProduct != null) {
+              // Add as component to current composite
+              var componentKey = '${product.id}_${variation?.id ?? 0}';
+
+              if (currentComponents.containsKey(componentKey)) {
+                // If component already exists, just update its quantity
+                currentComponents[componentKey] =
+                    currentComponents[componentKey]!.copyWith(
+                  quantity:
+                      currentComponents[componentKey]!.quantity! + quantity,
+                );
+              } else {
+                // New component
+                var selectedProductComponent = SelectedProductComponent(
+                  component: ProductComponent(
+                    id: product.id,
+                    name: product.name,
+                    description: product.description,
+                    // optionType: product.optionType,
+                    // optionStyle: product.optionStyle,
+                    minQuantity: product.minQuantity,
+                    maxQuantity: product.maxQuantity,
+                    // discount: product.discount,
+                    // required: product.required,
+                    products: [product],
+                  ),
+                  product: product,
+                  variant: variation,
+                  quantity: quantity, // Use the actual quantity from the item
+                  cpPerItemPricing: true,
+                );
+                currentComponents[componentKey] = selectedProductComponent;
+              }
+            } else {
+              // Add as standalone simple product
+              cartModel.addProductToCart(
+                context: context,
+                product: product,
+                quantity: quantity,
+                cartItemMetaData: CartItemMetaData(variation: variation),
+              );
+            }
+          }
+        }
+
+        // Add the last composite product if it exists with its components
+        if (currentCompositeProduct != null && currentComponents.isNotEmpty) {
+          cartModel.addProductToCart(
+            context: context,
+            product: currentCompositeProduct,
+            quantity: 1, // Composite product quantity is always 1
+            cartItemMetaData: CartItemMetaData(
+              variation: null,
+              selectedComponents: currentComponents,
+            ),
+          );
         }
       }
     } catch (e) {
@@ -901,12 +985,12 @@ class WooWidget extends BaseFrameworks
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                item.component.name ?? '',
-                style: theme.textTheme.titleSmall
-                    ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 5),
+              // Text(
+              //   item.component.name ?? '',
+              //   style: theme.textTheme.titleSmall
+              //       ?.copyWith(fontWeight: FontWeight.bold),
+              // ),
+              // const SizedBox(height: 5),
               Row(
                 children: [
                   Expanded(
@@ -921,13 +1005,15 @@ class WooWidget extends BaseFrameworks
                         style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.secondary, fontSize: 11)),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      "\$${(double.tryParse(item.product.price.toString()) ?? 0.0).toStringAsFixed(2)}",
-                      style: theme.textTheme.bodySmall?.copyWith(fontSize: 13),
+                  if (double.tryParse(item.product.price!)! > 0.0)
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        "\$${(double.tryParse(item.product.price.toString()) ?? 0.0).toStringAsFixed(2)}",
+                        style:
+                            theme.textTheme.bodySmall?.copyWith(fontSize: 13),
+                      ),
                     ),
-                  ),
                 ],
               )
             ],

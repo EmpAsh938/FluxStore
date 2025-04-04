@@ -582,6 +582,7 @@ class TextFieldRow extends StatelessWidget {
                   street: prediction.description!,
                   latitude: prediction.lat,
                   longitude: prediction.long,
+                  country: 'TT',
                 );
                 cartModel.setAddress(selectedAddress);
                 // context.read<MapModel>().updateCurrentLocation(prediction);
