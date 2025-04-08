@@ -296,3 +296,12 @@ flutter:
 flutter_intl:
   enabled: true
   use_deferred_loading: true
+flutter_native_splash:
+  color: "#ffffff" # Background color of splash screen (use hex codes)
+  image: assets/splash.png # Path to your splash image (place this image in your assets)
+  android: true # Enable splash for Android
+  ios: true # Enable splash for iOS
+  web: false # Disable splash for web (optional)
+  fullscreen: false # Set splash screen as fullscreen
+  android_gravity: center # Image position (can be "center", "top", etc.)
+  ios_gravity: center # Image position for iOS
