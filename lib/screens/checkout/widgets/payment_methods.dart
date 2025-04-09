@@ -345,9 +345,8 @@ class _PaymentMethodsState extends State<PaymentMethods>
                           )
                         : Text(
                             PriceTools.getCurrencyFormatted(
-                                productSubTotal +
-                                    wieatCost +
-                                    (selectedId != 'fygaro' ? extraFee : 0),
+                                productSubTotal + wieatCost,
+                                // (selectedId != 'fygaro' ? extraFee : 0),
                                 currencyRate,
                                 currency: cartModel.currencyCode)!,
                             style: TextStyle(

@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <!-- <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -20,6 +20,10 @@
 
     <!-- Use for take photo and photo gallery feature -->
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission
+    android:name="android.permission.USE_FULL_SCREEN_INTENT"
+    tools:node="remove" />
 
     <!-- Use for printer POS feature -->
 <!--    <uses-permission android:name="android.permission.BLUETOOTH" />-->

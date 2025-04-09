@@ -477,6 +477,7 @@ class StoreItem extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.8,
             child: ElevatedButton(
               onPressed: () {
+                print("STOREEEEE ${store.toJson()}");
                 SaveStoreLocation.saveMap({
                   'storeName': store.name.toString(),
                   'type': selectShipType,
