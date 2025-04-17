@@ -117,7 +117,7 @@ class LogoIcon extends StatelessWidget {
 
 Map<String, String> storeData = {};
 
-class Logo extends StatelessWidget with MultiSiteMixin {
+class Logo extends StatefulWidget with MultiSiteMixin {
   final Function() onSearch;
   final Function() onCheckout;
   final Function() onTapDrawerMenu;
@@ -139,29 +139,34 @@ class Logo extends StatelessWidget with MultiSiteMixin {
     this.notificationCount = 0,
   });
 
-  Widget renderLogo() {
-    final logoSize = config.logoSize;
+  @override
+  State<Logo> createState() => _LogoState();
+}
 
-    if (config.image != null) {
-      if (config.image!.contains('http')) {
+class _LogoState extends State<Logo> {
+  Widget renderLogo() {
+    final logoSize = widget.config.logoSize;
+
+    if (widget.config.image != null) {
+      if (widget.config.image!.contains('http')) {
         return SizedBox(
           height: logoSize - 10,
           child: FluxImage(
-            imageUrl: config.image!,
+            imageUrl: widget.config.image!,
             height: logoSize,
             fit: BoxFit.contain,
           ),
         );
       }
       return Image.asset(
-        config.image!,
+        widget.config.image!,
         height: logoSize,
       );
     }
 
     /// render from config to support dark/light theme
-    if (logo != null) {
-      return FluxImage(imageUrl: logo!, height: logoSize);
+    if (widget.logo != null) {
+      return FluxImage(imageUrl: widget.logo!, height: logoSize);
     }
 
     return const SizedBox();
@@ -203,22 +208,25 @@ class Logo extends StatelessWidget with MultiSiteMixin {
 
     var multiSiteIcon = appModel.multiSiteConfig?.icon;
 
-    final textConfig = config.textConfig;
+    final textConfig = widget.config.textConfig;
 
     return Container(
       constraints: const BoxConstraints(minHeight: kToolbarHeight),
       padding:
           const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 5.0, top: 5.0),
-      color: config.color ??
-          Theme.of(context).colorScheme.surface.withOpacity(config.opacity),
+      color: widget.config.color ??
+          Theme.of(context)
+              .colorScheme
+              .surface
+              .withOpacity(widget.config.opacity),
       // color: Colors.white,
       child: Row(
         children: [
-          if (config.showMenu ?? false)
+          if (widget.config.showMenu ?? false)
             LogoIcon(
-              menuIcon: config.menuIcon,
-              onTap: onTapDrawerMenu,
-              config: config,
+              menuIcon: widget.config.menuIcon,
+              onTap: widget.onTapDrawerMenu,
+              config: widget.config,
             ),
           Expanded(
             flex: 10,
@@ -231,12 +239,14 @@ class Logo extends StatelessWidget with MultiSiteMixin {
                   padding: const EdgeInsets.all(0.0),
                   child: GestureDetector(
                     onTap: () async {
-                      if (config.layout == null) return;
+                      if (widget.config.layout == null) return;
                       // config.
                       await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const StoreLocatorScreen()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const StoreLocatorScreen()))
+                          .then((_) => setState(() {}));
+                      ;
                     },
                     child: Container(
                       width: double.infinity,
@@ -337,9 +347,9 @@ class Logo extends StatelessWidget with MultiSiteMixin {
                     ),
                   ),
                 )),
-                if (config.showLogo) Center(child: renderLogo()),
+                if (widget.config.showLogo) Center(child: renderLogo()),
                 if (textConfig != null) ...[
-                  if (config.showLogo) const SizedBox(width: 5),
+                  if (widget.config.showLogo) const SizedBox(width: 5),
                   Expanded(
                     child: Align(
                       alignment: textConfig.alignment,
@@ -357,11 +367,11 @@ class Logo extends StatelessWidget with MultiSiteMixin {
               ],
             ),
           ),
-          if (config.showSearch)
+          if (widget.config.showSearch)
             LogoIcon(
-              menuIcon: config.searchIcon ?? MenuIcon(name: 'search'),
-              onTap: onSearch,
-              config: config,
+              menuIcon: widget.config.searchIcon ?? MenuIcon(name: 'search'),
+              onTap: widget.onSearch,
+              config: widget.config,
             ),
           // if (config.showBadgeCart)
           //   GestureDetector(
@@ -404,29 +414,29 @@ class Logo extends StatelessWidget with MultiSiteMixin {
           //     showNumber: true,
           //     number: notificationCount,
           //   ),
-          if (enableMultiSite)
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(start: 8),
-                child: GestureDetector(
-                  onTap: () => showMultiSiteSelection(context),
-                  child: multiSiteIcon?.isEmpty ?? true
-                      ? const Icon(CupertinoIcons.globe)
-                      : FluxImage(
-                          imageUrl: multiSiteIcon!,
-                          width: 25,
-                          height: 20,
-                          fit: BoxFit.cover,
-                        ),
-                ),
-              ),
-            ),
+          // if (enableMultiSite)
+          //   Expanded(
+          //     child: Padding(
+          //       padding: const EdgeInsetsDirectional.only(start: 8),
+          //       child: GestureDetector(
+          //         onTap: () => showMultiSiteSelection(context),
+          //         child: multiSiteIcon?.isEmpty ?? true
+          //             ? const Icon(CupertinoIcons.globe)
+          //             : FluxImage(
+          //                 imageUrl: multiSiteIcon!,
+          //                 width: 25,
+          //                 height: 20,
+          //                 fit: BoxFit.cover,
+          //               ),
+          //       ),
+          //     ),
+          //   ),
           if (!enableMultiSite &&
-              !config.showSearch &&
-              !config.showCart &&
-              !config.showBadgeCart &&
-              !config.showNotification &&
-              config.useSpacerWhenDisableAllItem)
+              !widget.config.showSearch &&
+              !widget.config.showCart &&
+              !widget.config.showBadgeCart &&
+              !widget.config.showNotification &&
+              widget.config.useSpacerWhenDisableAllItem)
             const Spacer(),
         ],
       ),
