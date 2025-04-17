@@ -14,13 +14,13 @@ class WieatService {
         body: jsonEncode({
           'branch_id': branchId,
           'api_key':
-              '5NFcnuO06EqB7f9IpOfxTQ.Th18_DRlU01MqL-lzCnXXxtShYWUkSh_wBk2nUu2IWI',
+              '4k8Ov3_phkmbAkrayOX3_Q.vDlqipVDFVlxO8qn54A84kpViSP9F6l53s4qOLo0crg',
           'address': address,
         }),
       );
 
       if (response.statusCode == 200) {
-        print('BranchId ${branchId} address ');
+        print('BranchId ${branchId} address ${address}');
         print(response.body);
         return jsonDecode(response.body);
       } else {

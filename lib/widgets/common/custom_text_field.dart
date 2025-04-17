@@ -250,59 +250,62 @@ class _CustomTextFieldState extends State<CustomTextField>
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      focusNode: focusNode,
-      decoration: decoration != null
-          ? decoration!.copyWith(
-              suffixIcon: buildSuffixIconDecoration(),
-            )
-          : const InputDecoration(),
-      keyboardType: keyboardType,
-      textInputAction: nextNode != null
-          ? TextInputAction.next
-          : (textInputAction ?? TextInputAction.done),
-      textCapitalization: textCapitalization,
-      style: style,
-      strutStyle: strutStyle,
-      textAlign: TextAlign.start,
-      textAlignVertical: textAlignVertical,
-      textDirection: textDirection,
-      readOnly: widget.readOnly,
-      // toolbarOptions: toolbarOptions,
-      showCursor: showCursor,
-      autofocus: autofocus,
-      obscureText: _showPasswordInState ?? obscureText,
-      autocorrect: autocorrect ?? true,
-      enableSuggestions: enableSuggestions,
-      maxLines: maxLines,
-      minLines: minLines,
-      expands: expands,
-      maxLength: maxLength,
-      onChanged: onChanged,
-      onEditingComplete: onEditingComplete,
-      onSubmitted: nextNode == null
-          ? onSubmitted
-          : (value) {
-              FocusScope.of(context).requestFocus(nextNode);
-              if (onSubmitted != null) {
-                onSubmitted!(value);
-              }
-            },
-      inputFormatters: inputFormatters,
-      autofillHints: autofillHints,
-      enabled: enabled,
-      cursorWidth: cursorWidth ?? 2.0,
-      cursorRadius: cursorRadius,
-      cursorColor: cursorColor,
-      keyboardAppearance: keyboardAppearance,
-      scrollPadding: scrollPadding ?? const EdgeInsets.all(20.0),
-      dragStartBehavior: dragStartBehavior ?? DragStartBehavior.start,
-      enableInteractiveSelection: enableInteractiveSelection ?? true,
-      onTap: onTap,
-      buildCounter: buildCounter,
-      scrollController: scrollController,
-      scrollPhysics: scrollPhysics,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: TextField(
+        controller: controller,
+        focusNode: focusNode,
+        decoration: decoration != null
+            ? decoration!.copyWith(
+                suffixIcon: buildSuffixIconDecoration(),
+              )
+            : const InputDecoration(),
+        keyboardType: keyboardType,
+        textInputAction: nextNode != null
+            ? TextInputAction.next
+            : (textInputAction ?? TextInputAction.done),
+        textCapitalization: textCapitalization,
+        style: style,
+        strutStyle: strutStyle,
+        textAlign: TextAlign.start,
+        textAlignVertical: textAlignVertical,
+        textDirection: textDirection,
+        readOnly: widget.readOnly,
+        // toolbarOptions: toolbarOptions,
+        showCursor: showCursor,
+        autofocus: autofocus,
+        obscureText: _showPasswordInState ?? obscureText,
+        autocorrect: autocorrect ?? true,
+        enableSuggestions: enableSuggestions,
+        maxLines: maxLines,
+        minLines: minLines,
+        expands: expands,
+        maxLength: maxLength,
+        onChanged: onChanged,
+        onEditingComplete: onEditingComplete,
+        onSubmitted: nextNode == null
+            ? onSubmitted
+            : (value) {
+                FocusScope.of(context).requestFocus(nextNode);
+                if (onSubmitted != null) {
+                  onSubmitted!(value);
+                }
+              },
+        inputFormatters: inputFormatters,
+        autofillHints: autofillHints,
+        enabled: enabled,
+        cursorWidth: cursorWidth ?? 2.0,
+        cursorRadius: cursorRadius,
+        cursorColor: cursorColor,
+        keyboardAppearance: keyboardAppearance,
+        scrollPadding: scrollPadding ?? const EdgeInsets.all(20.0),
+        dragStartBehavior: dragStartBehavior ?? DragStartBehavior.start,
+        enableInteractiveSelection: enableInteractiveSelection ?? true,
+        onTap: onTap,
+        buildCounter: buildCounter,
+        scrollController: scrollController,
+        scrollPhysics: scrollPhysics,
+      ),
     );
   }
 

@@ -97,9 +97,9 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
   }
 
   bool validateInputs() {
-    if ((mobile?.isEmpty ?? true) ||
-        (email?.isEmpty ?? true) ||
-        (username?.isEmpty ?? true)) {
+    if (
+        // (mobile?.isEmpty ?? true) ||
+        (email?.isEmpty ?? true) || (username?.isEmpty ?? true)) {
       _snackBar(S.of(context).pleaseInputFillAllFields);
       return false;
     } else if (!email.validateEmail()) {
@@ -115,17 +115,17 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
   Future<void> _sendSMS(context) async {
     final isValid = validateInputs();
     if (isValid) {
-      final phoneNumber = countryCode!.dialCode! + mobile!;
+      // final phoneNumber = countryCode!.dialCode! + mobile!;
       setState(() {
         isLoading = true;
       });
 
       try {
-        await _services.signUpCheck(
-            username: username!,
-            email: email!,
-            countryCode: countryCode?.dialCode,
-            mobile: mobile);
+        // await _services.signUpCheck(
+        //     username: username!,
+        //     email: email!,
+        //     countryCode: countryCode?.dialCode,
+        //     mobile: mobile);
 
         if (kAdvanceConfig.enableDigitsMobileFirebase &&
             !kAdvanceConfig.enableDigitsMobileWhatsApp) {
@@ -146,7 +146,7 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
               MaterialPageRoute(
                 builder: (context) => VerifyCode(
                   verId: verId,
-                  phoneNumber: phoneNumber,
+                  phoneNumber: '',
                   verifySuccessStream: _verifySuccessStream?.stream,
                   resendToken: forceCodeResend,
                   callback: _submitRegister,
@@ -167,13 +167,13 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
             _verifySuccessStream?.add(data);
           }
 
-          unawaited(Services().firebase.verifyPhoneNumber(
-                phoneNumber: phoneNumber,
-                codeAutoRetrievalTimeout: autoRetrieve,
-                codeSent: smsCodeSent,
-                verificationCompleted: verifyCompleted,
-                verificationFailed: verifyFailed,
-              ));
+          // unawaited(Services().firebase.verifyPhoneNumber(
+          //       phoneNumber: '',
+          //       codeAutoRetrievalTimeout: autoRetrieve,
+          //       codeSent: smsCodeSent,
+          //       verificationCompleted: verifyCompleted,
+          //       verificationFailed: verifyFailed,
+          //     ));
         } else {
           final sent = await _services.sendOTP(
               countryCode: countryCode?.dialCode,
@@ -251,8 +251,17 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
           backgroundColor: const Color(0xffEB1B25),
           title: Row(
             children: [
-              IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back,)),
-              Flexible(child: Image.asset('assets/images/app-bg.png',)),
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                  )),
+              Flexible(
+                  child: Image.asset(
+                'assets/images/app-bg.png',
+              )),
             ],
           ),
           elevation: 0.0,
@@ -273,7 +282,7 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
                           Container(
                             height: 300,
                             width: double.infinity,
-                            color:  Colors.white,
+                            color: Colors.white,
                           ),
                           // Red background with the semi-circle
                           Positioned(
@@ -283,7 +292,11 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
                             right: 0,
                             child: ClipPath(
                               clipper: SemiCircleClipper(),
-                              child: Image.asset('assets/images/app-bg.png',width: double.infinity,fit: BoxFit.fill,),
+                              child: Image.asset(
+                                'assets/images/app-bg.png',
+                                width: double.infinity,
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                           // Centered text
@@ -373,47 +386,50 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
                                 hintText: S.of(context).enterYourEmail,
                               ),
                             ),
-                            const SizedBox(height: 20.0),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                CountryCodePicker(
-                                  onChanged: (country) {
-                                    setState(() {
-                                      countryCode = country;
-                                    });
-                                  },
-                                  // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                  initialSelection: countryCode!.code,
+                            // const SizedBox(height: 20.0),
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.center,
+                            //   children: <Widget>[
+                            //     CountryCodePicker(
+                            //       onChanged: (country) {
+                            //         setState(() {
+                            //           countryCode = country;
+                            //         });
+                            //       },
+                            //       // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                            //       initialSelection: countryCode!.code,
 
-                                  //Get the country information relevant to the initial selection
-                                  onInit: (code) {
-                                    countryCode = code;
-                                  },
-                                  backgroundColor:
-                                  Theme.of(context).colorScheme.surface,
-                                  dialogBackgroundColor:
-                                  Theme.of(context).dialogBackgroundColor,
-                                ),
-                                Expanded(
-                                  child: CustomTextField(
-                                    key: const Key('registerMobileField'),
-                                    autofillHints: const [AutofillHints.familyName],
-                                    focusNode: mobileNode,
-                                    showCancelIcon: true,
-                                    keyboardType: TextInputType.phone,
-                                    onChanged: (value) => mobile = value,
-                                    onCancel: () {
-                                      mobile = '';
-                                    },
-                                    decoration: InputDecoration(
-                                      labelText: S.of(context).phone,
-                                      hintText: S.of(context).enterYourPhoneNumber,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                            //       //Get the country information relevant to the initial selection
+                            //       onInit: (code) {
+                            //         countryCode = code;
+                            //       },
+                            //       backgroundColor:
+                            //           Theme.of(context).colorScheme.surface,
+                            //       dialogBackgroundColor:
+                            //           Theme.of(context).dialogBackgroundColor,
+                            //     ),
+                            //     Expanded(
+                            //       child: CustomTextField(
+                            //         key: const Key('registerMobileField'),
+                            //         autofillHints: const [
+                            //           AutofillHints.familyName
+                            //         ],
+                            //         focusNode: mobileNode,
+                            //         showCancelIcon: true,
+                            //         keyboardType: TextInputType.phone,
+                            //         onChanged: (value) => mobile = value,
+                            //         onCancel: () {
+                            //           mobile = '';
+                            //         },
+                            //         decoration: InputDecoration(
+                            //           labelText: S.of(context).phone,
+                            //           hintText:
+                            //               S.of(context).enterYourPhoneNumber,
+                            //         ),
+                            //       ),
+                            //     )
+                            //   ],
+                            // ),
                             const SizedBox(height: 20.0),
                             Row(
                               children: <Widget>[
@@ -434,7 +450,8 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
                                   },
                                   child: Text(
                                     S.of(context).iwantToCreateAccount,
-                                    style: Theme.of(context).textTheme.bodyLarge,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
                               ],
@@ -460,23 +477,29 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
                                       maxLines: 2,
                                       text: TextSpan(
                                         text: S.of(context).iAgree,
-                                        style: Theme.of(context).textTheme.bodyLarge,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
                                         children: <TextSpan>[
                                           const TextSpan(text: ' '),
                                           TextSpan(
-                                            text: S.of(context).agreeWithPrivacy,
+                                            text:
+                                                S.of(context).agreeWithPrivacy,
                                             style: TextStyle(
-                                                color: Theme.of(context).primaryColor,
-                                                decoration: TextDecoration.underline),
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                decoration:
+                                                    TextDecoration.underline),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () => Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                  const PrivacyTermScreen(
-                                                      showAgreeButton: false),
-                                                ),
-                                              ),
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const PrivacyTermScreen(
+                                                              showAgreeButton:
+                                                                  false),
+                                                    ),
+                                                  ),
                                           ),
                                         ],
                                       ),
@@ -487,19 +510,21 @@ class _RegistrationScreenState extends State<DigitsMobileLoginSignUpScreen> {
                             ),
                             const SizedBox(height: 10.0),
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16.0),
                               child: Material(
                                 color: Theme.of(context).primaryColor,
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(5.0)),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(5.0)),
                                 elevation: 0,
                                 child: MaterialButton(
                                   key: const Key('registerSubmitButton'),
                                   onPressed: isLoading == true
                                       ? null
                                       : () async {
-                                    await _sendSMS(context);
-                                  },
+                                          await _submitRegister(
+                                              '12345', User());
+                                        },
                                   minWidth: 200.0,
                                   elevation: 0.0,
                                   height: 42.0,

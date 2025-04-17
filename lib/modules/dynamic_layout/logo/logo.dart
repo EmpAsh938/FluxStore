@@ -181,10 +181,23 @@ class Logo extends StatelessWidget with MultiSiteMixin {
     }
   }
 
+  Future<dynamic> getStore() async {
+    try {
+      final storeInfo = await SaveStoreLocation.getStore();
+
+      if (storeInfo != null) return storeInfo;
+      return null;
+    } catch (e) {
+      print('Error fetching address: $e');
+      return null; // Ensure a return value even if an error occurs
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var enableMultiSite = Configurations.multiSiteConfigs?.isNotEmpty ?? false;
     final appModel = Provider.of<AppModel>(context);
+
     var multiSiteIcon = appModel.multiSiteConfig?.icon;
 
     final textConfig = config.textConfig;

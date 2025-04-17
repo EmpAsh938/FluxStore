@@ -393,9 +393,7 @@
 				TargetAttributes = {
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = S9RPAM8224;
 						LastSwiftMigration = 0910;
-						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -843,7 +841,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S9RPAM8224;
+				DEVELOPMENT_TEAM = YPDWN48LK3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1000,7 +998,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S9RPAM8224;
+				DEVELOPMENT_TEAM = YPDWN48LK3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1045,7 +1043,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S9RPAM8224;
+				DEVELOPMENT_TEAM = YPDWN48LK3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

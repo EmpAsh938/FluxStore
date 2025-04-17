@@ -97,8 +97,9 @@ class _LoginPageState extends BaseScreen<LoginScreenMobile>
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: Color(0xffEB1B25),
-        title: Image.asset('assets/images/app-bg.png', width: double.infinity,fit: BoxFit.fill),
+        backgroundColor: const Color(0xffEB1B25),
+        title: Image.asset('assets/images/app-bg.png',
+            width: double.infinity, fit: BoxFit.fill),
         elevation: 0.0,
         actions: !Services().widget.isRequiredLogin &&
                 !ModalRoute.of(context)!.canPop
@@ -131,7 +132,7 @@ class _LoginPageState extends BaseScreen<LoginScreenMobile>
                               Container(
                                 height: 300,
                                 width: double.infinity,
-                                color:  Colors.white,
+                                color: Colors.white,
                               ),
                               // Red background with the semi-circle
                               Positioned(
@@ -141,7 +142,11 @@ class _LoginPageState extends BaseScreen<LoginScreenMobile>
                                 right: 0,
                                 child: ClipPath(
                                   clipper: SemiCircleClipper(),
-                                  child: Image.asset('assets/images/app-bg.png',width: double.infinity,fit: BoxFit.fill,),
+                                  child: Image.asset(
+                                    'assets/images/app-bg.png',
+                                    width: double.infinity,
+                                    fit: BoxFit.fill,
+                                  ),
                                   // child: Container(
                                   //     width: double.infinity,
                                   //     decoration: BoxDecoration(
@@ -175,14 +180,17 @@ class _LoginPageState extends BaseScreen<LoginScreenMobile>
                             child: SingleChildScrollView(
                               physics: const NeverScrollableScrollPhysics(),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 24.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     CustomTextField(
                                       key: const Key('loginEmailField'),
                                       controller: usernameCtrl,
-                                      autofillHints: const [AutofillHints.email],
+                                      autofillHints: const [
+                                        AutofillHints.email
+                                      ],
                                       showCancelIcon: true,
                                       autocorrect: false,
                                       enableSuggestions: false,
@@ -190,7 +198,8 @@ class _LoginPageState extends BaseScreen<LoginScreenMobile>
                                       keyboardType: TextInputType.emailAddress,
                                       nextNode: _usernameFocusNode,
                                       decoration: InputDecoration(
-                                        labelText: S.of(_parentContext).username,
+                                        labelText:
+                                            S.of(_parentContext).username,
                                         hintText: S
                                             .of(_parentContext)
                                             .enterYourEmailOrUsername,
@@ -207,7 +216,8 @@ class _LoginPageState extends BaseScreen<LoginScreenMobile>
                                       controller: passwordCtrl,
                                       focusNode: _passwordFocusNode,
                                       decoration: InputDecoration(
-                                        labelText: S.of(_parentContext).password,
+                                        labelText:
+                                            S.of(_parentContext).password,
                                         hintText: S
                                             .of(_parentContext)
                                             .enterYourPassword,
@@ -241,13 +251,15 @@ class _LoginPageState extends BaseScreen<LoginScreenMobile>
                                       const SizedBox(height: 50.0),
                                     StaggerAnimation(
                                       key: const Key('loginSubmitButton'),
-                                      titleButton: S.of(context).signInWithEmail,
-                                      buttonController: loginButtonController.view
-                                          as AnimationController,
+                                      titleButton:
+                                          S.of(context).signInWithEmail,
+                                      buttonController: loginButtonController
+                                          .view as AnimationController,
                                       onTap: () =>
                                           isLoading ? null : _onTapLogin(),
                                     ),
-                                    if (BiometricsTools.instance.isLoginSupported)
+                                    if (BiometricsTools
+                                        .instance.isLoginSupported)
                                       Padding(
                                         padding: const EdgeInsets.only(top: 10),
                                         child: IconButton(
@@ -258,41 +270,41 @@ class _LoginPageState extends BaseScreen<LoginScreenMobile>
                                               Icons.fingerprint_outlined),
                                         ),
                                       ),
-                                    if (kLoginSetting.showFacebook ||
-                                        kLoginSetting.showSMSLogin ||
-                                        kLoginSetting.showGoogleLogin ||
-                                        kLoginSetting.showAppleLogin)
-                                      Stack(
-                                        alignment: AlignmentDirectional.center,
-                                        children: <Widget>[
-                                          SizedBox(
-                                              height: 50.0,
-                                              width: 200.0,
-                                              child: Divider(
-                                                  color: Colors.grey.shade300)),
-                                          Container(
-                                              height: 30,
-                                              width: 40,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .surface),
-                                          Text(
-                                            S.of(context).or,
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey.shade400),
-                                          )
-                                        ],
-                                      ),
-                                    SocialLoginButtonRow(
-                                      onApplePressed: () =>
-                                          loginWithApple(context),
-                                      onFacebookPressed: () =>
-                                          loginWithFacebook(context),
-                                      onGooglePressed: () =>
-                                          loginWithGoogle(context),
-                                      onSmsPressed: () => loginWithSMS(context),
-                                    ),
+                                    // if (kLoginSetting.showFacebook ||
+                                    //     kLoginSetting.showSMSLogin ||
+                                    //     kLoginSetting.showGoogleLogin ||
+                                    //     kLoginSetting.showAppleLogin)
+                                    //   Stack(
+                                    //     alignment: AlignmentDirectional.center,
+                                    //     children: <Widget>[
+                                    //       SizedBox(
+                                    //           height: 50.0,
+                                    //           width: 200.0,
+                                    //           child: Divider(
+                                    //               color: Colors.grey.shade300)),
+                                    //       Container(
+                                    //           height: 30,
+                                    //           width: 40,
+                                    //           color: Theme.of(context)
+                                    //               .colorScheme
+                                    //               .surface),
+                                    //       Text(
+                                    //         S.of(context).or,
+                                    //         style: TextStyle(
+                                    //             fontSize: 12,
+                                    //             color: Colors.grey.shade400),
+                                    //       )
+                                    //     ],
+                                    //   ),
+                                    // SocialLoginButtonRow(
+                                    //   onApplePressed: () =>
+                                    //       loginWithApple(context),
+                                    //   onFacebookPressed: () =>
+                                    //       loginWithFacebook(context),
+                                    //   onGooglePressed: () =>
+                                    //       loginWithGoogle(context),
+                                    //   onSmsPressed: () => loginWithSMS(context),
+                                    // ),
                                     const SizedBox(height: 30.0),
                                     if (kLoginSetting.enableRegister)
                                       Column(
@@ -301,11 +313,14 @@ class _LoginPageState extends BaseScreen<LoginScreenMobile>
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: <Widget>[
-                                              Text(S.of(context).dontHaveAccount),
+                                              Text(S
+                                                  .of(context)
+                                                  .dontHaveAccount),
                                               GestureDetector(
                                                 onTap: () {
-                                                  NavigateTools.navigateRegister(
-                                                      context);
+                                                  NavigateTools
+                                                      .navigateRegister(
+                                                          context);
                                                 },
                                                 child: Text(
                                                   ' ${S.of(context).signup}',

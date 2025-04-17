@@ -117,11 +117,13 @@ class _WholesaleSignUpScreenState extends State<WholesaleSignUpScreen> {
         (phoneNumber?.trim().isEmpty ?? true));
 
     if (invalidFirstName ||
-        invalidLastName ||
-        invalidUsername ||
-        invalidEmail ||
-        invalidPassword ||
-        invalidPhoneNumber) {
+            invalidLastName ||
+            invalidUsername ||
+            invalidEmail ||
+            invalidPassword
+        // ||
+        // invalidPhoneNumber
+        ) {
       _snackBar(S.of(context).pleaseInputFillAllFields);
       return;
     }
@@ -252,23 +254,23 @@ class _WholesaleSignUpScreenState extends State<WholesaleSignUpScreen> {
                         ),
                       ),
                       const SizedBox(height: 20.0),
-                      if (showPhoneNumberWhenRegister) ...[
-                        CustomTextField(
-                          key: const Key('registerPhoneField'),
-                          autofillHints: const [AutofillHints.telephoneNumber],
-                          focusNode: phoneNumberNode,
-                          nextNode: requireUsernameWhenRegister
-                              ? usernameNode
-                              : emailNode,
-                          showCancelIcon: true,
-                          onChanged: (value) => phoneNumber = value,
-                          decoration: InputDecoration(
-                            labelText: S.of(context).phone,
-                            hintText: S.of(context).enterYourPhoneNumber,
-                          ),
-                        ),
-                        const SizedBox(height: 20.0),
-                      ],
+                      // if (showPhoneNumberWhenRegister) ...[
+                      //   CustomTextField(
+                      //     key: const Key('registerPhoneField'),
+                      //     autofillHints: const [AutofillHints.telephoneNumber],
+                      //     focusNode: phoneNumberNode,
+                      //     nextNode: requireUsernameWhenRegister
+                      //         ? usernameNode
+                      //         : emailNode,
+                      //     showCancelIcon: true,
+                      //     onChanged: (value) => phoneNumber = value,
+                      //     decoration: InputDecoration(
+                      //       labelText: S.of(context).phone,
+                      //       hintText: S.of(context).enterYourPhoneNumber,
+                      //     ),
+                      //   ),
+                      //   const SizedBox(height: 20.0),
+                      // ],
                       if (requireUsernameWhenRegister) ...[
                         CustomTextField(
                           key: const Key('registerUsernameField'),

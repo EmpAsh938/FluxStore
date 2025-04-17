@@ -13,6 +13,7 @@ class DigitsMobileLoginServices {
 
   Future<dynamic> _postRequest(String path, dynamic body) async {
     try {
+      print('REGISTERING');
       var response = await httpPost(
           Uri.parse('$domain/wp-json/api/flutter_user/digits/$path'),
           body: convert.jsonEncode(body),
@@ -94,6 +95,8 @@ class DigitsMobileLoginServices {
       };
 
       var jsonDecode = await _postRequest('register', bodyReq);
+
+      print(jsonDecode);
 
       if (isNotBlank(jsonDecode['message'])) {
         throw Exception(jsonDecode['message']);

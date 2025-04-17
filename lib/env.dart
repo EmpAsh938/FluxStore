@@ -114,7 +114,7 @@ Map<String, dynamic> environment = {
     "enableProductBackdrop": false,
     "categoryImageMenu": true,
     "categoryImageBoxFit": null,
-    "EnableDigitsMobileLogin": true,
+    "EnableDigitsMobileLogin": false,
     "EnableDigitsMobileFirebase": false,
     "EnableDigitsMobileWhatsApp": true,
     "WebViewScript": "",
