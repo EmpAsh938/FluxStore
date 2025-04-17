@@ -26,8 +26,7 @@ class SelectHakkaLocation extends StatefulWidget {
 class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
   final _services = StoreLocatorServices();
   List<Store> _stores = [];
-  late ShippingType _shippingType =
-      Provider.of<CartModel>(context, listen: false).shippingType;
+  late ShippingType _shippingType;
   Store? _selectedStore;
   // Provider.of<CartModel>(context, listen: false).selectedStore;
 
@@ -35,10 +34,13 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
 
   String userAddress = '';
 
+  Map<String, dynamic> mapInfo = {};
+
   Future<void> setStore() async {
     try {
       final store = await SaveStoreLocation.getStore();
       final addressInfo = await SaveStoreLocation.getAddress();
+      final mapInfor = await SaveStoreLocation.getMap();
 
       if (store != null && mounted) {
         setState(() {
@@ -49,6 +51,15 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
       if (addressInfo != null && addressInfo['description'] != null) {
         setState(() {
           userAddress = addressInfo['description'] ?? '';
+        });
+      }
+
+      if (mapInfor.isNotEmpty) {
+        setState(() {
+          mapInfo = mapInfor;
+          _shippingType = mapInfor['type'] == 'Delivery'
+              ? ShippingType.delivery
+              : ShippingType.pickup;
         });
       }
     } catch (e) {
@@ -71,6 +82,7 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
 
   @override
   Widget build(BuildContext context) {
+    print("STORRRRRRE ${_selectedStore!.toJson()}");
     print("STORRRRRRE ${_selectedStore!.toJson()}");
     if (_stores.isEmpty) return const SizedBox();
 

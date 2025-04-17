@@ -622,6 +622,24 @@ class _ShippingAddressState extends State<ShippingAddress> {
         );
       }
 
+      final user = Provider.of<UserModel>(context).user;
+
+      if (currentFieldType == AddressFieldType.firstName) {
+        currentFieldController!.text = user!.fullName.split(' ')[0];
+      }
+      if (currentFieldType == AddressFieldType.lastName) {
+        currentFieldController!.text = user!.fullName.split(' ')[1];
+      }
+      if (currentFieldType == AddressFieldType.phoneNumber) {
+        currentFieldController!.text = user!.phoneNumber ?? '';
+      }
+      if (currentFieldType == AddressFieldType.email) {
+        currentFieldController!.text = user!.email ?? '';
+      }
+
+      // print(
+      //     "CURERNTFIELDCONTROLLER ${currentFieldController!.text} ${currentFieldType.name} ${_text}");
+
       return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

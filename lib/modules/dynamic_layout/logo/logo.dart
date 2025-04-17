@@ -34,6 +34,7 @@ class LogoIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getData();
     final boxSize = config.iconSize + config.iconSpreadRadius;
     Widget widget = InkWell(
       onTap: () => onTap.call(),
@@ -169,6 +170,8 @@ class Logo extends StatelessWidget with MultiSiteMixin {
   Future<String?> getAddress() async {
     try {
       final addressInfo = await SaveStoreLocation.getAddress();
+
+      print(addressInfo);
 
       if (addressInfo != null && addressInfo['description'] != null) {
         return addressInfo['description'];
@@ -429,4 +432,10 @@ class Logo extends StatelessWidget with MultiSiteMixin {
       ),
     );
   }
+}
+
+void getData() async {
+  storeData = await SaveStoreLocation.getMap();
+
+  print('////////${storeData}');
 }
