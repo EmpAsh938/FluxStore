@@ -92,7 +92,15 @@ class _SplashScreenIndexState extends State<SplashScreenIndex> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: Video(controller: controller),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          // Use [Video] widget to display video output.
+          child: Video(
+              fit: BoxFit.cover,
+              controls: NoVideoControls,
+              controller: controller),
+        ),
       ),
     );
 

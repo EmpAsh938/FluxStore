@@ -360,7 +360,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
               width: 50,
               height: 5,
               decoration: BoxDecoration(
-                color: const Color(0xffcc1c24),
+                color: const Color(0xFFEC1C24),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
@@ -477,7 +477,7 @@ class _MyCartNormalLayoutState extends State<MyCartNormalLayout>
                         }
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xffcc1c24),
+                    backgroundColor: const Color(0xFFEC1C24),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     padding: const EdgeInsets.symmetric(

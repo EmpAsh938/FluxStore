@@ -185,14 +185,14 @@ class ProductSimpleView extends StatelessWidget with ActionButtonMixin {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HtmlWidget(
-                                  item!.name!,
+                                  item!.name ?? '',
                                   textStyle: TextStyle(
                                     fontSize: titleFontSize,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 HtmlWidget(
-                                  item!.shortDescription!,
+                                  item?.shortDescription ?? '',
                                   textStyle: const TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey,

@@ -624,17 +624,20 @@ class _ShippingAddressState extends State<ShippingAddress> {
 
       final user = Provider.of<UserModel>(context).user;
 
-      if (currentFieldType == AddressFieldType.firstName) {
-        currentFieldController!.text = user!.fullName.split(' ')[0];
+      if (user != null && currentFieldType == AddressFieldType.firstName) {
+        currentFieldController!.text = user.fullName.split(' ')[0];
       }
-      if (currentFieldType == AddressFieldType.lastName) {
-        currentFieldController!.text = user!.fullName.split(' ')[1];
+      if (user != null && currentFieldType == AddressFieldType.lastName) {
+        final usersArray = user.fullName.split(' ');
+        if (usersArray.isNotEmpty) {
+          currentFieldController!.text = usersArray[usersArray.length - 1];
+        }
       }
-      if (currentFieldType == AddressFieldType.phoneNumber) {
-        currentFieldController!.text = user!.phoneNumber ?? '';
+      if (user != null && currentFieldType == AddressFieldType.phoneNumber) {
+        currentFieldController!.text = user.phoneNumber ?? '';
       }
-      if (currentFieldType == AddressFieldType.email) {
-        currentFieldController!.text = user!.email ?? '';
+      if (user != null && currentFieldType == AddressFieldType.email) {
+        currentFieldController!.text = user.email ?? '';
       }
 
       // print(

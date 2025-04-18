@@ -104,8 +104,8 @@ abstract class CustomOverlayState<T extends StatefulWidget>
 
     eventBus.fire(EventScreenChanged(screenName: routeName));
     printLog('[ScreenName] $routeName');
-    Provider.of<TabbarProvider>(context, listen: false)
-        .changeScreenName(routeName ?? '');
+    // Provider.of<TabbarProvider>(context, listen: false)
+    //     .changeScreenName(routeName ?? '');
     final uri = Uri.parse(routeName ?? '');
     Services().advertisement.handleAd(uri.path);
     handleSmartChat(uri.path);

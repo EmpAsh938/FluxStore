@@ -61,6 +61,8 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
               ? ShippingType.delivery
               : ShippingType.pickup;
         });
+        Provider.of<CartModel>(context, listen: false)
+            .changeShippingType(_shippingType);
       }
     } catch (e) {
       print('$e');
@@ -82,8 +84,6 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
 
   @override
   Widget build(BuildContext context) {
-    print("STORRRRRRE ${_selectedStore!.toJson()}");
-    print("STORRRRRRE ${_selectedStore!.toJson()}");
     if (_stores.isEmpty) return const SizedBox();
 
     return Column(
@@ -204,7 +204,9 @@ class _SelectHakkaLocationState extends State<SelectHakkaLocation> {
 
         ElevatedButton(
             style: const ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll<Color>(Color(0xffcc1c24)),
+              backgroundColor: WidgetStatePropertyAll<Color>(
+                const Color(0xFFEC1C24),
+              ),
             ),
             onPressed: () {
               FluxNavigate.pushNamed(RouteList.storeLocator, context: context);
